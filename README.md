@@ -2,7 +2,7 @@
 
 A modern, single-page personal portfolio site for **Eeshan Gupta (Senior AI Engineer)**.
 
-The project is a lightweight static website built with plain HTML, CSS, and JavaScript. It highlights experience, selected AI projects, skills, consulting offerings, and contact information.
+The project is a lightweight static website built with plain HTML, CSS, and JavaScript. It highlights experience, selected AI projects, skills, writing, collaboration notes, and contact information.
 
 ## Tech Stack
 
