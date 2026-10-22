@@ -20,7 +20,35 @@
 <meta name="twitter:title" content="Is GraphRAG worth it? A small, pre-registered test against a properly tuned baseline — Eeshan Gupta">
 <meta name="twitter:description" content="A small pre-registered experiment: when a graph retriever and a tuned hybrid retriever get the same context budget, how much of the graph advantage is left? +19.0 F1 points on 2WikiMultiHopQA, +3.5 on MuSiQue, with the limits stated.">
 <meta name="twitter:image" content="https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/og.png">
+<link rel="alternate" type="text/markdown" href="https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/index.md">
 <link rel="stylesheet" href="/styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Is GraphRAG worth it? A small, pre-registered test against a properly tuned baseline",
+  "description": "A small pre-registered experiment: when a graph retriever and a tuned hybrid retriever get the same context budget, how much of the graph advantage is left? +19.0 F1 points on 2WikiMultiHopQA, +3.5 on MuSiQue, with the limits stated.",
+  "author": {
+    "@type": "Person",
+    "@id": "https://eeshangpt.github.io/#person",
+    "name": "Eeshan Gupta",
+    "url": "https://eeshangpt.github.io/"
+  },
+  "publisher": {
+    "@id": "https://eeshangpt.github.io/#person"
+  },
+  "datePublished": "2026-10-24",
+  "dateModified": "2026-10-24",
+  "image": "https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/og.png",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/"
+  },
+  "inLanguage": "en",
+  "keywords": "GraphRAG, RAG evaluation, hybrid retrieval, HippoRAG 2, MuSiQue, 2WikiMultiHopQA, pre-registration",
+  "isBasedOn": "https://github.com/eeshangpt/graphrag-vs-tuned-hybrid"
+}
+</script>
 </head>
 <body>
 
@@ -181,6 +209,7 @@
         <li>F1 was recomputed from the saved answers with 0 mismatches. The run had not logged retrieved passage ids, so I re-ran retrieval to reconstruct them. It reproduced the generation run on 9,987 of 10,000 arm-rows.</li>
         <li>A model from a different family, Gemini instead of Claude, reviewed the protocol amendments and the results analysis. The results audit returned two corrections, both valid and fixed, and approved on the second round.</li>
         <li>I used token F1 and exact match (SQuAD, Rajpurkar et al. 2016), a paired percentile bootstrap (Efron 1979) and TOST equivalence (Schuirmann 1987).</li>
+              <li>Code, data and the pre-registration history: <a href="https://github.com/eeshangpt/graphrag-vs-tuned-hybrid">https://github.com/eeshangpt/graphrag-vs-tuned-hybrid</a></li>
       </ul>
     </aside>
     <!-- BOX END -->
