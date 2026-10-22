@@ -544,6 +544,8 @@
   .article-body{ font-size:1.05rem; line-height:1.7; color:var(--g-200); overflow-wrap:break-word; }
   .article-body p, .article-body ul{ margin-bottom:1.15em; }
   .article-body h2{ font-size:clamp(1.3rem,3vw,1.6rem); margin:2.1em 0 0.7em; }
+  .article-body h3{ font-size:1.15rem; margin:1.8em 0 0.6em; }
+  .article-body mark{ background:#ffe066; color:#111; padding:0 3px; border-radius:3px; }
   .article-body strong{ color:var(--g-50); font-weight:600; }
   .article-body ul{ padding-left:1.3em; }
   .article-body li{ margin-bottom:0.5em; }

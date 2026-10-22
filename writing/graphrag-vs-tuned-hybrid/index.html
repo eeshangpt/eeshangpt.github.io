@@ -45,54 +45,59 @@
 
     <!-- ARTICLE BODY START: replace everything up to ARTICLE BODY END with the final text -->
     <div class="article-body">
-      <p>If you build retrieval-augmented generation (RAG), you have seen the pitch for graph-based retrieval: extract entities and relations from your documents, build a graph, and multi-hop questions get answered better. Most papers compare the graph method against a plain dense retriever, and plain dense retrieval is not what a careful team ships. A careful team adds keyword search, fuses rankings and reranks.</p>
+      <p><mark>[YOU REWRITE: opening]</mark></p>
 
-      <p>So I asked a narrower question. <strong>If a graph method and a properly tuned hybrid retriever hand the generator the same amount of context, how much of the graph's advantage is left?</strong></p>
+      <p>If you build retrieval-augmented generation (RAG), you have seen the pitch for graph-based retrieval. Extract entities and relations from your documents, build a graph, and multi-hop questions get answered better. Most papers compare the graph method against a plain dense retriever. A careful team would not ship that. It adds keyword search, fuses the rankings and reranks.</p>
 
-      <p>I ran a small pre-registered experiment: hypotheses, metrics and decision rules written down before the results existed. This is an honest write-up, including what I could not finish.</p>
+      <p>I wanted to know one thing. If a graph method and a properly tuned hybrid retriever hand the generator the same amount of context, how much of the graph's advantage is left?</p>
 
-      <h2>Why this matters if you build RAG</h2>
+      <p>So I ran a small pre-registered experiment. I wrote down the hypotheses, metrics and decision rules before the results existed. This write-up covers all of it, including the parts I could not finish.</p>
 
-      <p>Graph indexing is not free: an LLM pass over your whole corpus, a graph to maintain, more to debug. If a tuned hybrid retriever gets you most of the way, you can skip all that. "Better than dense" is the wrong bar; the useful bar is "better than the baseline I would actually deploy."</p>
+      <p><mark>[YOUR DETAIL: why you wanted to test this, and what you expected before the numbers came in.]</mark></p>
+
+      <h2>Why the baseline matters</h2>
+
+      <p>Graph indexing costs something: an LLM pass over the whole corpus, a graph to maintain, more to debug. If a tuned hybrid retriever gets you most of the way, you can skip all that. The useful bar is the baseline I would actually deploy, and plain dense search is a much lower one.</p>
 
       <h2>The setup</h2>
 
-      <p><strong>Data.</strong> Two public multi-hop question sets, MuSiQue and 2WikiMultiHopQA (2Wiki), using the 1,000-question samples and pooled passage corpora from the HippoRAG 2 paper (11,656 passages for MuSiQue, 6,119 for 2Wiki). Retrieval searches the whole pooled corpus.</p>
+      <p>I used two public multi-hop question sets, MuSiQue and 2WikiMultiHopQA (2Wiki). They come as the 1,000-question samples and pooled passage corpora from the HippoRAG 2 paper, with 11,656 passages for MuSiQue and 6,119 for 2Wiki. Retrieval searches the whole pooled corpus.</p>
 
-      <p><strong>Arms, all with the same generator and the same context budget.</strong></p>
-
-      <ul>
-        <li>Dense only, using the open <code>bge-small</code> embedding model.</li>
-        <li>Tuned hybrid: BM25 keyword search and dense search fused with reciprocal rank fusion, then reranked with a cross-encoder (<code>bge-reranker-base</code>). Its settings were fixed in advance and not tuned on the evaluation questions.</li>
-        <li>Graph: my lightweight re-implementation of HippoRAG 2 (extracted triples, a graph, personalised PageRank over it). I call it "HippoRAG 2-lite" because it skips the query-time LLM step that filters triples.</li>
-        <li>BM25 alone and a no-context control.</li>
-      </ul>
-
-      <p><strong>Matched budget.</strong> Every arm gets at most 1,000 tokens of context, filled with whole passages in rank order. The generator was Claude Sonnet 5.5, with a prompt that says to answer briefly or say "unanswerable". The refusal option matters; more below.</p>
-
-      <p><strong>How I score.</strong> Three terms, one line each:</p>
+      <p>Every arm used the same generator and the same context budget. The arms were:</p>
 
       <ul>
-        <li><strong>Token F1</strong>: the standard SQuAD word-overlap score between the answer and the gold answer; 1.0 is a perfect match, 0 is no overlap. I report differences in points (0.19 = 19 points).</li>
-        <li><strong>Bootstrap confidence interval (CI)</strong>: I resample the questions 10,000 times and take the middle 95% of the results, which shows how much the number would move on a different set of questions. "Paired" means both methods are scored on the same questions, so I bootstrap the per-question difference.</li>
-        <li><strong>TOST (two one-sided tests)</strong>: a standard way to show two methods are "equivalent", meaning the difference sits inside a margin you chose in advance (I chose plus or minus 4 F1 points, widened from 2 after the pilot because 2 was untestable at this sample size; the published 2.9-point gap sits inside it). TOST checks the 90% interval against the margin. Failing to find a difference is not showing there is none; TOST can show "close enough".</li>
+        <li>Dense only, with the open bge-small embedding model.</li>
+        <li>A tuned hybrid that fuses BM25 keyword search and dense search with reciprocal rank fusion, then reranks with a cross-encoder (bge-reranker-base). Its settings were fixed in advance and never tuned on the evaluation questions.</li>
+        <li>A graph arm, my lightweight re-implementation of HippoRAG 2, with extracted triples, a graph and personalised PageRank over it. I call it HippoRAG 2-lite because it skips the query-time LLM step that filters triples.</li>
+        <li>BM25 alone.</li>
+        <li>A control with no context.</li>
       </ul>
 
-      <p>The confirmatory sample is 950 questions per dataset: the first 50 informed my design decisions, so they are excluded.</p>
+      <p>Each arm got at most 1,000 tokens of context, filled with whole passages in rank order. The generator was Claude Sonnet 5.5, prompted to answer briefly or say "unanswerable". That refusal option matters, and I come back to it below.</p>
+
+      <p>Token F1 is the standard SQuAD word-overlap score between the answer and the gold answer. 1.0 is a perfect match and 0 is no overlap. I report differences in points, so 0.19 is 19 points.</p>
+
+      <p>For uncertainty I used a bootstrap confidence interval (CI). I resample the questions 10,000 times and take the middle 95% of the results, which shows how much the number would move on a different set of questions. Paired means both methods are scored on the same questions, so I bootstrap the per-question difference.</p>
+
+      <p>To ask whether two methods are equivalent I used TOST, two one-sided tests. It checks whether the difference sits inside a margin you chose in advance. I chose plus or minus 4 F1 points. I widened it from 2 after the pilot because 2 was untestable at this sample size, and the published 2.9-point gap sits inside it. TOST checks the 90% interval against the margin. Failing to find a difference says little. TOST can actually show that two methods are close enough.</p>
+
+      <p>The confirmatory sample is 950 questions per dataset. The first 50 informed my design decisions, so I excluded them.</p>
+
+      <p><mark>[YOUR DETAIL: how you decided on the 950/50 split.]</mark></p>
 
       <h2>Results</h2>
 
       <div class="table-wrap">
       <table>
-        <thead><tr><th scope="col">Retriever (1,000-token budget)</th><th scope="col">MuSiQue F1</th><th scope="col">2Wiki F1</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">No context</th><td>0.005</td><td>0.000</td></tr>
-          <tr><th scope="row">Dense only</th><td>0.294</td><td>0.363</td></tr>
-          <tr><th scope="row">BM25 only</th><td>0.218</td><td>0.341</td></tr>
-          <tr><th scope="row">Hybrid (fusion only)</th><td>0.296</td><td>0.379</td></tr>
-          <tr><th scope="row"><strong>Tuned hybrid (fusion + rerank)</strong></th><td><strong>0.348</strong></td><td><strong>0.372</strong></td></tr>
-          <tr><th scope="row"><strong>Graph (HippoRAG 2-lite)</strong></th><td><strong>0.382</strong></td><td><strong>0.562</strong></td></tr>
-        </tbody>
+      <thead><tr><th scope="col">Retriever (1,000-token budget)</th><th scope="col">MuSiQue F1</th><th scope="col">2Wiki F1</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">No context</th><td>0.005</td><td>0.000</td></tr>
+      <tr><th scope="row">Dense only</th><td>0.294</td><td>0.363</td></tr>
+      <tr><th scope="row">BM25 only</th><td>0.218</td><td>0.341</td></tr>
+      <tr><th scope="row">Hybrid (fusion only)</th><td>0.296</td><td>0.379</td></tr>
+      <tr><th scope="row">Tuned hybrid (fusion + rerank)</th><td>0.348</td><td>0.372</td></tr>
+      <tr><th scope="row">Graph (HippoRAG 2-lite)</th><td>0.382</td><td>0.562</td></tr>
+      </tbody>
       </table>
       </div>
 
@@ -101,52 +106,69 @@
         <figcaption>Figure 1. Token F1 by retrieval arm and dataset, with 95% confidence intervals.</figcaption>
       </figure>
 
-      <p>The comparison that matters is graph minus tuned hybrid:</p>
+      <p>The comparison that matters is graph minus tuned hybrid.</p>
 
-      <ul>
-        <li><strong>2Wiki: +19.0 F1 points, 95% CI [+16.1, +22.0].</strong> The graph wins, clearly.</li>
-        <li><strong>MuSiQue: +3.5 points, 95% CI [+0.4, +6.5].</strong> Probably a small graph edge, but the equivalence test was <strong>inconclusive</strong>: the data could neither show the two are within 4 points nor that the graph is more than 4 points better.</li>
-      </ul>
+      <p>On 2Wiki the graph won by 19.0 F1 points (95% CI [+16.1, +22.0]). Not close. In this setup a tuned hybrid was no free substitute for the graph.</p>
 
-      <p>My registered rule for dropping the "graph is overrated" angle required the graph to win by more than 5 points, with the 95% interval's lower bound above zero, on both datasets. It did not, on MuSiQue. My hypotheses that the tuned hybrid is enough were not supported either. So the verdict is <strong>iterate</strong>: neither side of my original question is settled.</p>
+      <p>On MuSiQue the gap was +3.5 points (95% CI [+0.4, +6.5]). That looks like a small graph edge, but the equivalence test was inconclusive. The data could not show that the two methods are within 4 points of each other, and it could not show that the graph is more than 4 points better.</p>
+
+      <p>I had registered a rule for dropping the "graph is overrated" angle. It required the graph to win by more than 5 points, with the 95% interval's lower bound above zero, on both datasets. MuSiQue failed it. My hypotheses that the tuned hybrid is enough were not supported either. The verdict is iterate, and neither side of my original question is settled.</p>
 
       <h2>What surprised me</h2>
+
+      <p><mark>[YOU REWRITE: surprises]</mark></p>
 
       <figure>
         <img src="fig2-graph-minus-hybrid.png" width="1050" height="390" alt="Paired difference in F1 points, graph minus tuned hybrid, with 95% intervals and the plus or minus 4 point equivalence band. The 2Wiki interval sits far right of the band; the MuSiQue interval overlaps its edge.">
         <figcaption>Figure 2. Graph minus tuned hybrid, paired, with the plus or minus 4 point equivalence margin.</figcaption>
       </figure>
 
-      <p><strong>1. The tuned hybrid helped on one dataset and did nothing on the other.</strong> On MuSiQue the full tuned hybrid added 5.4 points over dense (CI +2.9 to +7.9), almost all of it from the reranker. On 2Wiki it added 0.9 points (CI -0.7 to +2.5), indistinguishable from zero. For 2Wiki I had registered that a tuned hybrid would close at least half the gap between dense retrieval and the graph. It closed about 5% of it. (On MuSiQue the same share was 61%, but there I had registered a different hypothesis, so treat that as descriptive.)</p>
+      <h3>The tuned hybrid helped on one dataset and did nothing on the other</h3>
 
-      <p><strong>2. The graph's win is not uniform.</strong> In an exploratory split by 2Wiki question type (registered as exploratory only, so treat it as a lead, not a finding), the graph was ahead by 25 to 28 points on compositional, bridge-comparison and inference questions. On plain "comparison" questions (n=232) the hybrid was better by 6.5 points. The graph helped on questions that chain facts, not on direct side-by-side comparisons.</p>
+      <p>On MuSiQue the full tuned hybrid added 5.4 points over dense (CI +2.9 to +7.9), almost all of it from the reranker. On 2Wiki it added 0.9 points (CI -0.7 to +2.5), which is indistinguishable from zero. For 2Wiki I had registered that a tuned hybrid would close at least half the gap between dense retrieval and the graph. It closed about 5% of it. On MuSiQue the same share was 61%, but there I had registered a different hypothesis, so read that as descriptive.</p>
 
-      <p><strong>3. The graph found more of the evidence inside the same budget.</strong> On 2Wiki, the share of supporting passages that made it into the context was 0.87 for the graph and 0.71 for the tuned hybrid. On MuSiQue it was 0.61 versus 0.60. The 2Wiki gap looks like a retrieval effect; I did not isolate it.</p>
+      <p><mark>[YOUR DETAIL: whether you expected the reranker to help 2Wiki too.]</mark></p>
 
-      <p><strong>4. Evaluation hygiene nearly bit me.</strong> In the pilot, a "give your best guess" prompt lets the model answer many questions from memory, because both datasets are built from Wikipedia. Under the refusal prompt I used for the real run, F1 on questions whose context did not contain the gold answer stayed between 0.000 and 0.033 for every arm, well under my threshold of 0.10. In the pilot, the same statistic under the guess prompt was 0.35 to 0.53, which would have failed it. If you evaluate RAG on Wikipedia questions, measure this.</p>
+      <h3>The graph's win varies by question type</h3>
 
-      <p><strong>5. Cost: the premium is small in dollars, but the picture depends on a step I did not run.</strong> Graph indexing cost about $3.18 (MuSiQue, from the paper's published token counts) and $4.47 (2Wiki, measured) at a cheap reference API rate. As run, per-query cost is about the same for both, so the premium only shrinks relative to total spend: it falls below 10% of the hybrid's total after roughly 212,000 (MuSiQue) or 331,000 (2Wiki) queries (a summary I registered myself, not a standard metric). But the real HippoRAG 2 filters triples with an LLM call at query time. I estimated that cost from the paper's prompt without running it, and with it the graph's per-query cost exceeds the hybrid's, so that volume is undefined. Treat the cost story as an estimate.</p>
+      <p>I split 2Wiki by question type. The split was registered as exploratory only, so it is a lead and nothing firmer. The graph was ahead by 25 to 28 points on compositional, bridge-comparison and inference questions. On plain comparison questions (n=232) the hybrid was better by 6.5 points. My reading is that the graph helps when questions chain facts. I did not test that.</p>
 
-      <h2>Limits, stated plainly</h2>
+      <h3>The graph found more of the evidence in the same budget</h3>
+
+      <p>On 2Wiki, the share of supporting passages that made it into the context was 0.87 for the graph and 0.71 for the tuned hybrid. On MuSiQue it was 0.61 versus 0.60. The 2Wiki gap looks like a retrieval effect, though I did not isolate it.</p>
+
+      <h3>A prompt nearly fooled my evaluation</h3>
+
+      <p>In the pilot, a "give your best guess" prompt let the model answer many questions from memory, because both datasets are built from Wikipedia. The real run used a refusal prompt. Under it, F1 on questions whose context did not contain the gold answer stayed between 0.000 and 0.033 for every arm, well under my threshold of 0.10. In the pilot, the same statistic under the guess prompt was 0.35 to 0.53, which would have failed. If you evaluate RAG on Wikipedia questions, measure this.</p>
+
+      <p><mark>[YOUR DETAIL: when and how you noticed the pilot scores looked too good.]</mark></p>
+
+      <h3>The cost depends on a step I did not run</h3>
+
+      <p>Graph indexing cost about $3.18 for MuSiQue (from the paper's published token counts) and $4.47 for 2Wiki (measured), at a cheap reference API rate. As run, per-query cost is about the same for both arms, so the premium only shrinks relative to total spend. It falls below 10% of the hybrid's total after roughly 212,000 queries on MuSiQue or 331,000 on 2Wiki. That summary is one I registered myself and it is not a standard metric.</p>
+
+      <p>The real HippoRAG 2 filters triples with an LLM call at query time. I estimated that cost from the paper's prompt without running it. With it, the graph's per-query cost exceeds the hybrid's, so that volume is undefined. Treat the cost story as an estimate.</p>
+
+      <h2>Limits</h2>
 
       <ul>
-        <li><strong>Context sizes were not identical.</strong> Mean context was within 15% across arms except on 2Wiki, where the graph averaged 755 tokens against 900 for BM25 (16%). I flag it rather than hide it.</li>
-        <li><strong>One generator.</strong> Everything uses Claude Sonnet 5.5, one generation per question, no temperature control. A different generator may change the gaps. Between 33% and 65% of answers were refusals, so F1 partly measures whether retrieval supplied enough to answer.</li>
-        <li><strong>Two datasets, both Wikipedia-derived, and a small budget</strong> (no repeated runs). I would not extend these results to your help-center articles or contracts.</li>
-        <li><strong>The graph arms are not built the same way.</strong> The MuSiQue graph uses the HippoRAG authors' precomputed extraction (gpt-4o-mini). I built the 2Wiki graph with Claude Sonnet, the same family as the generator. That could favour the graph on 2Wiki, and the datasets are not cleanly comparable.</li>
-        <li><strong>No query-time triple filter, and a small embedder</strong> (not the paper's large one), which weakens the dense and hybrid arms.</li>
-        <li><strong>The MuSiQue result is underpowered.</strong> The equivalence test could not give an answer, and at the observed variation its power was roughly two thirds. A larger sample might resolve it.</li>
-        <li><strong>Two commitments I did not meet.</strong> I had registered a second look at a 2,000-token budget, and a measurement of how often the generator fills gaps from memory under the guess prompt. Neither was run. Both need thousands more generator calls. My original protocol said an "iterate" verdict means adding the 2,000-token budget; after seeing a preview of the headline numbers I wrote down that it would run only on "scale". That was a post-hoc call. At 1,000 tokens the gold answer was in context for only 37 to 56% of MuSiQue questions (59 to 86% on 2Wiki), so every conclusion is conditional on that budget.</li>
-        <li><strong>One protocol file was frozen late.</strong> An amendment (dropping the 50 design questions, adding cost reporting) was drafted before any results but frozen after the runs finished. Nothing changed after the data existed and no result had been read at freeze time, but it is a hole in the pre-registration.</li>
+        <li>Context sizes were not identical. Mean context was within 15% across arms except on 2Wiki, where the graph averaged 755 tokens against 900 for BM25, a 16% gap.</li>
+        <li>I used one generator, Claude Sonnet 5.5, with one generation per question and no temperature control. A different generator may change the gaps. Between 33% and 65% of answers were refusals, so F1 partly measures whether retrieval supplied enough to answer.</li>
+        <li>Both datasets come from Wikipedia and the budget was small, with no repeated runs. I would not extend these results to other kinds of documents.</li>
+        <li>The two graphs were built differently. The MuSiQue graph uses the HippoRAG authors' precomputed extraction (gpt-4o-mini). I built the 2Wiki graph with Claude Sonnet, the same family as the generator. That could favour the graph on 2Wiki, and it means the two datasets are not cleanly comparable.</li>
+        <li>The embedder is a small one, smaller than the paper's large one, which weakens the dense and hybrid arms. My graph arm also has no query-time triple filter.</li>
+        <li>The MuSiQue result is underpowered. The equivalence test could not give an answer, and at the observed variation its power was roughly two thirds. A larger sample might resolve it.</li>
+        <li>I missed two commitments. I had registered a second look at a 2,000-token budget, and a measurement of how often the generator fills gaps from memory under the guess prompt. I ran neither. Both need thousands more generator calls. My original protocol said an "iterate" verdict means adding the 2,000-token budget. After seeing a preview of the headline numbers, I wrote down that it would run only on "scale". That was a post-hoc call. At 1,000 tokens the gold answer was in context for only 37 to 56% of MuSiQue questions (59 to 86% on 2Wiki), so every conclusion here holds at that budget only.</li>
+        <li>One protocol file was frozen late. An amendment (dropping the 50 design questions, adding cost reporting) was drafted before any results but frozen after the runs finished. Nothing changed after the data existed and I had read no result at freeze time. It is still a hole in the pre-registration.</li>
       </ul>
 
-      <h2>What I would take from this</h2>
-
-      <p>If your questions are multi-hop and compositional, a tuned hybrid retriever is not a free substitute for a graph method, at least in this setup. If your questions look like MuSiQue's, the evidence for paying the graph's complexity is thin: a small edge with a wide interval. Either way, measure on your own data against the baseline you would really deploy.</p>
+      <p><mark>[YOUR DETAIL: why you decided to skip the 2,000-token run.]</mark></p>
 
       <h2>What's next</h2>
 
-      <p>I am iterating, not scaling. Next, most likely: run the 2,000-token budget check for the graph and tuned hybrid; run the real query-time triple filter so its cost is measured rather than estimated; then try a corpus that looks like documentation instead of Wikipedia.</p>
+      <p><mark>[YOU REWRITE: ending]</mark></p>
+
+      <p>I am iterating. Next, most likely, is the 2,000-token check for the graph and the tuned hybrid. After that I want to run the real query-time triple filter, so its cost is measured and not estimated, and then try a corpus that looks like documentation instead of Wikipedia. What I still do not know is whether the MuSiQue edge survives a bigger sample.</p>
     </div>
     <!-- ARTICLE BODY END -->
 
@@ -155,10 +177,10 @@
       <h2 class="box-title">How I ran this</h2>
 
       <ul>
-        <li><strong>Pre-registered.</strong> The question, hypotheses, systems, metrics and decision rules were committed to a repository before any pilot number existed. Two amendments followed (after the pilot, then after a design audit); each is frozen with a git tag, and a deviations log lists every departure from the plan.</li>
-        <li><strong>Integrity checks.</strong> F1 was recomputed from the saved answers (0 mismatches), and the run did not log retrieved passage ids, so I re-ran retrieval to reconstruct them, and it reproduced the generation run on 9,987 of 10,000 arm-rows.</li>
-        <li><strong>Independent audit.</strong> A model from a different family (Gemini, not Claude) reviewed the protocol amendments and the results analysis. The results audit returned two corrections, both valid and fixed, then approved on the second round.</li>
-        <li><strong>Metrics.</strong> Token F1 and exact match (SQuAD, Rajpurkar et al. 2016), paired percentile bootstrap (Efron 1979), TOST equivalence (Schuirmann 1987).</li>
+        <li>The question, hypotheses, systems, metrics and decision rules were committed to a repository before any pilot number existed. Two amendments followed, after the pilot and after a design audit. Each is frozen with a git tag, and a deviations log lists every departure from the plan.</li>
+        <li>F1 was recomputed from the saved answers with 0 mismatches. The run had not logged retrieved passage ids, so I re-ran retrieval to reconstruct them. It reproduced the generation run on 9,987 of 10,000 arm-rows.</li>
+        <li>A model from a different family, Gemini instead of Claude, reviewed the protocol amendments and the results analysis. The results audit returned two corrections, both valid and fixed, and approved on the second round.</li>
+        <li>I used token F1 and exact match (SQuAD, Rajpurkar et al. 2016), a paired percentile bootstrap (Efron 1979) and TOST equivalence (Schuirmann 1987).</li>
       </ul>
     </aside>
     <!-- BOX END -->
@@ -169,7 +191,7 @@
 
 <footer>
   <div class="foot-bottom">
-    <span>Eeshan Gupta · Gurugram, India</span>
+    <span>Eeshan Gupta · Bengaluru, India</span>
     <a href="/feed.xml">RSS</a>
   </div>
 </footer>
