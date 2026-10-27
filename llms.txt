@@ -1,0 +1,17 @@
+# Eeshan Gupta
+
+> Personal site of Eeshan Gupta, a Senior AI Engineer in Bengaluru, India, working on production GenAI, RAG and voice AI systems. Writes about RAG evaluation and retrieval experiments.
+
+## Writing
+
+- [I said GraphRAG beats vector RAG. Then I measured it.](https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/index.md): a pre-registered experiment comparing a graph retriever with a tuned hybrid retriever at the same context budget on MuSiQue and 2WikiMultiHopQA.
+- [All writing](https://eeshangpt.github.io/writing/): index of articles.
+
+## Code
+
+- [graphrag-vs-tuned-hybrid](https://github.com/eeshangpt/graphrag-vs-tuned-hybrid): code, data and pre-registration history for the experiment.
+
+## Optional
+
+- [Home](https://eeshangpt.github.io/): profile and projects.
+- [RSS feed](https://eeshangpt.github.io/feed.xml)
