@@ -4,7 +4,7 @@
 
 ## Writing
 
-- [Is GraphRAG worth it? A small, pre-registered test against a properly tuned baseline](https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/index.md): a pre-registered experiment comparing a graph retriever with a tuned hybrid retriever at the same context budget on MuSiQue and 2WikiMultiHopQA.
+- [I said GraphRAG beats vector RAG. Then I measured it.](https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/index.md): a pre-registered experiment comparing a graph retriever with a tuned hybrid retriever at the same context budget on MuSiQue and 2WikiMultiHopQA.
 - [All writing](https://eeshangpt.github.io/writing/): index of articles.
 
 ## Code

@@ -6,9 +6,9 @@
     <description>Notes on RAG evaluation and retrieval experiments.</description>
     <language>en</language>
     <atom:link href="https://eeshangpt.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Sat, 24 Oct 2026 04:30:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 28 Oct 2026 04:30:00 +0000</lastBuildDate>
     <item>
-      <title>Is GraphRAG worth it? A small, pre-registered test against a properly tuned baseline</title>
+      <title>I said GraphRAG beats vector RAG. Then I measured it.</title>
       <link>https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/</link>
       <guid isPermaLink="true">https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/</guid>
       <pubDate>Sat, 24 Oct 2026 04:30:00 +0000</pubDate>

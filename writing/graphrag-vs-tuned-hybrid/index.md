@@ -1,16 +1,16 @@
-# Is GraphRAG worth it? A small, pre-registered test against a properly tuned baseline
+# I said GraphRAG beats vector RAG. Then I measured it.
 
 By Eeshan Gupta. Published 24 October 2026. Canonical page: https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/
 
-[YOU REWRITE: opening]
+Four months ago I [posted on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7468409125790711808/) that GraphRAG beats plain vector RAG on questions that involve several entities. I had read a post arguing that RAG gets better when the store underneath is a graph database instead of a plain vector DB, so I tried the idea on the IMDB movie database, where the relationships between entities are clear. On that data the graph seemed to do better. I never measured it.
 
-If you build retrieval-augmented generation (RAG), you have seen the pitch for graph-based retrieval. Extract entities and relations from your documents, build a graph, and multi-hop questions get answered better. Most papers compare the graph method against a plain dense retriever. A careful team would not ship that. It adds keyword search, fuses the rankings and reranks.
+If you build retrieval-augmented generation (RAG) systems, you have seen the pitch for graph-based retrieval. Extract entities and relations from your documents, build a graph, and multi-hop questions get answered better. Most papers compare the graph method against a plain dense retriever. A careful team would not ship that. They would combine keyword and dense search through rank fusion, then rerank.
 
 I wanted to know one thing. If a graph method and a properly tuned hybrid retriever hand the generator the same amount of context, how much of the graph's advantage is left?
 
-So I ran a small pre-registered experiment. I wrote down the hypotheses, metrics and decision rules before the results existed. This write-up covers all of it, including the parts I could not finish.
+So this time I ran a small pre-registered experiment. I wrote down the hypotheses, metrics and decision rules before the results existed. This write-up covers all of it, including the parts I could not finish.
 
-[YOUR DETAIL: why you wanted to test this, and what you expected before the numbers came in.]
+I expected the graph to be a clear winner.
 
 ## Why the baseline matters
 
@@ -18,13 +18,16 @@ Graph indexing costs something: an LLM pass over the whole corpus, a graph to ma
 
 ## The setup
 
-I used two public multi-hop question sets, MuSiQue and 2WikiMultiHopQA (2Wiki). They come as the 1,000-question samples and pooled passage corpora from the HippoRAG 2 paper, with 11,656 passages for MuSiQue and 6,119 for 2Wiki. Retrieval searches the whole pooled corpus.
+I used two public multi-hop question sets, MuSiQue and 2WikiMultiHopQA (2Wiki). They come as 1,000-question samples with pooled passage corpora, 11,656 passages for MuSiQue and 6,119 for 2Wiki. Retrieval searches the whole pooled corpus.
+
+I used the same datasets as the HippoRAG 2 paper. Building the graph had been the hard part on my own data, and a published pipeline for the method I was testing is cleaner than one I improvise.
 
 Every arm used the same generator and the same context budget. The arms were:
 
 - Dense only, with the open bge-small embedding model.
 - A tuned hybrid that fuses BM25 keyword search and dense search with reciprocal rank fusion, then reranks with a cross-encoder (bge-reranker-base). Its settings were fixed in advance and never tuned on the evaluation questions.
 - A graph arm, my lightweight re-implementation of HippoRAG 2, with extracted triples, a graph and personalised PageRank over it. I call it HippoRAG 2-lite because it skips the query-time LLM step that filters triples.
+- Hybrid with fusion only, the same fusion but no reranker.
 - BM25 alone.
 - A control with no context.
 
@@ -34,11 +37,9 @@ Token F1 is the standard SQuAD word-overlap score between the answer and the gol
 
 For uncertainty I used a bootstrap confidence interval (CI). I resample the questions 10,000 times and take the middle 95% of the results, which shows how much the number would move on a different set of questions. Paired means both methods are scored on the same questions, so I bootstrap the per-question difference.
 
-To ask whether two methods are equivalent I used TOST, two one-sided tests. It checks whether the difference sits inside a margin you chose in advance. I chose plus or minus 4 F1 points. I widened it from 2 after the pilot because 2 was untestable at this sample size, and the published 2.9-point gap sits inside it. TOST checks the 90% interval against the margin. Failing to find a difference says little. TOST can actually show that two methods are close enough.
+To ask whether two methods are equivalent I used TOST, two one-sided tests. It checks whether the difference sits inside a margin you chose in advance. I chose ±4 F1 points. I widened it from 2 after the pilot because 2 was untestable at this sample size. That margin is wide. In the HippoRAG 2 paper the graph beat a strong dense retriever on MuSiQue by 2.9 points (Table 2), so even an 'equivalent' verdict here could not have ruled out a gap that size. TOST checks the 90% interval against the margin. Failing to find a difference says little. TOST can actually show that two methods are close enough.
 
-The confirmatory sample is 950 questions per dataset. The first 50 informed my design decisions, so I excluded them.
-
-[YOUR DETAIL: how you decided on the 950/50 split.]
+The confirmatory sample is 950 questions per dataset. The first 50 were my pilot, and what I saw in them changed the plan: the prompt, the equivalence margin and a sanity check. Questions that shaped the rules shouldn't also test them, so I left them out.
 
 ## Results
 
@@ -53,11 +54,11 @@ The confirmatory sample is 950 questions per dataset. The first 50 informed my d
 
 ![Bar chart of F1 for dense, tuned hybrid and graph retrieval on MuSiQue and 2Wiki, with 95% confidence intervals. The graph bar is far above on 2Wiki and slightly above on MuSiQue.](https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/fig1-f1-by-arm.png)
 
-Figure 1. Token F1 by retrieval arm and dataset, with 95% confidence intervals.
+Figure 1: bar chart of F1 for dense, tuned hybrid and graph on each dataset, with 95% confidence intervals
 
-The comparison that matters is graph minus tuned hybrid.
+The comparison that matters is graph versus tuned hybrid: how many points the graph scores above the hybrid.
 
-On 2Wiki the graph won by 19.0 F1 points (95% CI [+16.1, +22.0]). Not close. In this setup a tuned hybrid was no free substitute for the graph.
+On 2Wiki the graph won by 19.0 F1 points (95% CI [+16.1, +22.0]). That is not close. In this setup a tuned hybrid was no free substitute for the graph.
 
 On MuSiQue the gap was +3.5 points (95% CI [+0.4, +6.5]). That looks like a small graph edge, but the equivalence test was inconclusive. The data could not show that the two methods are within 4 points of each other, and it could not show that the graph is more than 4 points better.
 
@@ -65,17 +66,17 @@ I had registered a rule for dropping the "graph is overrated" angle. It required
 
 ## What surprised me
 
-[YOU REWRITE: surprises]
+My bet going in was a clean sweep for the graph. It won clearly on 2Wiki. On MuSiQue the edge was 3.5 points, too thin for my own test to call either way.
 
 ![Paired difference in F1 points, graph minus tuned hybrid, with 95% intervals and the plus or minus 4 point equivalence band. The 2Wiki interval sits far right of the band; the MuSiQue interval overlaps its edge.](https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/fig2-graph-minus-hybrid.png)
 
-Figure 2. Graph minus tuned hybrid, paired, with the plus or minus 4 point equivalence margin.
+Figure 2: how many points the graph scores above the tuned hybrid, with its 95% interval and the ±4 equivalence band
 
 ### The tuned hybrid helped on one dataset and did nothing on the other
 
 On MuSiQue the full tuned hybrid added 5.4 points over dense (CI +2.9 to +7.9), almost all of it from the reranker. On 2Wiki it added 0.9 points (CI -0.7 to +2.5), which is indistinguishable from zero. For 2Wiki I had registered that a tuned hybrid would close at least half the gap between dense retrieval and the graph. It closed about 5% of it. On MuSiQue the same share was 61%, but there I had registered a different hypothesis, so read that as descriptive.
 
-[YOUR DETAIL: whether you expected the reranker to help 2Wiki too.]
+The hybrid with a reranker is what I would have shipped, and what most teams put in production. It works for most use cases, so I expected it to be enough here too, especially on Wikipedia, which the models themselves were trained on.
 
 ### The graph's win varies by question type
 
@@ -87,9 +88,11 @@ On 2Wiki, the share of supporting passages that made it into the context was 0.8
 
 ### A prompt nearly fooled my evaluation
 
-In the pilot, a "give your best guess" prompt let the model answer many questions from memory, because both datasets are built from Wikipedia. The real run used a refusal prompt. Under it, F1 on questions whose context did not contain the gold answer stayed between 0.000 and 0.033 for every arm, well under my threshold of 0.10. In the pilot, the same statistic under the guess prompt was 0.35 to 0.53, which would have failed. If you evaluate RAG on Wikipedia questions, measure this.
+In the pilot, many questions were answered from memory, because both datasets are built from Wikipedia.
 
-[YOUR DETAIL: when and how you noticed the pilot scores looked too good.]
+A check I had registered in advance flagged it: on 2Wiki, answers were scoring even when their context held no evidence for them. That was the moment it clicked. The prompt's 'give your best guess' line was letting the model answer from memory.
+
+The real run used a refusal prompt. Under it, F1 on questions whose context did not contain the gold answer stayed between 0.000 and 0.033 for every arm, well under my threshold of 0.10. In the pilot, the same statistic under the guess prompt was 0.35 to 0.53, which would have failed. If you evaluate RAG on Wikipedia questions, measure this.
 
 ### The cost depends on a step I did not run
 
@@ -108,17 +111,15 @@ The real HippoRAG 2 filters triples with an LLM call at query time. I estimated 
 - I missed two commitments. I had registered a second look at a 2,000-token budget, and a measurement of how often the generator fills gaps from memory under the guess prompt. I ran neither. Both need thousands more generator calls. My original protocol said an "iterate" verdict means adding the 2,000-token budget. After seeing a preview of the headline numbers, I wrote down that it would run only on "scale". That was a post-hoc call. At 1,000 tokens the gold answer was in context for only 37 to 56% of MuSiQue questions (59 to 86% on 2Wiki), so every conclusion here holds at that budget only.
 - One protocol file was frozen late. An amendment (dropping the 50 design questions, adding cost reporting) was drafted before any results but frozen after the runs finished. Nothing changed after the data existed and I had read no result at freeze time. It is still a hole in the pre-registration.
 
-[YOUR DETAIL: why you decided to skip the 2,000-token run.]
-
 ## What's next
 
-[YOU REWRITE: ending]
+Next I'd like to test a documentation-style corpus instead of Wikipedia, and maybe run the 2,000-token check. What I still don't know is whether the MuSiQue edge survives a bigger sample.
 
-I am iterating. Next, most likely, is the 2,000-token check for the graph and the tuned hybrid. After that I want to run the real query-time triple filter, so its cost is measured and not estimated, and then try a corpus that looks like documentation instead of Wikipedia. What I still do not know is whether the MuSiQue edge survives a bigger sample.
+GraphRAG is a good method when your data has clearly defined entity relationships, or at least supports them. That won't hold for every kind of data, and the cost of deploying it needs a thorough study of its own.
 
 ## How I ran this
 
-- The question, hypotheses, systems, metrics and decision rules were committed to a repository before any pilot number existed. Two amendments followed, after the pilot and after a design audit. Each is frozen with a git tag, and a deviations log lists every departure from the plan.
+- The main-run plan was on GitHub 13.5 hours before the first confirmatory answer. The pilot plan was written first but pushed about 20 minutes after the pilot ran; HISTORY.md in the repo has every timestamp.
 - F1 was recomputed from the saved answers with 0 mismatches. The run had not logged retrieved passage ids, so I re-ran retrieval to reconstruct them. It reproduced the generation run on 9,987 of 10,000 arm-rows.
 - A model from a different family, Gemini instead of Claude, reviewed the protocol amendments and the results analysis. The results audit returned two corrections, both valid and fixed, and approved on the second round.
 - I used token F1 and exact match (SQuAD, Rajpurkar et al. 2016), a paired percentile bootstrap (Efron 1979) and TOST equivalence (Schuirmann 1987).
