@@ -68,7 +68,7 @@ I had registered a rule for dropping the "graph is overrated" angle. It required
 
 My bet going in was a clean sweep for the graph. It won clearly on 2Wiki. On MuSiQue the edge was 3.5 points, too thin for my own test to call either way.
 
-![Paired difference in F1 points, graph minus tuned hybrid, with 95% intervals and the plus or minus 4 point equivalence band. The 2Wiki interval sits far right of the band; the MuSiQue interval overlaps its edge.](https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/fig2-graph-minus-hybrid.png)
+![How many F1 points the graph scores above the tuned hybrid (paired), with 95% intervals and the ±4 point equivalence band. The 2Wiki interval sits far right of the band; the MuSiQue interval overlaps its edge.](https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/fig2-graph-minus-hybrid.png)
 
 Figure 2: how many points the graph scores above the tuned hybrid, with its 95% interval and the ±4 equivalence band
 
