@@ -109,7 +109,7 @@ The real HippoRAG 2 filters triples with an LLM call at query time. I estimated 
 - The embedder is a small one, smaller than the paper's large one, which weakens the dense and hybrid arms. My graph arm also has no query-time triple filter.
 - The MuSiQue result is underpowered. The equivalence test could not give an answer, and at the observed variation its power was roughly two thirds. A larger sample might resolve it.
 - I missed two commitments. I had registered a second look at a 2,000-token budget, and a measurement of how often the generator fills gaps from memory under the guess prompt. I ran neither. Both need thousands more generator calls. My original protocol said an "iterate" verdict means adding the 2,000-token budget. After seeing a preview of the headline numbers, I wrote down that it would run only on "scale". That was a post-hoc call. At 1,000 tokens the gold answer was in context for only 37 to 56% of MuSiQue questions (59 to 86% on 2Wiki), so every conclusion here holds at that budget only.
-- One protocol file was frozen late. An amendment (dropping the 50 design questions, adding cost reporting) was drafted before any results but frozen after the runs finished. Nothing changed after the data existed and I had read no result at freeze time. It is still a hole in the pre-registration.
+- One protocol file was frozen late. An amendment (dropping the 50 design questions, adding cost reporting) was drafted before any results but frozen after the runs finished. Nothing in it changed after the data existed except the header. It is still a hole in the pre-registration.
 
 ## What's next
 
