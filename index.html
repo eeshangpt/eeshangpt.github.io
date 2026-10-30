@@ -20,6 +20,15 @@
 <meta name="twitter:title" content="Eeshan Gupta — Senior AI Engineer">
 <meta name="twitter:description" content="Eeshan Gupta — Senior AI Engineer building production GenAI, RAG and voice AI systems. Writes about RAG evaluation and retrieval experiments.">
 <meta name="twitter:image" content="https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/og-v2.png">
+<script>
+(function(){var d=document.documentElement,t;try{t=localStorage.getItem("theme")}catch(e){}
+if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";
+d.dataset.theme=t;
+document.addEventListener("DOMContentLoaded",function(){var b=document.querySelector(".theme-toggle");
+function s(){var n=d.dataset.theme==="light"?"dark":"light";b.textContent=n[0].toUpperCase()+n.slice(1);b.setAttribute("aria-label","Switch to "+n+" theme")}
+s();b.hidden=false;
+b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.theme=n;try{localStorage.setItem("theme",n)}catch(e){}s()}})})();
+</script>
 <link rel="stylesheet" href="styles.css">
 <script type="application/ld+json">
 {
@@ -72,7 +81,10 @@
       <a href="#services">Collaborate</a>
       <a href="/writing/">Writing</a>
     </div>
-    <a href="#contact" class="nav-cta">Get in touch</a>
+    <div class="nav-right">
+      <button type="button" class="theme-toggle" hidden>Light</button>
+      <a href="#contact" class="nav-cta">Get in touch</a>
+    </div>
   </nav>
 </header>
 
@@ -219,7 +231,7 @@
   </section>
 
   <!-- PROJECTS -->
-  <section id="projects" style="background:var(--g-900); border-top:1px solid var(--g-800); border-bottom:1px solid var(--g-800);">
+  <section id="projects" style="background:var(--surface-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
     <div class="section-inner">
       <div class="section-head reveal">
         <p class="eyebrow">Selected projects</p>
