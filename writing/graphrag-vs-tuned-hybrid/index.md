@@ -1,6 +1,6 @@
 # I said GraphRAG beats vector RAG. Then I measured it.
 
-By Eeshan Gupta. Published 24 October 2026. Canonical page: https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/
+By Eeshan Gupta. Published 24 October 2026. Canonical page: https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/
 
 Four months ago I [posted on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7468409125790711808/) that GraphRAG beats plain vector RAG on questions that involve several entities. I had read a post arguing that RAG gets better when the store underneath is a graph database instead of a plain vector DB, so I tried the idea on the IMDB movie database, where the relationships between entities are clear. On that data the graph seemed to do better. I never measured it.
 
@@ -52,7 +52,7 @@ The confirmatory sample is 950 questions per dataset. The first 50 were my pilot
 | Tuned hybrid (fusion + rerank) | 0.348 | 0.372 |
 | Graph (HippoRAG 2-lite) | 0.382 | 0.562 |
 
-![Bar chart of F1 for dense, tuned hybrid and graph retrieval on MuSiQue and 2Wiki, with 95% confidence intervals. The graph bar is far above on 2Wiki and slightly above on MuSiQue.](https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/fig1-f1-by-arm.png)
+![Bar chart of F1 for dense, tuned hybrid and graph retrieval on MuSiQue and 2Wiki, with 95% confidence intervals. The graph bar is far above on 2Wiki and slightly above on MuSiQue.](https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/fig1-f1-by-arm.png)
 
 Figure 1: bar chart of F1 for dense, tuned hybrid and graph on each dataset, with 95% confidence intervals
 
@@ -68,7 +68,7 @@ I had registered a rule for dropping the "graph is overrated" angle. It required
 
 My bet going in was a clean sweep for the graph. It won clearly on 2Wiki. On MuSiQue the edge was 3.5 points, too thin for my own test to call either way.
 
-![How many F1 points the graph scores above the tuned hybrid (paired), with 95% intervals and the ±4 point equivalence band. The 2Wiki interval sits far right of the band; the MuSiQue interval overlaps its edge.](https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/fig2-graph-minus-hybrid.png)
+![How many F1 points the graph scores above the tuned hybrid (paired), with 95% intervals and the ±4 point equivalence band. The 2Wiki interval sits far right of the band; the MuSiQue interval overlaps its edge.](https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/fig2-graph-minus-hybrid.png)
 
 Figure 2: how many points the graph scores above the tuned hybrid, with its 95% interval and the ±4 equivalence band
 

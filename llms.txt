@@ -4,8 +4,8 @@
 
 ## Writing
 
-- [I said GraphRAG beats vector RAG. Then I measured it.](https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/index.md): a pre-registered experiment comparing a graph retriever with a tuned hybrid retriever at the same context budget on MuSiQue and 2WikiMultiHopQA.
-- [All writing](https://eeshangpt.github.io/writing/): index of articles.
+- [I said GraphRAG beats vector RAG. Then I measured it.](https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/index.md): a pre-registered experiment comparing a graph retriever with a tuned hybrid retriever at the same context budget on MuSiQue and 2WikiMultiHopQA.
+- [All writing](https://eeshangupta.com/writing/): index of articles.
 
 ## Code
 
@@ -13,5 +13,5 @@
 
 ## Optional
 
-- [Home](https://eeshangpt.github.io/): profile and projects.
-- [RSS feed](https://eeshangpt.github.io/feed.xml)
+- [Home](https://eeshangupta.com/): profile and projects.
+- [RSS feed](https://eeshangupta.com/feed.xml)

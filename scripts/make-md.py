@@ -6,7 +6,7 @@ from html.parser import HTMLParser
 
 SRC = "writing/graphrag-vs-tuned-hybrid/index.html"
 OUT = "writing/graphrag-vs-tuned-hybrid/index.md"
-BASE = "https://eeshangpt.github.io/writing/graphrag-vs-tuned-hybrid/"
+BASE = "https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/"
 REPO = "https://github.com/eeshangpt/graphrag-vs-tuned-hybrid"
 
 
@@ -46,7 +46,7 @@ class P(HTMLParser):
         elif t == "a":
             h = self.href.pop()
             if h.startswith("/"):
-                h = "https://eeshangpt.github.io" + h
+                h = "https://eeshangupta.com" + h
             self.w(f"]({h})")
         elif t in ("td", "th"):
             self.row.append("".join(self.cell).strip())
