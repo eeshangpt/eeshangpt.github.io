@@ -34,4 +34,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://eeshangpt.github.io/sitemap.xml
+Sitemap: https://eeshangupta.com/sitemap.xml
