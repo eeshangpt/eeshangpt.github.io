@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """Regenerate writing/graphrag-vs-tuned-hybrid/index.md from the page's article block.
 Run from repo root after the final article text lands: python3 scripts/make-md.py"""
-import html, re
+import html, re, sys
 from html.parser import HTMLParser
 
-SRC = "writing/graphrag-vs-tuned-hybrid/index.html"
-OUT = "writing/graphrag-vs-tuned-hybrid/index.md"
-BASE = "https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/"
+SLUG = sys.argv[1] if len(sys.argv) > 1 else "graphrag-vs-tuned-hybrid"
+DATE = sys.argv[2] if len(sys.argv) > 2 else "24 October 2026"
+SRC = f"writing/{SLUG}/index.html"
+OUT = f"writing/{SLUG}/index.md"
+BASE = f"https://eeshangupta.com/writing/{SLUG}/"
 REPO = "https://github.com/eeshangpt/graphrag-vs-tuned-hybrid"
 
 
@@ -76,7 +78,7 @@ src = open(SRC, encoding="utf-8").read()
 title = html.unescape(re.search(r"<h1>(.*?)</h1>", src).group(1))
 body = re.search(r'<div class="article-body">(.*?)</div>\s*<!-- ARTICLE BODY END', src, re.S).group(1)
 box = re.search(r"<!-- BOX START -->(.*?)<!-- BOX END", src, re.S).group(1)
-text = (f"# {title}\n\nBy Eeshan Gupta. Published 24 October 2026. Canonical page: {BASE}\n"
+text = (f"# {title}\n\nBy Eeshan Gupta. Published {DATE}. Canonical page: {BASE}\n"
         f"{md(body)}\n\n{md(box).strip()}\n")
 text = html.unescape(re.sub(r"\n{3,}", "\n\n", text)).strip() + "\n"
 open(OUT, "w", encoding="utf-8").write(text)

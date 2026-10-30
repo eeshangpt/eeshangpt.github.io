@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A small local judge passed its pilot. Fresh data killed it. — Eeshan Gupta</title>
+<meta name="description" content="A small local model judged whether RAG answers stick to their source. It ranked six generators correctly in a pilot (Kendall tau-b 0.733) and failed on fresh data (0.048). The cascade idea survived on one dataset.">
+<link rel="canonical" href="https://eeshangupta.com/writing/small-judge-fresh-data/">
+<link rel="alternate" type="application/rss+xml" title="Eeshan Gupta — Writing" href="https://eeshangupta.com/feed.xml">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Eeshan Gupta">
+<meta property="og:title" content="A small local judge passed its pilot. Fresh data killed it. — Eeshan Gupta">
+<meta property="og:description" content="A small local model judged whether RAG answers stick to their source. It ranked six generators correctly in a pilot (Kendall tau-b 0.733) and failed on fresh data (0.048). The cascade idea survived on one dataset.">
+<meta property="og:url" content="https://eeshangupta.com/writing/small-judge-fresh-data/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="A small local judge passed its pilot. Fresh data killed it. — Eeshan Gupta">
+<meta name="twitter:description" content="A small local model judged whether RAG answers stick to their source. It ranked six generators correctly in a pilot (Kendall tau-b 0.733) and failed on fresh data (0.048). The cascade idea survived on one dataset.">
+<link rel="alternate" type="text/markdown" href="https://eeshangupta.com/writing/small-judge-fresh-data/index.md">
+<script>
+(function(){var d=document.documentElement,t;try{t=localStorage.getItem("theme")}catch(e){}
+if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";
+d.dataset.theme=t;
+document.addEventListener("DOMContentLoaded",function(){var b=document.querySelector(".theme-toggle");
+function s(){var n=d.dataset.theme==="light"?"dark":"light";b.textContent=n[0].toUpperCase()+n.slice(1);b.setAttribute("aria-label","Switch to "+n+" theme")}
+s();b.hidden=false;
+b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.theme=n;try{localStorage.setItem("theme",n)}catch(e){}s()}})})();
+</script>
+<link rel="stylesheet" href="/styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "A small local judge passed its pilot. Fresh data killed it.",
+  "description": "A small local model judged whether RAG answers stick to their source. It ranked six generators correctly in a pilot (Kendall tau-b 0.733) and failed on fresh data (0.048). The cascade idea survived on one dataset.",
+  "author": {
+    "@type": "Person",
+    "@id": "https://eeshangupta.com/#person",
+    "name": "Eeshan Gupta",
+    "url": "https://eeshangupta.com/"
+  },
+  "publisher": {
+    "@id": "https://eeshangupta.com/#person"
+  },
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://eeshangupta.com/writing/small-judge-fresh-data/"
+  },
+  "inLanguage": "en",
+  "keywords": "LLM-as-judge, faithfulness, small language models, FaithBench, RAGTruth, WiCE, pre-registration",
+  "isBasedOn": "[REPO LINK]"
+}
+</script>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="/" class="nav-mark">EG<span>.</span></a>
+    <div class="nav-links keep">
+      <a href="/#projects">Projects</a>
+      <a href="/writing/" class="current" aria-current="page">Writing</a>
+    </div>
+    <div class="nav-right">
+      <button type="button" class="theme-toggle" hidden>Light</button>
+      <a href="/#contact" class="nav-cta">Get in touch</a>
+    </div>
+  </nav>
+</header>
+
+<main class="article">
+  <article class="article-inner">
+    <header class="article-head">
+      <p class="eyebrow">LLM evaluation</p>
+      <h1>A small local judge passed its pilot. Fresh data killed it.</h1>
+      <p class="article-meta"><time datetime="2026-11-04">4 November 2026</time> · Eeshan Gupta</p>
+    </header>
+
+    <!-- ARTICLE BODY START: DRAFT, owner text pending -->
+    <div class="article-body">
+<div class="placeholder" style="border:2px dashed #D9961A;padding:1rem"><pre style="white-space:pre-wrap">[YOU REWRITE: opening, 3 to 5 sentences, your prose. Lead with what you did. Notes from your interview answers:
+- You have a 6 GB graphics card (GTX 1660 Ti). Larger models do not fit in that memory.
+- You wanted use cases for small models; acting as a judge was one idea you wanted to test.
+- You expected the judge to hold up on fresh data &quot;or at least show good performance&quot;.
+- Facts for the second half of the opening: the pilot passed, the confirmation on new data did not, and a different small-model idea (a cascade) did survive.
+- No label fragments, no &quot;not X, it&#x27;s Y&quot;.]</pre></div>
+
+<h2>What I tested</h2>
+
+<p>The judge's job was to check whether a RAG answer sticks to its source (faithfulness), the task a large paid model usually does. I tried two small-model ideas on public data and committed the rules in git, with tagged freezes, before I computed any result. Everything ran locally and no paid API was called.</p>
+
+<p>The judges were MiniCheck-Flan-T5-Large (Tang, Laban and Durrett, EMNLP 2024), a small fact-checking model, and Qwen3-4B-Instruct-2507 (Qwen3 Technical Report, 2025) in 4-bit as a yes/no judge.</p>
+
+<p>A few measures appear below. Kendall tau-b is rank agreement between two lists, from -1 (reversed) to 1 (same order), corrected for ties. Cohen's kappa is agreement between two raters corrected for chance: 0 is chance level, 1 is perfect, and negative values mean worse than chance. Balanced accuracy averages the true-positive and true-negative rates. A bootstrap 95% interval comes from resampling the data 1,000 times and taking the middle 95% of the results.</p>
+
+<h2>The pilot passed</h2>
+
+<p>The first idea was ranking. A judge that ranks whole generators only has to say which systems hallucinate more, so it can be wrong on many single items if its per-generator rates follow the human rates.</p>
+
+<p>The pilot used the six generators in the RAGTruth QA test split (Niu et al., ACL 2024), 150 items each. Human annotators put hallucination rates between 0.7% for gpt-4-0613 and 34.7% for llama-2-7b-chat. Qwen3-4B flagged 7.3% of gpt-4's answers and 34.0% of llama-2-7b's. Kendall tau-b between human and judge rates was 0.733, with a 95% interval of [0.414, 1.000], and the three quality tiers came out in the right order. My rule said scale. The exact permutation p-value was 0.056, and I had written down that six units cannot carry a significance claim.</p>
+
+<h2>Fresh data killed it</h2>
+
+<p>I froze a second plan, <code>prereg-B2-frozen</code>, before any judge saw the new data: FaithBench (Bao et al., NAACL 2025). It has 800 summaries, 80 source documents each summarized by the same 10 LLMs, with human labels. The prompt, the 0.5 cut and the model were unchanged from the pilot. Scale needed tau-b of at least 0.5 and the right tier order. Kill meant a wrong tier order or tau-b below 0.3.</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th scope="col"></th><th scope="col">RAGTruth pilot</th><th scope="col">FaithBench confirmation</th></tr></thead>
+<tbody>
+<tr><th scope="row">Generators</th><td>6</td><td>10</td></tr><tr><th scope="row">Items per generator</th><td>150</td><td>80</td></tr><tr><th scope="row">Kendall tau-b, Qwen3-4B</th><td>0.733</td><td>0.048</td></tr><tr><th scope="row">95% bootstrap interval</th><td>[0.414, 1.000]</td><td>[-0.167, 0.523]</td></tr><tr><th scope="row">Tier order correct</th><td>yes</td><td>no</td></tr><tr><th scope="row">Item-level kappa / balanced accuracy</th><td>0.161 / 0.587</td><td>0.030 / 0.518</td></tr><tr><th scope="row">Pre-registered verdict</th><td>scale</td><td>kill</td></tr>
+</tbody>
+</table>
+</div>
+
+<figure>
+  <img src="fig1-judge-vs-human.png" width="1500" height="720" alt="Two scatter plots of judged unfaithful rate against human rate, each with a dashed y = x line. Left, the 10 FaithBench generators, High-hallucination tier in orange and Low-hallucination tier in blue: human rates run 46% to 73%, judged rates 9% to 20%, all far below the line, and the two tiers overlap. Right, the 6 RAGTruth pilot generators: the points lie close to the line.">
+  <figcaption>Figure 1: judged unfaithful rate against human rate for the 10 FaithBench generators (left, tiers coloured) and the 6 RAGTruth pilot generators (right); the dashed line is y = x.</figcaption>
+</figure>
+
+<p>The permutation p-value was 0.92. The lowest judged rate in the High tier (0.125, Qwen2.5-7B) sat below the highest in the Low tier (0.200, claude-3-5-sonnet). Of the High-Low generator pairs, 42% had the judge ordering them the right way, below the 50% a coin gives. Averaging the probabilities instead of using the 0.5 cut gave tau-b of 0.045, so the cut was not the cause. The judge also under-flagged: 9% to 20% of summaries per generator against 46% to 73% from annotators.</p>
+
+<h2>What surprised me</h2>
+
+<div class="placeholder" style="border:2px dashed #D9961A;padding:1rem"><pre style="white-space:pre-wrap">[YOU REWRITE: surprises, in your words. Notes from your interview: you expected it to outperform on fresh data too, or at least show good performance. Facts to pick from:
+- the pilot passed with tau-b 0.733 and a correct tier order, and the replication returned a number near zero;
+- MiniCheck, the exploratory judge, did better on FaithBench than Qwen (tau-b 0.341, interval [0.116, 0.612], tier AUC 0.854) and still ended as a kill under the strict tier rule;
+- the cascade that struggles on RAGTruth works on WiCE.
+[YOUR DETAIL: your reaction when you saw the 0.048.] Avoid &quot;honest&quot; and &quot;worth noting&quot;.]</pre></div>
+
+<h2>What the small model can still do</h2>
+
+<p>The second idea was a cascade. MiniCheck answers first. When its probability is far from 0.5 its verdict stands, and unsure items go to Qwen3-4B, which takes about 19 seconds per WiCE item against a fraction of a second for MiniCheck. The confidence threshold was picked out-of-fold (5-fold cross-fitting), so it was not tuned on the items it was scored on.</p>
+
+<p>The target was set in advance: Cohen's kappa had to reach 0.9 times a published Sonnet kappa for that dataset (0.493 for WiCE, 0.541 for RAGTruth). Those Sonnet figures come from a different sample than mine, so the comparison is indicative at best.</p>
+
+<p>On WiCE (Kamoi et al., EMNLP 2023; 172 items) MiniCheck settled 81% of items out-of-fold, and kappa on those items was 0.502. Over all items, the cascade's kappa was 0.488, just under the 0.493 target. Its error rate was 0.256 against 0.244 for Qwen3-4B alone; the difference of 0.012 has a 95% interval of [-0.041, 0.081], so the cascade made no measurable difference to errors. Expected time per item fell from 18.79 s to 3.50 s. On RAGTruth (300 items) the same cascade settled 21%, which met the 20% coverage gate, but its interval of [0.027, 0.577] is very wide and its kappa over all items was 0.313 against a target of 0.541. The rule needed both datasets to reach their target, and neither did (WiCE 0.488 against 0.493, RAGTruth 0.313 against 0.541), so the verdict was iterate, not scale.</p>
+
+<p>So the practical answer is narrow. On one dataset a small model can screen the easy claims and send the rest on, with errors no worse than the slow model's. On the ranking test, the one that would let a small model replace a large judge when comparing generators, it could not.</p>
+
+<h2>Limits</h2>
+
+<ul>
+  <li>FaithBench items were chosen where five existing detectors disagreed most, so the data is hard for detectors by construction. About 60% of summaries are labelled "Unwanted", far above natural rates. Two of those five detectors (GPT-4o and GPT-3.5) are also generators in the list.</li>
+  <li>All 10 generators summarized the same 80 source documents, so the summaries are clustered by document. The intervals come from a bootstrap over documents, and the result holds for that document sample only.</li>
+  <li>With 80 summaries per generator each rate has a binomial interval of about plus or minus 11 points. The High and Low tiers are about 11 points apart (0.59 against 0.70), so the test could resolve the coarse split and not the order inside a tier. The six RAGTruth generators have the same problem: the middle four differ by 1 to 6 items out of 150.</li>
+  <li>The tiers come from the human labels, which are the answer key. I placed the boundary at the largest gap in this dataset's own human rates, before any judge output existed. That makes the tier check partly circular, which is why tau-b over all 10 generators was a second criterion.</li>
+  <li>I used one prompt and one uncalibrated 0.5 cut. A calibrated cut might rank better; I did not run it.</li>
+  <li>Dropping GPT-4o and GPT-3.5, the two detectors that are also generators, moved tau-b to -0.615 with an interval of [-0.692, 0.315] on the remaining 8 generators, and the tier order still failed. That check was exploratory.</li>
+  <li>Qwen2.5-7B is one of the generators and the judge is Qwen3-4B, so they share a model family. Dropping that generator gave tau-b of 0.216 with an interval of [-0.141, 0.657], and the tier order still failed. That check was exploratory.</li>
+  <li>The B2 plan froze with open objections. A Gemini model audited it for three rounds and still asked for changes, among them the strict tier rule and the uncalibrated cut. I froze anyway and listed the open points in the file. They could have made the kill easier to hit. The result also fails on tau-b alone (0.048 against the 0.3 floor), which does not depend on the strict tier rule.</li>
+  <li>The Part A target is a published figure from a different sample, and the analysis is a re-analysis of data and models I had already seen in an earlier job. I chose Qwen3-4B as the primary model after seeing those results. The Part A sets are class-balanced pairs (half faithful, half hallucinated), not the natural mix, and the 300 RAGTruth items are skewed toward one generator (148 of 300 are gpt-4). Treat Part A as a lead worth confirming.</li>
+</ul>
+
+<h2>Where this leaves the judge</h2>
+
+<div class="placeholder" style="border:2px dashed #D9961A;padding:1rem"><pre style="white-space:pre-wrap">[YOU REWRITE: the ending, in your words. One concrete next step and one open question only; no summary closer. Facts: the cascade idea survives on WiCE and needs fresh items; the ranking idea passed a pilot and failed on a hard, detector-filtered set, and the six-generator pilot is now an example of a pilot that did not hold. [YOUR DETAIL: what you will do next with this, or stop doing].]</pre></div>
+    </div>
+    <!-- ARTICLE BODY END -->
+
+    <!-- BOX START -->
+    <aside class="article-box article-body">
+      <h2 class="box-title">How I ran this</h2>
+<ul>
+  <li>The rules were committed and tagged before the results: <code>prereg-AB-frozen</code> on 28 October 2026 at 02:20 IST and <code>prereg-B2-frozen</code> the same day at 22:38 IST. The FaithBench report was committed at 00:38 IST on 29 October. [REPO LINK] [YOUR DETAIL: repo link, if you publish it.]</li>
+  <li>The 900 RAGTruth predictions were generated before the first freeze as input preparation, and no metric was computed from them.</li>
+  <li>FaithBench is CC BY-NC-SA, so the data is not in the repo.</li>
+  <li>References: RAGTruth (Niu et al., ACL 2024); WiCE (Kamoi et al., EMNLP 2023); FaithBench (Bao et al., NAACL 2025, arXiv 2410.13210); MiniCheck (Tang, Laban and Durrett, EMNLP 2024); Qwen3 Technical Report (Yang et al., 2025, arXiv 2505.09388).</li>
+</ul>
+    </aside>
+    <!-- BOX END -->
+
+    <a href="/writing/" class="article-back">&larr; All writing</a>
+  </article>
+</main>
+
+<footer>
+  <div class="foot-bottom">
+    <span>Eeshan Gupta · Bengaluru, India</span>
+    <a href="/feed.xml">RSS</a>
+  </div>
+</footer>
+
+<script data-goatcounter="https://eeshangpt.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
