@@ -64,11 +64,21 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
 <header>
   <nav>
     <a href="/" class="nav-mark">EG<span>.</span></a>
-    <div class="nav-links keep">
+    <div class="nav-links">
       <a href="/#projects">Projects</a>
       <a href="/writing/" class="current" aria-current="page">Writing</a>
     </div>
     <div class="nav-right">
+      <details class="nav-menu">
+        <summary>Menu</summary>
+        <div class="menu-panel">
+          <a href="/#experience">Experience</a>
+          <a href="/#projects">Projects</a>
+          <a href="/#skills">Skills</a>
+          <a href="/#services">Collaborate</a>
+          <a href="/writing/" class="current" aria-current="page">Writing</a>
+        </div>
+      </details>
       <button type="button" class="theme-toggle" hidden>Light</button>
       <a href="/#contact" class="nav-cta">Get in touch</a>
     </div>

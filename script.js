@@ -17,3 +17,6 @@
       requestAnimationFrame(() => { fill.style.width = w + '%'; });
     });
   });
+
+  // Phone menu: close after an in-page jump (page links close by navigating; menu works without JS)
+  document.querySelectorAll('.menu-panel a').forEach(a => a.addEventListener('click', () => { a.closest('details').open = false; }));

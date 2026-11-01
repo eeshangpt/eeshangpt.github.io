@@ -619,3 +619,26 @@
   .article-box{ margin-top:3em; padding:24px 26px 8px; background:var(--surface-raised); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:10px; font-size:0.95rem; line-height:1.6; }
   .article-box .box-title{ font-size:1.1rem; margin:0 0 0.8em; }
   .article-back{ display:inline-block; margin-top:40px; font-size:0.88rem; font-weight:600; color:var(--accent-text); }
+
+  /* ---------- LATEST WRITING (under hero) + PHONE MENU ---------- */
+  .latest-writing{ padding:0 var(--edge) 72px; }
+  .latest-writing .latest-post{ margin-top:0; }
+  @media (max-width:860px){ .latest-writing{ padding-bottom:48px; } }
+  .nav-menu{ display:none; }
+  .nav-menu summary{
+    list-style:none; cursor:pointer;
+    min-height:44px; min-width:44px; padding:0 14px;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:0.85rem; font-weight:500; color:var(--ink-muted);
+    border:1px solid var(--line-strong); border-radius:6px;
+  }
+  .nav-menu summary::-webkit-details-marker{ display:none; }
+  .nav-menu[open] summary{ color:var(--ink-strong); }
+  .menu-panel{
+    position:absolute; left:0; right:0; top:100%;
+    display:flex; flex-direction:column;
+    padding:8px var(--edge) 16px;
+    background:var(--surface-raised); border-bottom:1px solid var(--line);
+  }
+  .menu-panel a{ min-height:44px; display:flex; align-items:center; font-weight:500; color:var(--ink-strong); }
+  @media (max-width:720px){ .nav-menu{ display:block; } .nav-right{ gap:8px; } }
