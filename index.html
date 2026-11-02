@@ -75,9 +75,7 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
   <nav>
     <a href="#top" class="nav-mark">EG<span>.</span></a>
     <div class="nav-links">
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#skills">Skills</a>
+      <a href="/about/">About</a>
       <a href="#services">Collaborate</a>
       <a href="/writing/">Writing</a>
     </div>
@@ -85,9 +83,7 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
       <details class="nav-menu">
         <summary>Menu</summary>
         <div class="menu-panel">
-          <a href="#experience">Experience</a>
-          <a href="#projects">Projects</a>
-          <a href="#skills">Skills</a>
+          <a href="/about/">About</a>
           <a href="#services">Collaborate</a>
           <a href="/writing/">Writing</a>
         </div>
@@ -105,13 +101,14 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
     <div>
       <p class="eyebrow">Bengaluru, India</p>
       <h1>Eeshan Gupta<span class="role">AI Engineer — GenAI, RAG &amp; Voice AI Systems</span></h1>
+      <p class="lede pov"><span class="slot">[YOUR DETAIL: one sentence on what you believe about building AI that ships]</span></p>
       <p class="lede">
         I build the parts of AI products that have to hold up in production —
         <strong>retrieval pipelines, LLM evaluation harnesses, and voice/ASR systems</strong> —
         for pharma, legal, logistics, and customer-support teams at enterprise scale.
       </p>
       <div class="hero-ctas">
-        <a href="#experience" class="btn btn-primary">See the work</a>
+        <a href="#stories" class="btn btn-primary">See the work</a>
         <a href="#contact" class="btn btn-ghost">Start a conversation</a>
       </div>
     </div>
@@ -129,191 +126,87 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
     </div>
   </section>
 
-  <!-- IMPACT -->
-  <section class="impact">
-    <div class="section-inner reveal">
-      <div class="impact-grid">
-        <div class="impact-card">
+  <!-- PROJECT STORIES -->
+  <section id="stories">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <p class="eyebrow">Project stories</p>
+        <h2>Where the numbers came from</h2>
+        <p>Each figure below comes from a project I worked on.</p>
+      </div>
+      <div class="story-grid reveal">
+        <article class="project-card story">
           <div class="metric">5<span class="unit">x</span></div>
-          <p class="tag">Authoring speed</p>
-          <p>GenAI document drafting platform for a top pharmaceutical client</p>
-        </div>
-        <div class="impact-card">
+          <p class="what">Faster authoring on a GenAI document-drafting platform for a top pharmaceutical client. No technical skills were needed to operate it.</p>
+          <dl>
+            <dt>Problem</dt><dd><span class="slot">[YOUR DETAIL: what made authoring slow before the platform]</span></dd>
+            <dt>Constraint</dt><dd><span class="slot">[YOUR DETAIL: the constraint that shaped the design, for example regulated content or review rules]</span></dd>
+            <dt>Decision</dt><dd><span class="slot">[YOUR DETAIL: the design decision you would defend, and what you turned down]</span></dd>
+            <dt>Result</dt><dd>5x faster authoring.</dd>
+          </dl>
+          <p class="check">[CHECK: what may be said about this client; the site names only a top pharmaceutical client]</p>
+        </article>
+        <article class="project-card story">
           <div class="metric">90<span class="unit">%</span></div>
-          <p class="tag">Codification effort cut</p>
-          <p>NLP extraction pipeline</p>
-        </div>
-        <div class="impact-card">
+          <p class="what">A large-scale NLP extraction pipeline that reduced manual codification effort.</p>
+          <dl>
+            <dt>Problem</dt><dd><span class="slot">[YOUR DETAIL: what was being codified by hand, and for whom]</span></dd>
+            <dt>Constraint</dt><dd><span class="slot">[YOUR DETAIL: the constraint that shaped the pipeline, for example data volume or accuracy needs]</span></dd>
+            <dt>Decision</dt><dd><span class="slot">[YOUR DETAIL: the decision that made the biggest difference]</span></dd>
+            <dt>Result</dt><dd>Manual codification effort cut by 90%.</dd>
+          </dl>
+          <p class="check">[CHECK: what may be said about this client; the site does not name one]</p>
+        </article>
+        <article class="project-card story">
           <div class="metric"><span class="unit" style="font-size:.8rem">Up to&nbsp;</span>50<span class="unit">%</span></div>
-          <p class="tag">Ticket volume cut</p>
-          <p>RAG-based customer support system for a travel company</p>
-        </div>
-        <div class="impact-card">
-          <div class="metric">10<span class="unit">x</span></div>
-          <p class="tag">Review speed</p>
-          <p>NLP relevance &amp; classification pipeline for legal e-discovery</p>
-        </div>
+          <p class="what">A RAG-based customer support system for a travel company.</p>
+          <dl>
+            <dt>Problem</dt><dd><span class="slot">[YOUR DETAIL: what the support team was dealing with before]</span></dd>
+            <dt>Constraint</dt><dd><span class="slot">[YOUR DETAIL: the constraint that shaped the system, for example answer accuracy or content freshness]</span></dd>
+            <dt>Decision</dt><dd><span class="slot">[YOUR DETAIL: the retrieval or evaluation decision you would defend]</span></dd>
+            <dt>Result</dt><dd>Support ticket volume cut by up to 50%.</dd>
+          </dl>
+          <p class="check">[CHECK: what may be said about this travel company; the site names none]</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- EXPERIENCE -->
-  <section id="experience">
+  <!-- OPEN QUESTIONS -->
+  <section id="questions" style="background:var(--surface-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
     <div class="section-inner">
       <div class="section-head reveal">
-        <p class="eyebrow">Experience</p>
-        <h2>Since 2019, building AI that has to work the first time</h2>
-        <p>From regulated pharma document generation to real-time speech pipelines — production systems, not demos.</p>
+        <p class="eyebrow">Open questions</p>
+        <h2>What I'm working through</h2>
       </div>
-
-      <div class="timeline reveal">
-        <div class="tl-item">
-          <div class="tl-head">
-            <span class="tl-role">AI Engineer</span>
-            <span class="tl-org">CitNOW Group</span>
-            <span class="tl-dates">Feb 2026 — Present</span>
-          </div>
-          <ul>
-            <li>Shipped a trigger-based call-summarization plugin on GPT models, automating post-call review for customer-facing teams.</li>
-            <li>Built a production speech-to-text plugin for real-time call transcription using Whisper and ElevenLabs ASR.</li>
-            <li>Benchmarked STT/ASR providers — OpenAI, ElevenLabs, Google — on accuracy, latency, and cost to guide production vendor decisions.</li>
-          </ul>
-          <div class="tl-tags">
-            <span class="tag-chip">OpenAI API</span><span class="tag-chip">ElevenLabs</span><span class="tag-chip">ASR</span><span class="tag-chip">Model benchmarking</span>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-head">
-            <span class="tl-role">Analytics Consultant, GenAI</span>
-            <span class="tl-org">Infogain</span>
-            <span class="tl-dates">Feb 2025 — Jan 2026</span>
-          </div>
-          <ul>
-            <li>Designed an LLM-driven packaging recommendation system for a logistics client, improving cost efficiency at scale.</li>
-            <li>Built a RAG-based customer support system for a travel company, cutting support ticket volume by up to 50%.</li>
-            <li>Evaluated agent frameworks (Crew.ai, Agno) to orchestrate autonomous data-analysis pipelines.</li>
-          </ul>
-          <div class="tl-tags">
-            <span class="tag-chip">RAG</span><span class="tag-chip">LangChain</span><span class="tag-chip">FAISS / ChromaDB</span><span class="tag-chip">GCP</span>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-head">
-            <span class="tl-role">Decision Analytics Associate Consultant</span>
-            <span class="tl-org">ZS Associates</span>
-            <span class="tl-dates">Apr 2022 — Feb 2025</span>
-          </div>
-          <ul>
-            <li>Architected a GenAI document-drafting platform for a top pharmaceutical client — 5x faster authoring, no technical skills required to operate.</li>
-            <li>Built an AI-assisted patent drafting tool that cut authoring time 3x and sped up IP filing cycles.</li>
-            <li>Delivered a large-scale NLP extraction pipeline that reduced manual codification effort by 90%.</li>
-            <li>Shipped semantic search and RAG across legal, sales, and marketing repositories, cutting analyst research time significantly.</li>
-          </ul>
-          <div class="tl-tags">
-            <span class="tag-chip">RAG</span><span class="tag-chip">OpenSearch</span><span class="tag-chip">MLFlow</span><span class="tag-chip">AWS / Azure</span><span class="tag-chip">Kubernetes</span>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-head">
-            <span class="tl-role">Data Scientist</span>
-            <span class="tl-org">Casepoint LLC</span>
-            <span class="tl-dates">Mar 2019 — Apr 2022</span>
-          </div>
-          <ul>
-            <li>Engineered CAAL, an NLP relevance and classification pipeline for legal e-discovery — 10x faster document processing.</li>
-            <li>Built custom ElasticSearch plugins that cut retrieval latency 90% for teams reviewing millions of documents.</li>
-            <li>Designed a reusable plugin framework that halved future build time for the engineering team.</li>
-          </ul>
-          <div class="tl-tags">
-            <span class="tag-chip">PyTorch</span><span class="tag-chip">ElasticSearch</span><span class="tag-chip">Text classification</span>
-          </div>
-          <p class="tl-earlier">Earlier: Java Developer, P Cube IT Services (2018)</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROJECTS -->
-  <section id="projects" style="background:var(--surface-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
-    <div class="section-inner">
-      <div class="section-head reveal">
-        <p class="eyebrow">Selected projects</p>
-        <h2>Independent research and builds</h2>
-        <p>Where I test ideas that are too early — or too weird — for a client roadmap.</p>
-      </div>
-
       <div class="project-grid reveal">
-        <div class="project-card">
-          <p class="eyebrow">MSc thesis · LJMU 2025</p>
-          <h3>Adaptive Personalized Reflective RAG</h3>
-          <p class="proj-sub">A LangGraph-orchestrated multi-agent system combining Adaptive-RAG, SELF-RAG, and PersonaRAG</p>
-          <ul>
-            <li>Query-routing engine that picks retrieval strategy by question complexity — 88.6% classification accuracy.</li>
-            <li>Self-critiquing generation via SELF-RAG reflection tokens — 8–15% accuracy gain over standard RAG.</li>
-            <li>Context-personalized responses via PersonaRAG, cutting latency 33% and reasoning steps 19%.</li>
-          </ul>
-          <div class="tl-tags">
-            <span class="tag-chip">LangGraph</span><span class="tag-chip">Self-RAG</span><span class="tag-chip">PersonaRAG</span>
-          </div>
+        <div class="project-card question">
+          <h3>When does a graph retriever beat a tuned hybrid one?</h3>
+          <p>With the same context budget, I measured +19.0 F1 points on 2WikiMultiHopQA and +3.5 on MuSiQue against a tuned hybrid baseline.</p>
+          <p><span class="slot">[YOUR DETAIL: what you still cannot answer after the experiment]</span></p>
+          <p><a href="/writing/graphrag-vs-tuned-hybrid/">Read the write-up</a></p>
         </div>
-
-        <div class="project-card">
-          <p class="eyebrow">Active development</p>
-          <h3>GraphRAG Movie Intelligence Chatbot</h3>
-          <p class="proj-sub">Hybrid knowledge-graph + RAG conversational AI over the IMDB dataset</p>
-          <ul>
-            <li>Combines a relational database, a knowledge graph, and GraphRAG to answer relationship-rich questions vector search alone can't handle.</li>
-            <li>Multi-tool LangGraph agent with swappable LLM backends — OpenAI or open-source, model-agnostic.</li>
-            <li>Live web search as a knowledge layer, extending past the static dataset in real time.</li>
-          </ul>
-          <div class="tl-tags">
-            <span class="tag-chip">Neo4j</span><span class="tag-chip">GraphRAG</span><span class="tag-chip">PostgreSQL</span>
-          </div>
+        <div class="project-card question">
+          <h3><span class="slot">[YOUR DETAIL: second open question, one line]</span></h3>
+          <p><span class="slot">[YOUR DETAIL: why it is open and what you would test next]</span></p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SKILLS -->
-  <section id="skills">
-    <div class="section-inner">
-      <div class="section-head reveal">
-        <p class="eyebrow">Toolkit</p>
-        <h2>What I build with</h2>
-      </div>
-      <div class="skills-grid reveal">
-        <div class="skill-group">
-          <h3>GenAI &amp; LLM</h3>
-          <div class="pill-list">
-            <span class="pill">GPT-4o</span><span class="pill">Claude</span><span class="pill">Gemini</span>
-            <span class="pill">RAG</span><span class="pill">Fine-tuning</span><span class="pill">LangChain</span>
-            <span class="pill">Vector DBs</span><span class="pill">Agents</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <h3>ML &amp; NLP</h3>
-          <div class="pill-list">
-            <span class="pill">PyTorch</span><span class="pill">TensorFlow</span><span class="pill">NER</span>
-            <span class="pill">Text classification</span><span class="pill">Semantic search</span><span class="pill">ASR</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <h3>MLOps &amp; Infra</h3>
-          <div class="pill-list">
-            <span class="pill">MLFlow</span><span class="pill">Airflow</span><span class="pill">Docker</span>
-            <span class="pill">Kubernetes</span><span class="pill">AWS</span><span class="pill">Azure</span><span class="pill">GCP</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <h3>Data &amp; Backend</h3>
-          <div class="pill-list">
-            <span class="pill">Python</span><span class="pill">FastAPI</span><span class="pill">PySpark</span>
-            <span class="pill">SQL</span><span class="pill">MongoDB</span><span class="pill">Neo4j</span>
-          </div>
-        </div>
+  <!-- CONTACT -->
+  <section id="contact" class="intro-contact">
+    <div class="contact-inner reveal">
+      <p class="eyebrow" style="justify-content:center;">Get in touch</p>
+      <h2>Write to me if&hellip;</h2>
+      <ul class="write-list">
+        <li><span class="slot">[YOUR DETAIL: a topic you want to hear about, for example a RAG evaluation question]</span></li>
+        <li><span class="slot">[YOUR DETAIL: a second topic, for example a voice AI problem]</span></li>
+      </ul>
+      <div class="contact-links">
+        <a href="mailto:eeshangpt@gmail.com" class="btn btn-primary">eeshangpt@gmail.com</a>
+        <a href="https://github.com/eeshangpt" rel="me" class="btn btn-ghost">GitHub</a>
+        <a href="https://www.linkedin.com/in/eeshangpt/" rel="me" class="btn btn-ghost">LinkedIn</a>
       </div>
     </div>
   </section>
@@ -345,24 +238,13 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <footer id="contact">
-    <div class="contact-inner reveal">
-      <p class="eyebrow" style="justify-content:center;">Get in touch</p>
-      <h2>Building something that needs production-grade AI?</h2>
-      <p>Working on a hard RAG or evaluation problem? I'm happy to compare notes.</p>
-      <div class="contact-links">
-        <a href="mailto:eeshangpt@gmail.com" class="btn btn-primary">eeshangpt@gmail.com</a>
-        <a href="https://github.com/eeshangpt" rel="me" class="btn btn-ghost">GitHub</a>
-        <a href="https://www.linkedin.com/in/eeshangpt/" rel="me" class="btn btn-ghost">LinkedIn</a>
-      </div>
-    </div>
-    <div class="foot-bottom">
-      <span>Eeshan Gupta · Bengaluru, India</span>
-    </div>
-  </footer>
-
 </main>
+
+<footer>
+  <div class="foot-bottom">
+    <span>Eeshan Gupta · Bengaluru, India</span>
+  </div>
+</footer>
 
 <script src="script.js" defer></script>
 <script data-goatcounter="https://eeshangpt.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>

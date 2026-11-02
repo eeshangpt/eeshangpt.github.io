@@ -13,5 +13,6 @@
 
 ## Optional
 
-- [Home](https://eeshangupta.com/): profile and projects.
+- [Home](https://eeshangupta.com/): introduction, project stories and open questions.
+- [About](https://eeshangupta.com/about/): experience, selected projects and toolkit.
 - [RSS feed](https://eeshangupta.com/feed.xml)
