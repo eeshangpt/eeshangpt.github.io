@@ -145,14 +145,13 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
         </article>
         <article class="project-card story">
           <div class="metric">90<span class="unit">%</span></div>
-          <p class="what">A large-scale NLP extraction pipeline that reduced manual codification effort.</p>
+          <p class="what">A large-scale NLP extraction pipeline for a top pharmaceutical client that reduced manual codification effort.</p>
           <dl>
-            <dt>Problem</dt><dd><span class="slot">[YOUR DETAIL: what was being codified by hand, and for whom]</span></dd>
-            <dt>Constraint</dt><dd><span class="slot">[YOUR DETAIL: the constraint that shaped the pipeline, for example data volume or accuracy needs]</span></dd>
-            <dt>Decision</dt><dd><span class="slot">[YOUR DETAIL: the decision that made the biggest difference]</span></dd>
+            <dt>Problem</dt><dd>A third-party service provider codified informed consent forms (ICFs) by hand for compliance. Even within one study, every site could have its own ICF, and each form had several items that had to be extracted and codified manually. That meant days of work for a single study and a large bill from the third party.</dd>
+            <dt>Constraint</dt><dd>It had to be as quick, as accurate and as cheap as possible, and a person always approves the codification.</dd>
+            <dt>Decision</dt><dd>We ran an orchestrator for every study, which in turn runs multiple workers that extract each site&rsquo;s items in parallel.</dd>
             <dt>Result</dt><dd>Manual codification effort cut by 90%.</dd>
           </dl>
-          <p class="check">[CHECK: what may be said about this client; the site does not name one]</p>
         </article>
         <article class="project-card story">
           <div class="metric"><span class="unit" style="font-size:.8rem">Up to&nbsp;</span>50<span class="unit">%</span></div>
