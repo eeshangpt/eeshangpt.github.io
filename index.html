@@ -137,12 +137,11 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
           <div class="metric">5<span class="unit">x</span></div>
           <p class="what">Faster authoring on a GenAI document-drafting platform for a top pharmaceutical client. No technical skills were needed to operate it.</p>
           <dl>
-            <dt>Problem</dt><dd><span class="slot">[YOUR DETAIL: what made authoring slow before the platform]</span></dd>
-            <dt>Constraint</dt><dd><span class="slot">[YOUR DETAIL: the constraint that shaped the design, for example regulated content or review rules]</span></dd>
-            <dt>Decision</dt><dd><span class="slot">[YOUR DETAIL: the design decision you would defend, and what you turned down]</span></dd>
+            <dt>Problem</dt><dd>Authoring was completely manual. Each document covered analytics for a marketed drug or experiments for one still in development, and its parts were owned by different teams: legal, sales and marketing, and R&amp;D. The back and forth between them meant even a first draft took six months, while competition made getting the document to the authorities urgent.</dd>
+            <dt>Constraint</dt><dd>Each part needed information from other parts of the same document, and sometimes from other documents. So generation worked on the parts of one section at a time, never a whole section in one go.</dd>
+            <dt>Decision</dt><dd>We started where cross-team collaboration was heaviest and built a way to generate a first usable draft of those parts within a few hours. Working one section at a time also meant its parts could be generated in parallel.</dd>
             <dt>Result</dt><dd>5x faster authoring.</dd>
           </dl>
-          <p class="check">[CHECK: what may be said about this client; the site names only a top pharmaceutical client]</p>
         </article>
         <article class="project-card story">
           <div class="metric">90<span class="unit">%</span></div>
