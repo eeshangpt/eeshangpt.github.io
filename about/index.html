@@ -232,17 +232,16 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
         </div>
 
         <div class="project-card">
-          <p class="eyebrow">2026</p>
-          <h3>GraphRAG Movie Intelligence Chatbot</h3>
-          <p class="proj-sub">Hybrid knowledge-graph + RAG conversational AI over the IMDB dataset</p>
+          <p class="eyebrow">In progress</p>
+          <h3>Is your RAG eval testing memory?</h3>
+          <p class="proj-sub">A follow-up to a finding from my GraphRAG benchmark</p>
           <ul>
-            <li>Combines a relational database, a knowledge graph, and GraphRAG to answer relationship-rich questions vector search alone can't handle.</li>
-            <li>Multi-tool LangGraph agent with swappable LLM backends — OpenAI or open-source, model-agnostic.</li>
-            <li>Live web search as a knowledge layer, extending past the static dataset in real time.</li>
+            <li>In the pilot, a &lsquo;give your best guess&rsquo; prompt let the model answer Wikipedia questions from memory. On questions whose context held no answer, F1 was still 0.35 to 0.53.</li>
+            <li>With a strict prompt, the same check stayed between 0.000 and 0.033. Now I&rsquo;m measuring how often the generator fills gaps from memory, which I didn&rsquo;t run the first time.</li>
           </ul>
-          <p style="margin-bottom:20px"><a href="https://www.linkedin.com/posts/eeshangpt_graphrag-rag-llms-share-7468409123089526784-DNYE/" rel="noopener" style="color:var(--accent-text);text-decoration:underline">Read the post on LinkedIn</a></p>
+          <p style="margin-bottom:20px"><a href="/writing/graphrag-vs-tuned-hybrid/" style="color:var(--accent-text);text-decoration:underline">Read the benchmark write-up</a></p>
           <div class="tl-tags">
-            <span class="tag-chip">Neo4j</span><span class="tag-chip">GraphRAG</span><span class="tag-chip">PostgreSQL</span>
+            <span class="tag-chip">RAG evaluation</span><span class="tag-chip">Benchmarks</span>
           </div>
         </div>
       </div>
