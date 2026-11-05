@@ -595,10 +595,10 @@
     line-height:1;
   }
   .story .metric .unit{ font-size:1.1rem; color:var(--accent-text); }
-  .story .what{ font-size:0.9rem; color:var(--ink); margin:12px 0 18px; }
+  .story .what{ font-size:0.9rem; font-weight:400; font-family:var(--font-body); line-height:inherit; letter-spacing:0; color:var(--ink); margin:12px 0 18px; }
   .story dl{ font-size:0.88rem; margin-bottom:16px; }
   .story dt{
-    font-size:0.68rem;
+    font-size:0.75rem;
     font-weight:600;
     letter-spacing:0.1em;
     text-transform:uppercase;
