@@ -615,7 +615,9 @@
   @media (max-width:860px){ .story-grid{ grid-template-columns:1fr; } }
   /* Align problem/constraint/decision/result rows across the three cards (card = 2 rows + dl of 8 rows). */
   @media (min-width:861px){
-    .story-grid{ row-gap:0; }
-    .story{ display:grid; grid-row:span 10; grid-template-rows:subgrid; row-gap:0; align-content:start; }
-    .story dl{ display:grid; grid-row:span 8; grid-template-rows:subgrid; margin-bottom:0; }
+    @supports (grid-template-rows:subgrid){
+      .story-grid{ row-gap:0; }
+      .story{ display:grid; grid-row:span 10; grid-template-rows:subgrid; row-gap:0; }
+      .story dl{ display:grid; grid-row:span 8; grid-template-rows:subgrid; margin-bottom:0; }
+    }
   }
