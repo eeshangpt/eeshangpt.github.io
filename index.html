@@ -155,14 +155,13 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
         </article>
         <article class="project-card story">
           <div class="metric"><span class="unit" style="font-size:.8rem">Up to&nbsp;</span>50<span class="unit">%</span></div>
-          <p class="what">A RAG-based customer support system for a travel company.</p>
+          <p class="what">A RAG-based customer support system for a leading global travel technology provider.</p>
           <dl>
-            <dt>Problem</dt><dd><span class="slot">[YOUR DETAIL: what the support team was dealing with before]</span></dd>
-            <dt>Constraint</dt><dd><span class="slot">[YOUR DETAIL: the constraint that shaped the system, for example answer accuracy or content freshness]</span></dd>
-            <dt>Decision</dt><dd><span class="slot">[YOUR DETAIL: the retrieval or evaluation decision you would defend]</span></dd>
+            <dt>Problem</dt><dd>Airline staff use the provider&rsquo;s suite of software, and it takes training to use. Even after training, staff still had questions, which they raised as tickets. A support executive answered each one, usually by looking it up in the user manuals.</dd>
+            <dt>Constraint</dt><dd>Answers had to be accurate and quick. Most tickets were about a single product.</dd>
+            <dt>Decision</dt><dd>We built a chatbot into the product interface to answer staff in place of the support executive, and only a few queries still became tickets. A standard RAG setup behind it didn&rsquo;t give good answers, so we did a root cause analysis. Different prompts and better models helped only slightly. Then we looked at ingestion and found that retrieval was returning chunks that were only partly correct. Once we used hierarchical chunking, the answers became more accurate. They were also more complete, which had been missing before.</dd>
             <dt>Result</dt><dd>Support ticket volume cut by up to 50%.</dd>
           </dl>
-          <p class="check">[CHECK: what may be said about this travel company; the site names none]</p>
         </article>
       </div>
     </div>
