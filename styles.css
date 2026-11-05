@@ -612,5 +612,4 @@
   .write-list{ list-style:none; max-width:50ch; margin:0 auto 34px; color:var(--ink-muted); }
   .write-list li{ margin-bottom:10px; }
   .intro-contact .contact-links{ margin-bottom:0; }
-  .about-cv{ padding:0 var(--edge) 8px; max-width:var(--max-w); margin:0 auto; color:var(--ink-muted); }
   @media (max-width:860px){ .story-grid{ grid-template-columns:1fr; } }
