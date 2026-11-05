@@ -570,3 +570,54 @@
   }
   .menu-panel a{ min-height:44px; display:flex; align-items:center; font-weight:500; color:var(--ink-strong); }
   @media (max-width:720px){ .nav-menu{ display:block; } .nav-right{ gap:8px; } }
+
+  /* ---------- #430 INTRO HOME + ABOUT ---------- */
+  /* Unfilled voice parts are highlighted so they cannot ship by accident (scripts/check-slots.sh fails on them). */
+  .slot, .check{
+    background:rgba(245,176,32,.22);
+    outline:1px dashed var(--accent-text);
+    outline-offset:1px;
+    border-radius:3px;
+    color:var(--ink-strong);
+    padding:0 3px;
+  }
+  .check{ display:block; padding:6px 8px; margin-top:14px; font-size:0.8rem; }
+  .hero p.pov{ color:var(--ink); font-size:1.15rem; margin-bottom:18px; }
+  .story-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .story .metric{
+    font-family:var(--font-display);
+    font-size:2.6rem;
+    font-weight:700;
+    color:var(--ink-strong);
+    display:flex;
+    align-items:baseline;
+    gap:4px;
+    line-height:1;
+  }
+  .story .metric .unit{ font-size:1.1rem; color:var(--accent-text); }
+  .story .what{ font-size:0.9rem; font-weight:400; font-family:var(--font-body); line-height:inherit; letter-spacing:0; color:var(--ink); margin:12px 0 18px; }
+  .story dl{ font-size:0.88rem; margin-bottom:16px; }
+  .story dt{
+    font-size:0.75rem;
+    font-weight:600;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--signal);
+    margin-top:12px;
+  }
+  .story dd{ color:var(--ink-muted); margin-top:3px; }
+  .story .check{ margin-top:auto; }
+  .question a{ color:var(--accent-text); text-decoration:underline; }
+  .question p{ font-size:0.92rem; color:var(--ink-muted); margin-top:10px; }
+  .write-list{ list-style:none; max-width:50ch; margin:0 auto 34px; color:var(--ink-muted); }
+  .write-list li{ margin-bottom:10px; }
+  .intro-contact .contact-links{ margin-bottom:0; }
+  @media (max-width:860px){ .story-grid{ grid-template-columns:1fr; } }
+  /* Align problem/constraint/decision/result rows across the three cards (card = 2 rows + dl of 8 rows). */
+  @media (min-width:861px){
+    @supports (grid-template-rows:subgrid){
+      .story-grid{ row-gap:0; }
+      .story{ display:grid; grid-row:span 10; grid-template-rows:subgrid; row-gap:0; }
+      .story dl{ display:grid; grid-row:span 8; grid-template-rows:subgrid; margin-bottom:0; }
+    }
+  }

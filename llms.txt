@@ -1,6 +1,6 @@
 # Eeshan Gupta
 
-> Personal site of Eeshan Gupta, an AI Engineer in Bengaluru, India, working on production GenAI, RAG and voice AI systems. Writes about RAG evaluation and retrieval experiments.
+> Personal site of Eeshan Gupta, an AI Engineer working on production GenAI, RAG and voice AI systems. Writes about RAG evaluation and retrieval experiments.
 
 ## Writing
 
@@ -13,5 +13,6 @@
 
 ## Optional
 
-- [Home](https://eeshangupta.com/): profile and projects.
+- [Home](https://eeshangupta.com/): introduction, project stories and open questions.
+- [About](https://eeshangupta.com/about/): experience, selected projects and toolkit.
 - [RSS feed](https://eeshangupta.com/feed.xml)
