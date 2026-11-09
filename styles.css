@@ -255,8 +255,8 @@
   .section-head h2{ font-size:clamp(1.7rem,3vw,2.3rem); margin-top:14px; }
   .section-head p{ color:var(--ink-muted); margin-top:14px; font-size:1rem; }
 
-  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
-  .reveal.is-visible{ opacity:1; transform:translateY(0); }
+  .js .reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+  .js .reveal.is-visible{ opacity:1; transform:translateY(0); }
 
   /* ---------- IMPACT STRIP ---------- */
   .impact{ background:var(--surface-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
