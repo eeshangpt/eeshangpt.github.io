@@ -12,9 +12,14 @@
 <meta property="og:title" content="A small local judge passed its pilot. Fresh data killed it. — Eeshan Gupta">
 <meta property="og:description" content="A small local model judged whether RAG answers stick to their source. It ranked six generators correctly in a pilot (Kendall tau-b 0.733) and failed on fresh data (0.048). The cascade idea survived on one dataset.">
 <meta property="og:url" content="https://eeshangupta.com/writing/small-judge-fresh-data/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://eeshangupta.com/writing/small-judge-fresh-data/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Two scatter plots of judged against human unfaithful rate. For 10 FaithBench generators the judge sits far below the line; for 6 RAGTruth generators it sits close to it.">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="A small local judge passed its pilot. Fresh data killed it. — Eeshan Gupta">
 <meta name="twitter:description" content="A small local model judged whether RAG answers stick to their source. It ranked six generators correctly in a pilot (Kendall tau-b 0.733) and failed on fresh data (0.048). The cascade idea survived on one dataset.">
+<meta name="twitter:image" content="https://eeshangupta.com/writing/small-judge-fresh-data/og.png">
 <link rel="alternate" type="text/markdown" href="https://eeshangupta.com/writing/small-judge-fresh-data/index.md">
 <script>
 (function(){var d=document.documentElement,t;try{t=localStorage.getItem("theme")}catch(e){}
@@ -41,15 +46,15 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
   "publisher": {
     "@id": "https://eeshangupta.com/#person"
   },
-  "datePublished": "2026-11-04",
-  "dateModified": "2026-11-04",
+  "datePublished": "2026-11-10",
+  "dateModified": "2026-11-10",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://eeshangupta.com/writing/small-judge-fresh-data/"
   },
   "inLanguage": "en",
   "keywords": "LLM-as-judge, faithfulness, small language models, FaithBench, RAGTruth, WiCE, pre-registration",
-  "isBasedOn": "[REPO LINK]"
+  "isBasedOn": "https://github.com/eeshangpt/judge-bench"
 }
 </script>
 </head>
@@ -74,7 +79,7 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
     <header class="article-head">
       <p class="eyebrow">LLM evaluation</p>
       <h1>A small local judge passed its pilot. Fresh data killed it.</h1>
-      <p class="article-meta"><time datetime="2026-11-04">4 November 2026</time> · Eeshan Gupta</p>
+      <p class="article-meta"><time datetime="2026-11-10">10 November 2026</time> · Eeshan Gupta</p>
     </header>
 
     <!-- ARTICLE BODY START -->
@@ -165,7 +170,7 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
       <h2 class="box-title">How I ran this</h2>
 <ul>
   <li>I set the question and the rules, made the go and kill calls, and used AI coding agents to write the code and draft the plans; a second model reviewed each plan before I froze it.</li>
-  <li>The rules were committed and tagged before the results: <code>prereg-AB-frozen</code> on 28 October 2026 at 02:20 IST and <code>prereg-B2-frozen</code> the same day at 22:38 IST. The FaithBench report was committed at 00:38 IST on 29 October. [REPO LINK]</li>
+  <li>The rules were committed and tagged before the results: <code>prereg-AB-frozen</code> on 28 October 2026 at 02:20 IST and <code>prereg-B2-frozen</code> the same day at 22:38 IST. The FaithBench report was committed at 00:38 IST on 29 October. <a href="https://github.com/eeshangpt/judge-bench">Code, plans and predictions: github.com/eeshangpt/judge-bench</a>.</li>
   <li>The 900 RAGTruth predictions were generated before the first freeze as input preparation, and no metric was computed from them.</li>
   <li>FaithBench is CC BY-NC-SA, so the data is not in the repo.</li>
   <li>References: RAGTruth (Niu et al., ACL 2024); WiCE (Kamoi et al., EMNLP 2023); FaithBench (Bao et al., NAACL 2025, arXiv 2410.13210); MiniCheck (Tang, Laban and Durrett, EMNLP 2024); Qwen3 Technical Report (Yang et al., 2025, arXiv 2505.09388); RAIM (Onofri and Di Pietro, arXiv 2609.39229, 30 September 2026, preprint, not peer reviewed).</li>

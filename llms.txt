@@ -4,12 +4,14 @@
 
 ## Writing
 
+- [A small local judge passed its pilot. Fresh data killed it.](https://eeshangupta.com/writing/small-judge-fresh-data/index.md): a small local model as a faithfulness judge for RAG answers, a pre-registered pilot that passed and a fresh-data test that failed.
 - [I said GraphRAG beats vector RAG. Then I measured it.](https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/index.md): a pre-registered experiment comparing a graph retriever with a tuned hybrid retriever at the same context budget on MuSiQue and 2WikiMultiHopQA.
 - [All writing](https://eeshangupta.com/writing/): index of articles.
 
 ## Code
 
 - [graphrag-vs-tuned-hybrid](https://github.com/eeshangpt/graphrag-vs-tuned-hybrid): code, data and pre-registration history for the experiment.
+- [judge-bench](https://github.com/eeshangpt/judge-bench): code, pre-registered plans and predictions for the judge experiment.
 
 ## Optional
 
