@@ -23,7 +23,7 @@
 <script>
 (function(){var d=document.documentElement,t;try{t=localStorage.getItem("theme")}catch(e){}
 if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";
-d.dataset.theme=t;
+d.dataset.theme=t;d.classList.add("js");
 document.addEventListener("DOMContentLoaded",function(){var b=document.querySelector(".theme-toggle");
 function s(){var n=d.dataset.theme==="light"?"dark":"light";b.textContent=n[0].toUpperCase()+n.slice(1);b.setAttribute("aria-label","Switch to "+n+" theme")}
 s();b.hidden=false;
