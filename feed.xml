@@ -6,7 +6,14 @@
     <description>Notes on RAG evaluation and retrieval experiments.</description>
     <language>en</language>
     <atom:link href="https://eeshangupta.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Wed, 28 Oct 2026 04:30:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 10 Nov 2026 04:30:00 +0000</lastBuildDate>
+    <item>
+      <title>A small local judge passed its pilot. Fresh data killed it.</title>
+      <link>https://eeshangupta.com/writing/small-judge-fresh-data/</link>
+      <guid isPermaLink="false">https://eeshangpt.github.io/writing/small-judge-fresh-data/</guid>
+      <pubDate>Tue, 10 Nov 2026 04:30:00 +0000</pubDate>
+      <description>A small local model judged whether RAG answers stick to their source. It ranked six generators correctly in a pilot (Kendall tau-b 0.733) and failed on fresh data (0.048). The cascade idea survived on one dataset.</description>
+    </item>
     <item>
       <title>I said GraphRAG beats vector RAG. Then I measured it.</title>
       <link>https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/</link>
