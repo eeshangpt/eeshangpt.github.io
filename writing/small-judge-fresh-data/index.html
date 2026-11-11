@@ -24,7 +24,7 @@
 <script>
 (function(){var d=document.documentElement,t;try{t=localStorage.getItem("theme")}catch(e){}
 if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";
-d.dataset.theme=t;
+d.dataset.theme=t;d.classList.add("js");
 document.addEventListener("DOMContentLoaded",function(){var b=document.querySelector(".theme-toggle");
 function s(){var n=d.dataset.theme==="light"?"dark":"light";b.textContent=n[0].toUpperCase()+n.slice(1);b.setAttribute("aria-label","Switch to "+n+" theme")}
 s();b.hidden=false;
@@ -48,6 +48,7 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
   },
   "datePublished": "2026-11-10",
   "dateModified": "2026-11-10",
+  "image": "https://eeshangupta.com/writing/small-judge-fresh-data/og.png",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://eeshangupta.com/writing/small-judge-fresh-data/"
@@ -63,11 +64,20 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
 <header>
   <nav>
     <a href="/" class="nav-mark">EG<span>.</span></a>
-    <div class="nav-links keep">
-      <a href="/#projects">Projects</a>
+    <div class="nav-links">
+      <a href="/about/">About</a>
+      <a href="/#services">Collaborate</a>
       <a href="/writing/" class="current" aria-current="page">Writing</a>
     </div>
     <div class="nav-right">
+      <details class="nav-menu">
+        <summary>Menu</summary>
+        <div class="menu-panel">
+          <a href="/about/">About</a>
+          <a href="/#services">Collaborate</a>
+          <a href="/writing/" class="current" aria-current="page">Writing</a>
+        </div>
+      </details>
       <button type="button" class="theme-toggle" hidden>Light</button>
       <a href="/#contact" class="nav-cta">Get in touch</a>
     </div>
@@ -184,11 +194,12 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
 
 <footer>
   <div class="foot-bottom">
-    <span>Eeshan Gupta · Bengaluru, India</span>
+    <span>Eeshan Gupta</span>
     <a href="/feed.xml">RSS</a>
   </div>
 </footer>
 
+<script src="/script.js" defer></script>
 <script data-goatcounter="https://eeshangpt.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
