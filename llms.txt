@@ -16,5 +16,7 @@
 ## Optional
 
 - [Home](https://eeshangupta.com/): introduction, project stories and open questions.
-- [About](https://eeshangupta.com/about/): experience, selected projects and toolkit.
+- [About](https://eeshangupta.com/#about): background, the MSc thesis and how to get in touch.
+- [Work with me](https://eeshangupta.com/work/): the two offers and how a project starts.
+- [Case study](https://eeshangupta.com/case-studies/graphrag/): the GraphRAG experiment told for a team choosing a system.
 - [RSS feed](https://eeshangupta.com/feed.xml)
