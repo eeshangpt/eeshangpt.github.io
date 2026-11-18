@@ -20,7 +20,7 @@ a[data-btn="dark"]:hover{background:var(--link) !important;color:var(--inv) !imp
 @media (max-width:40rem){.c-btn-full{display:flex !important;width:100%}}
 .o1 p,.o1 dd,.o1 li{font-kerning:none !important}
 .c-navlink[aria-current="page"]{color:var(--ink) !important;text-decoration:underline !important;text-decoration-thickness:2px !important;text-underline-offset:0.45em !important}
-@media (max-width:44rem){.c-navgroup{flex-basis:100%;margin-left:-0.5rem}.c-navgroup .c-navlink{padding-left:0.5rem !important;padding-right:0.5rem !important}}
+@media (max-width:44rem){.c-navgroup{flex-basis:100%;margin-left:-0.3rem}.c-navgroup .c-navlink{padding-left:0.3rem !important;padding-right:0.3rem !important;font-size:0.875rem !important}}
 .c-stories-btn{display:none}
 @media (max-width:40rem){.js .c-stories-btn{display:block}.js #stories:not(.is-open):not(:target){display:none !important}}
 @media (max-height:34rem){.c-hero{padding-top:1.25rem !important}}
