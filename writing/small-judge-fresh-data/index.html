@@ -22,9 +22,8 @@
 <meta name="twitter:description" content="A small local model judged whether RAG answers stick to their source. It ranked six generators correctly in a pilot (Kendall tau-b 0.733) and failed on fresh data (0.048). The cascade idea survived on one dataset.">
 <meta name="twitter:image" content="https://eeshangupta.com/writing/small-judge-fresh-data/og.png">
 <link rel="alternate" type="text/markdown" href="https://eeshangupta.com/writing/small-judge-fresh-data/index.md">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/newsreader-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-sans-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles.css">
 <script type="application/ld+json">
 {
@@ -165,7 +164,7 @@
       <h2 class="box-title">How I ran this</h2>
 <ul>
   <li>I set the question and the rules, made the go and kill calls, and used AI coding agents to write the code and draft the plans; a second model reviewed each plan before I froze it.</li>
-  <li>The rules were committed and tagged before the results: <code>prereg-AB-frozen</code> on 28 October 2026 at 02:20 IST and <code>prereg-B2-frozen</code> the same day at 22:38 IST. The FaithBench report was committed at 00:38 IST on 29 October. <a href="https://github.com/eeshangpt/judge-bench">Code, plans and predictions: github.com/eeshangpt/judge-bench</a>.</li>
+  <li>The rules were committed and tagged before the results: <code>prereg-AB-frozen</code> on 27 October 2026 at 20:50 UTC and <code>prereg-B2-frozen</code> on 28 October at 17:08 UTC. The FaithBench report was committed at 19:08 UTC on 28 October. <a href="https://github.com/eeshangpt/judge-bench">Code, plans and predictions: github.com/eeshangpt/judge-bench</a>.</li>
   <li>The 900 RAGTruth predictions were generated before the first freeze as input preparation, and no metric was computed from them.</li>
   <li>FaithBench is CC BY-NC-SA, so the data is not in the repo.</li>
   <li>References: RAGTruth (Niu et al., ACL 2024); WiCE (Kamoi et al., EMNLP 2023); FaithBench (Bao et al., NAACL 2025, arXiv 2410.13210); MiniCheck (Tang, Laban and Durrett, EMNLP 2024); Qwen3 Technical Report (Yang et al., 2025, arXiv 2505.09388); RAIM (Onofri and Di Pietro, arXiv 2609.39229, 30 September 2026, preprint, not peer reviewed).</li>

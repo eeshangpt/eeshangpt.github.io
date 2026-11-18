@@ -23,7 +23,7 @@ The header links to the home page, Work with me, What I do, Results, Case study 
 ├── writing/              # Writing index and articles
 ├── styles.css            # Theme tokens, shared rules and article styles (page markup carries inline styles)
 ├── script.js             # Stories button, case-study set toggle, opening the stories on #stories/#results
-├── fonts/                # Earlier self-hosted fonts, no longer linked (pages load IBM Plex and Newsreader from Google Fonts)
+├── fonts/                # Self-hosted Newsreader and IBM Plex (latin woff2, SIL OFL licences beside them); the earlier Inter, Space Grotesk and JetBrains Mono files are no longer linked
 ├── scripts/
 │   ├── check-slots.sh    # Fails while unfilled slots remain
 │   └── make-md.py        # Regenerates the article's Markdown copy

@@ -80,7 +80,7 @@ A cascade, or a small model tuned for the task, can act as a gate in front of a 
 ## How I ran this
 
 - I set the question and the rules, made the go and kill calls, and used AI coding agents to write the code and draft the plans; a second model reviewed each plan before I froze it.
-- The rules were committed and tagged before the results: prereg-AB-frozen on 28 October 2026 at 02:20 IST and prereg-B2-frozen the same day at 22:38 IST. The FaithBench report was committed at 00:38 IST on 29 October. Code, plans and predictions: [github.com/eeshangpt/judge-bench](https://github.com/eeshangpt/judge-bench).
+- The rules were committed and tagged before the results: prereg-AB-frozen on 27 October 2026 at 20:50 UTC and prereg-B2-frozen on 28 October at 17:08 UTC. The FaithBench report was committed at 19:08 UTC on 28 October. Code, plans and predictions: [github.com/eeshangpt/judge-bench](https://github.com/eeshangpt/judge-bench).
 - The 900 RAGTruth predictions were generated before the first freeze as input preparation, and no metric was computed from them.
 - FaithBench is CC BY-NC-SA, so the data is not in the repo.
 - References: RAGTruth (Niu et al., ACL 2024); WiCE (Kamoi et al., EMNLP 2023); FaithBench (Bao et al., NAACL 2025, arXiv 2410.13210); MiniCheck (Tang, Laban and Durrett, EMNLP 2024); Qwen3 Technical Report (Yang et al., 2025, arXiv 2505.09388); RAIM (Onofri and Di Pietro, arXiv 2609.39229, 30 September 2026, preprint, not peer reviewed).
