@@ -1,0 +1,14 @@
+# Response headers for Cloudflare Pages. Pages reads this file and does not serve it.
+# The Content-Security-Policy allows exactly what the pages load today: files from this site,
+# the one inline theme script (by its sha256 hash), and the GoatCounter script and endpoint.
+# If the inline theme script in the page heads changes, its hash below must change with it.
+
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-xdm3KkYnfCTASM2uKh8e1tKcGlnrwk1jbpfPzSfQjxU=' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; img-src 'self' https://*.goatcounter.com; connect-src 'self' https://*.goatcounter.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+
+/fonts/*
+  Cache-Control: public, max-age=2592000
