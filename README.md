@@ -8,7 +8,7 @@ Personal site of Eeshan Gupta, an AI Engineer. It is a static site in plain HTML
 - `/work/` is "Work with me": both offers in full and how an engagement runs.
 - `/case-studies/graphrag/` tells the GraphRAG experiment as a case study, with the method and limits lower down.
 - `/writing/` lists the articles. `/writing/graphrag-vs-tuned-hybrid/` and `/writing/small-judge-fresh-data/` are the articles, each with a Markdown copy next to it.
-- `/about/` now sends visitors to the About section of the home page (`/#about`); old links to `/about/#experience`, `#projects` and `#skills` land on `/#background`.
+- `/about/` is a 301 redirect (in `_redirects`) to the home page, which scrolls to About (`/#about`); old links to `/about/#experience`, `#projects` and `#skills` land on `/#background`.
 
 The header links to the home page, Work with me, What I do, Results, Case study and About, and wraps to two rows on phones. Colours follow the system light or dark setting.
 
@@ -19,7 +19,7 @@ The header links to the home page, Work with me, What I do, Results, Case study 
 ├── index.html            # Home
 ├── work/index.html       # Work with me
 ├── case-studies/graphrag/index.html  # Case study
-├── about/index.html      # Redirect to /#about
+├── _headers, _redirects # Cloudflare Pages response headers (CSP) and the /about/ redirect
 ├── writing/              # Writing index and articles
 ├── styles.css            # Theme tokens, shared rules and article styles (page markup carries inline styles)
 ├── script.js             # Stories button, case-study set toggle, opening the stories on #stories/#results
@@ -34,7 +34,7 @@ The header links to the home page, Work with me, What I do, Results, Case study 
 └── CNAME                 # Custom domain for GitHub Pages
 ```
 
-A one-line inline script in the head of each page adds a `js` class before the page paints, so the phone stories collapse and the case-study toggle only apply when JavaScript runs. Without JavaScript every card and both question sets are shown.
+`script.js` loads in the head of each page and adds a `js` class before the page paints, so the phone stories collapse and the case-study toggle only apply when JavaScript runs. Without JavaScript every card and both question sets are shown. There are no inline scripts, so the Content-Security-Policy in `_headers` needs no script hashes.
 
 ## Run it locally
 
