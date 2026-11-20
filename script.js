@@ -47,6 +47,25 @@
       if (target) window.addEventListener('load', function () { target.scrollIntoView(); });
     }
 
+    // Phone menu: the five section links sit in a panel under the sticky bar (CSS shows it only on narrow screens with JS).
+    var mbtn = d.querySelector('.c-menubtn');
+    var panel = d.getElementById('site-menu');
+    if (mbtn && panel) {
+      var setMenu = function (open, focusBtn) {
+        panel.classList.toggle('is-open', open);
+        mbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (!open && focusBtn) mbtn.focus();
+      };
+      mbtn.addEventListener('click', function () { setMenu(!panel.classList.contains('is-open')); });
+      panel.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('a')) setMenu(false); });
+      d.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && panel.classList.contains('is-open')) setMenu(false, true);
+      });
+      d.addEventListener('click', function (e) {
+        if (panel.classList.contains('is-open') && !panel.contains(e.target) && !mbtn.contains(e.target)) setMenu(false);
+      });
+    }
+
     // Case study: show one question set at a time. Without JS both sets are shown, one under the other.
     var group = d.querySelector('[data-set-toggle]');
     if (group) {
