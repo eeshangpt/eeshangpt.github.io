@@ -1,0 +1,5 @@
+# /about/ was folded into the home page's About section (cos-os #472).
+# A query marker instead of a fragment keeps an old link's own fragment; script.js maps it.
+/about/            /?from=about  301
+/about             /?from=about  301
+/about/index.html  /?from=about  301

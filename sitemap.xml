@@ -5,10 +5,6 @@
     <lastmod>2026-10-28</lastmod>
   </url>
   <url>
-    <loc>https://eeshangupta.com/about/</loc>
-    <lastmod>2026-11-02</lastmod>
-  </url>
-  <url>
     <loc>https://eeshangupta.com/writing/</loc>
     <lastmod>2026-10-28</lastmod>
   </url>
@@ -19,5 +15,11 @@
   <url>
     <loc>https://eeshangupta.com/writing/small-judge-fresh-data/</loc>
     <lastmod>2026-11-10</lastmod>
+  </url>
+  <url>
+    <loc>https://eeshangupta.com/work/</loc>
+  </url>
+  <url>
+    <loc>https://eeshangupta.com/case-studies/graphrag/</loc>
   </url>
 </urlset>

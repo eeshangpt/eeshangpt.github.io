@@ -3,14 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<script src="/script.js"></script>
 <title>Eeshan Gupta — AI Engineer</title>
-<meta name="description" content="Eeshan Gupta — AI Engineer building production GenAI, RAG and voice AI systems. Writes about RAG evaluation and retrieval experiments.">
+<meta name="description" content="Eeshan Gupta — AI/ML engineer. Checks whether AI and ML systems can be trusted: LLM and RAG apps, voice AI and classic ML models. Writes about RAG evaluation and retrieval experiments.">
 <link rel="canonical" href="https://eeshangupta.com/">
 <link rel="alternate" type="application/rss+xml" title="Eeshan Gupta — Writing" href="https://eeshangupta.com/feed.xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Eeshan Gupta">
 <meta property="og:title" content="Eeshan Gupta — AI Engineer">
-<meta property="og:description" content="Eeshan Gupta — AI Engineer building production GenAI, RAG and voice AI systems. Writes about RAG evaluation and retrieval experiments.">
+<meta property="og:description" content="Eeshan Gupta — AI/ML engineer. Checks whether AI and ML systems can be trusted: LLM and RAG apps, voice AI and classic ML models. Writes about RAG evaluation and retrieval experiments.">
 <meta property="og:url" content="https://eeshangupta.com/">
 <meta property="og:image" content="https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/og-v2.png">
 <meta property="og:image:width" content="1200">
@@ -18,21 +20,14 @@
 <meta property="og:image:alt" content="Paired F1 difference, graph minus tuned hybrid, on two datasets">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Eeshan Gupta — AI Engineer">
-<meta name="twitter:description" content="Eeshan Gupta — AI Engineer building production GenAI, RAG and voice AI systems. Writes about RAG evaluation and retrieval experiments.">
+<meta name="twitter:description" content="Eeshan Gupta — AI/ML engineer. Checks whether AI and ML systems can be trusted: LLM and RAG apps, voice AI and classic ML models. Writes about RAG evaluation and retrieval experiments.">
 <meta name="twitter:image" content="https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/og-v2.png">
-<script>
-(function(){var d=document.documentElement,t;try{t=localStorage.getItem("theme")}catch(e){}
-if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";
-d.dataset.theme=t;d.classList.add("js");
-document.addEventListener("DOMContentLoaded",function(){var b=document.querySelector(".theme-toggle");
-function s(){var n=d.dataset.theme==="light"?"dark":"light";b.textContent=n[0].toUpperCase()+n.slice(1);b.setAttribute("aria-label","Switch to "+n+" theme")}
-s();b.hidden=false;
-b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.theme=n;try{localStorage.setItem("theme",n)}catch(e){}s()}})})();
-</script>
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="styles.css">
+<link rel="preload" href="/fonts/newsreader-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-sans-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -47,10 +42,6 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
         "https://www.linkedin.com/in/eeshangpt/",
         "https://github.com/eeshangpt"
       ],
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "IN"
-      },
       "knowsAbout": [
         "RAG",
         "LLM evaluation",
@@ -72,177 +63,375 @@ b.onclick=function(){var n=d.dataset.theme==="light"?"dark":"light";d.dataset.th
 </script>
 </head>
 <body>
-
-<header>
-  <nav>
-    <a href="#top" class="nav-mark">EG<span>.</span></a>
-    <div class="nav-links">
-      <a href="/about/">About</a>
-      <a href="#services">Collaborate</a>
-      <a href="/writing/">Writing</a>
-    </div>
-    <div class="nav-right">
-      <details class="nav-menu">
-        <summary>Menu</summary>
-        <div class="menu-panel">
-          <a href="/about/">About</a>
-          <a href="#services">Collaborate</a>
-          <a href="/writing/">Writing</a>
-        </div>
-      </details>
-      <button type="button" class="theme-toggle" hidden>Light</button>
-      <a href="#contact" class="nav-cta">Get in touch</a>
-    </div>
-  </nav>
+<div class="o1" style="width:100%;margin:0">
+<div id="top" class="o1-root" style="background:var(--bg);color:var(--ink);font-family:'Newsreader',Georgia,serif;min-height:100%;overflow-wrap:break-word">
+<header style="border-bottom:1px solid var(--rule)">
+ <nav aria-label="Main" style="max-width:68rem;margin:0 auto;padding:0.5rem clamp(1rem,4vw,3rem);box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;gap:0.25rem 0.5rem">
+  <a class="c-navlink" href="/" aria-current="page" style="display:inline-flex;align-items:center;min-height:44px;margin-right:auto;font:600 1.125rem/1 'Newsreader',Georgia,serif;color:var(--ink);text-decoration:none">Eeshan Gupta</a>
+  <a class="c-navlink" href="/work/" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none;border:1px solid var(--mute);margin-left:0.5rem">Work with me</a>
+  <div class="c-navgroup" style="display:flex;flex-wrap:wrap;align-items:center">
+   <a class="c-navlink" href="#help" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">What I do</a>
+   <a class="c-navlink" href="#results" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">Results</a>
+   <a class="c-navlink" href="/case-studies/graphrag/" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">Case study</a>
+   <a class="c-navlink" href="#about" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">About</a>
+   <a class="c-navlink" href="/writing/" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">Writing</a>
+  </div>
+ </nav>
 </header>
 
-<main id="top">
+<main>
 
-  <!-- HERO -->
-  <section class="hero" style="padding-top:96px;">
-    <div>
-      <h1>Eeshan Gupta<span class="role">AI Engineer — GenAI, RAG &amp; Voice AI Systems</span></h1>
-      <p class="lede pov">Building an AI product and shipping it is easy. Knowing how and why it works is the real challenge. If you don&rsquo;t know how or why you did something, you end up facing problems you never knew could exist.</p>
-      <p class="lede">
-        I build the parts of AI products that have to hold up in production —
-        <strong>retrieval pipelines, LLM evaluation harnesses, and voice/ASR systems</strong> —
-        for pharma, legal, logistics, and customer-support teams at enterprise scale.
-      </p>
-      <div class="hero-ctas">
-        <a href="#stories" class="btn btn-primary">See the work</a>
-        <a href="#contact" class="btn btn-ghost">Start a conversation</a>
-      </div>
-    </div>
-  </section>
+<section class="c-hero" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box;padding-top:clamp(2.5rem,6vw,5rem);padding-bottom:clamp(2.5rem,6vw,4.5rem)">
+ <div style="display:flex;flex-wrap:wrap;gap:3rem 4.5rem;align-items:flex-start">
+  <div style="flex:3 1 28rem;min-width:0">
+   <p style="font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0 0 1.25rem 0">Eeshan Gupta, AI/ML engineer</p>
+   <h1 style="font:500 clamp(2.1rem,4.6vw,3.5rem)/1.1 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1.5rem 0;letter-spacing:-0.015em;max-width:30ch">I check whether your AI and ML systems can be trusted, and tell you plainly where they can’t.</h1>
+   <p style="font:400 1.25rem/1.55 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1.25rem 0;max-width:36rem">For heads of AI, CTOs, product leads and founders with an AI or ML system in front of users, or close to it: LLM and RAG apps, voice AI, or classic ML models. What I find is written so that someone who is not an ML specialist can act on it.</p>
+   <p style="margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem 1rem">
+    <a data-btn="dark" href="mailto:hello@eeshangupta.com?subject=Enquiry%20from%20eeshangupta.com" style="display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 1.5rem;background:var(--ink);color:var(--inv);font:500 1rem/1.2 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none;box-sizing:border-box">Write to me</a>
+    <span style="font:400 0.9375rem/1.4 'IBM Plex Mono',ui-monospace,monospace;color:var(--ink);user-select:all;-webkit-user-select:all">hello@eeshangupta.com</span>
+   </p>
+   <p style="margin:0.5rem 0 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:0 1.75rem">
+    <a href="/work/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">How we could work together</a>
+    <a href="/case-studies/graphrag/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Read a case study</a>
+   </p>
+  </div>
 
-  <!-- LATEST WRITING -->
-  <section class="latest-writing">
-    <div class="section-inner">
-      <a class="post-card latest-post reveal" href="/writing/small-judge-fresh-data/">
-        <p class="eyebrow">Latest writing · 10 Nov 2026</p>
-        <h3>A small local judge passed its pilot. Fresh data killed it.</h3>
-        <p>A small local model ranked six generators correctly in a pilot, then failed on fresh data. A cascade variant held up on one dataset.</p>
-        <span class="more">Read the article &rarr;</span>
-      </a>
+  <aside aria-label="Results from past projects" style="flex:1 1 18rem;min-width:0">
+   <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0">Results from past projects</p>
+   <dl style="margin:0.75rem 0 0 0;border-bottom:1px solid var(--rule)">
+    <div style="display:flex;align-items:baseline;gap:1rem;padding:0.9rem 0;border-top:1px solid var(--rule)">
+     <dt style="order:2;flex:1 1 0;min-width:0;font:400 0.9375rem/1.45 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink)">fewer support tickets, travel technology</dt>
+     <dd style="order:1;flex:0 0 6.75rem;white-space:nowrap;margin:0;font:500 1.875rem/1 'Newsreader',Georgia,serif;color:var(--ink)"><span style="font:400 0.875rem/1 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute)">up to </span>50%</dd>
     </div>
-  </section>
+    <div style="display:flex;align-items:baseline;gap:1rem;padding:0.9rem 0;border-top:1px solid var(--rule)">
+     <dt style="order:2;flex:1 1 0;min-width:0;font:400 0.9375rem/1.45 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink)">faster document authoring, pharma</dt>
+     <dd style="order:1;flex:0 0 6.75rem;white-space:nowrap;margin:0;font:500 1.875rem/1 'Newsreader',Georgia,serif;color:var(--ink)">5x</dd>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:1rem;padding:0.9rem 0;border-top:1px solid var(--rule)">
+     <dt style="order:2;flex:1 1 0;min-width:0;font:400 0.9375rem/1.45 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink)">less manual codification effort, pharma</dt>
+     <dd style="order:1;flex:0 0 6.75rem;white-space:nowrap;margin:0;font:500 1.875rem/1 'Newsreader',Georgia,serif;color:var(--ink)">90%</dd>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:1rem;padding:0.9rem 0;border-top:1px solid var(--rule)">
+     <dt style="order:2;flex:1 1 0;min-width:0;font:400 0.9375rem/1.45 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink)">faster document processing, legal e-discovery</dt>
+     <dd style="order:1;flex:0 0 6.75rem;white-space:nowrap;margin:0;font:500 1.875rem/1 'Newsreader',Georgia,serif;color:var(--ink)">10x</dd>
+    </div>
+   </dl>
+   <p style="font:400 0.875rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0.6rem 0 0 0">Clients are not named. Each figure comes from a project I worked on, and the stories are further down.</p>
+   <p style="margin:0"><a href="#results" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The four stories</a></p>
+  </aside>
+ </div>
+</section>
 
-  <!-- PROJECT STORIES -->
-  <section id="stories">
-    <div class="section-inner">
-      <div class="section-head reveal">
-        <p class="eyebrow">Project stories</p>
-        <h2>Where the numbers came from</h2>
-        <p>Each figure below comes from a project I worked on.</p>
-      </div>
-      <div class="story-grid reveal">
-        <article class="project-card story">
-          <div class="metric">5<span class="unit">x</span></div>
-          <h3 class="what">Faster authoring on a GenAI document-drafting platform for a top pharmaceutical client. No technical skills were needed to operate it.</h3>
-          <dl>
-            <dt>Problem</dt><dd>Authoring was completely manual. Each document covered analytics for a marketed drug or experiments for one still in development, and its parts were owned by different teams: legal, sales and marketing, and R&amp;D. The back and forth between them meant even a first draft took six months, while competition made getting the document to the authorities urgent.</dd>
-            <dt>Constraint</dt><dd>Each part needed information from other parts of the same document, and sometimes from other documents. So generation worked on the parts of one section at a time, never a whole section in one go.</dd>
-            <dt>Decision</dt><dd>We started where cross-team collaboration was heaviest and built a way to generate a first usable draft of those parts within a few hours. Working one section at a time also meant its parts could be generated in parallel.</dd>
-            <dt>Result</dt><dd>5x faster authoring.</dd>
-          </dl>
-        </article>
-        <article class="project-card story">
-          <div class="metric">90<span class="unit">%</span></div>
-          <h3 class="what">A large-scale NLP extraction pipeline for a top pharmaceutical client that reduced manual codification effort.</h3>
-          <dl>
-            <dt>Problem</dt><dd>A third-party service provider codified informed consent forms (ICFs) by hand for compliance. Even within one study, every site could have its own ICF, and each form had several items that had to be extracted and codified manually. That meant days of work for a single study and a large bill from the third party.</dd>
-            <dt>Constraint</dt><dd>It had to be as quick, as accurate and as cheap as possible, and a person always approves the codification.</dd>
-            <dt>Decision</dt><dd>We ran an orchestrator for every study, which in turn runs multiple workers that extract each site&rsquo;s items in parallel.</dd>
-            <dt>Result</dt><dd>Manual codification effort cut by 90%.</dd>
-          </dl>
-        </article>
-        <article class="project-card story">
-          <div class="metric"><span class="unit" style="font-size:.8rem">Up to&nbsp;</span>50<span class="unit">%</span></div>
-          <h3 class="what">A RAG-based customer support system for a leading global travel technology provider.</h3>
-          <dl>
-            <dt>Problem</dt><dd>Airline staff use the provider&rsquo;s suite of software, and it takes training to use. Even after training, staff still had questions, which they raised as tickets. A support executive answered each one, usually by looking it up in the user manuals.</dd>
-            <dt>Constraint</dt><dd>Answers had to be accurate and quick. Most tickets were about a single product.</dd>
-            <dt>Decision</dt><dd>We built a chatbot into the product interface to answer staff in place of the support executive, and only a few queries still became tickets. A standard RAG setup behind it didn&rsquo;t give good answers, so we did a root cause analysis. Different prompts and better models helped only slightly. Then we looked at ingestion and found that retrieval was returning chunks that were only partly correct. Once we used hierarchical chunking, the answers became more accurate. They were also more complete, which had been missing before.</dd>
-            <dt>Result</dt><dd>Support ticket volume cut by up to 50%.</dd>
-          </dl>
-        </article>
-      </div>
-    </div>
-  </section>
+<section id="help" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Questions I can help you answer</h2>
+  <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--mute);margin:0 0 0.85rem 0;max-width:38rem">Each one comes with something I have already done or tested.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:2.5rem 2.5rem;margin-top:2.25rem">
+   <div style="border-top:1px solid var(--ink);padding-top:1.1rem;min-width:0">
+    <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Is our RAG chatbot actually right?</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0.25rem">On a customer-support system, a standard setup gave poor answers. We traced the cause to the search step, which was returning passages that were only partly correct.</p>
+    <p style="margin:0"><a href="#results" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The support result</a></p>
+   </div>
+   <div style="border-top:1px solid var(--ink);padding-top:1.1rem;min-width:0">
+    <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Which model or vendor should we ship?</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0.25rem">I compare the candidates on real data for accuracy, speed and cost. In my current role I benchmarked speech-to-text providers this way to guide production vendor decisions.</p>
+    <p style="margin:0"><a href="/work/#evaluation" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The evaluation offer</a></p>
+   </div>
+   <div style="border-top:1px solid var(--ink);padding-top:1.1rem;min-width:0">
+    <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Can we trust the eval numbers we were shown?</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0.25rem">A score can look good and still measure the wrong thing. In my own pilot, one line in the prompt let the model answer from memory.</p>
+    <p style="margin:0"><a href="#proof" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The memory finding</a></p>
+   </div>
+   <div style="border-top:1px solid var(--ink);padding-top:1.1rem;min-width:0">
+    <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Is the more complex system worth its cost?</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0.25rem">I had said in public that graph-based RAG beats the plain kind. Then I measured it against the system a careful team would ship.</p>
+    <p style="margin:0"><a href="/case-studies/graphrag/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Read the case study</a></p>
+   </div>
+   <div style="border-top:1px solid var(--ink);padding-top:1.1rem;min-width:0">
+    <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Can a smaller, cheaper model do the checking?</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0.25rem">I tried it on my own hardware. The first test passed. The second, on fresh data, did not.</p>
+    <p style="margin:0"><a href="#proof" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The small-model test</a></p>
+   </div>
+   <div style="border-top:1px solid var(--ink);padding-top:1.1rem;min-width:0">
+    <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Our documents cannot leave our own cloud. Can we still use RAG?</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0.25rem">The second offer is for this: a private system inside your own AWS or Azure environment, with role-based access and audit logging from the start.</p>
+    <p style="margin:0"><a href="/work/#private-rag" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The private RAG offer</a></p>
+   </div>
+  </div>
+ </div>
+</section>
 
-  <!-- OPEN QUESTIONS -->
-  <section id="questions" style="background:var(--surface-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
-    <div class="section-inner">
-      <div class="section-head reveal">
-        <p class="eyebrow">Open questions</p>
-        <h2>What I'm working through</h2>
-      </div>
-      <div class="project-grid reveal">
-        <div class="project-card question">
-          <h3>What does RAG look like beyond a chatbot?</h3>
-          <p>RAG is mostly used behind a chatbot, but it has many other applications. And no two RAG systems are built the same: the ingestion pipeline changes, and so does the retrieval.</p>
-        </div>
-        <div class="project-card question">
-          <h3>How do you make subjective LLM evals quantitative and understandable?</h3>
-          <p>Evaluations tell us how an ML or deep learning algorithm is performing. LLMs, and products built on them, are less deterministic, so they need evaluations too: formulaic ones, and subjective ones as well. Making those subjective evaluations quantitative and understandable for the end user is the problem I&rsquo;m interested in.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<span id="services" class="anchor-alias"></span><section id="offers" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Two ways to work with me</h2>
+  <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0;max-width:36rem">I occasionally take on a small, focused project, usually evaluating or hardening an AI or ML system.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr));gap:1.5rem;margin-top:2rem">
 
-  <!-- CONTACT -->
-  <section id="contact" class="intro-contact">
-    <div class="contact-inner reveal">
-      <p class="eyebrow" style="justify-content:center;">Get in touch</p>
-      <h2>Write to me if&hellip;</h2>
-      <ul class="write-list">
-        <li>you&rsquo;re using RAG for more than a chatbot, or want to talk through how your ingestion and retrieval are built.</li>
-        <li>you need evaluations for an LLM product, including subjective ones that are quantitative and easy for end users to understand.</li>
-      </ul>
-      <div class="contact-links">
-        <a href="mailto:hello@eeshangupta.com" class="btn btn-primary">hello@eeshangupta.com</a>
-        <a href="https://github.com/eeshangpt" rel="me" class="btn btn-ghost">GitHub</a>
-        <a href="https://www.linkedin.com/in/eeshangpt/" rel="me" class="btn btn-ghost">LinkedIn</a>
-      </div>
-    </div>
-  </section>
+   <article style="border:1px solid var(--rule);background:var(--panel);padding:clamp(1.25rem,3vw,2rem);box-sizing:border-box;min-width:0">
+    <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">AI/ML model evaluation</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;max-width:34rem">You have two or more candidates and need to know which one to ship. They may be language models (LLMs), speech-to-text providers (ASR) or whole RAG setups, meaning systems that look things up in your documents before they answer. Latency is how long an answer takes.</p>
+    <dl style="margin:0.25rem 0 0 0;border-top:1px solid var(--rule);max-width:36rem">
+     <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">In technical terms</dt>
+     <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Comparing LLMs, ASR, and RAG pipelines on real data: accuracy, latency, and cost, and a clear answer on which one holds up.</dd>
+     <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Who it is for</dt>
+     <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule);border-bottom:0">You need evaluations for an LLM product, including subjective ones that are quantitative and easy for end users to understand.</dd>
+    </dl>
+    <p style="margin:0"><a href="/work/#evaluation" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">First step, and what you get</a></p>
+   </article>
 
-  <!-- SERVICES -->
-  <section id="services" class="services">
-    <div class="section-inner">
-      <div class="section-head reveal">
-        <p class="eyebrow">Outside the day job</p>
-        <h2>Projects and collaborations</h2>
-        <p>I occasionally take on a small, focused project, usually evaluating or hardening a RAG or voice AI system.</p>
-      </div>
-      <div class="services-grid reveal">
-        <div class="service-card">
-          <h3>LLM &amp; voice model evaluation</h3>
-          <p>Comparing LLMs, ASR, and RAG pipelines on real data: accuracy, latency, and cost, and a clear answer on which one holds up.</p>
-          <a href="#contact" class="service-link">Compare notes
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-        </div>
-        <div class="service-card">
-          <h3>Hardening a private RAG system</h3>
-          <p>Single-tenant retrieval running inside a company's own AWS or Azure environment, with role-based access and audit logging from the start.</p>
-          <a href="#contact" class="service-link">Compare notes
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-        </div>
-      </div>
+   <article style="border:1px solid var(--rule);background:var(--panel);padding:clamp(1.25rem,3vw,2rem);box-sizing:border-box;min-width:0">
+    <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Hardening a private RAG system</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;max-width:34rem">A system that answers questions from your own documents and is used by your company alone. Retrieval is the search step that finds the passages an answer is built from. People see only what their role allows, and access is logged.</p>
+    <dl style="margin:0.25rem 0 0 0;border-top:1px solid var(--rule);max-width:36rem">
+     <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">In technical terms</dt>
+     <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Single-tenant retrieval running inside a company's own AWS or Azure environment, with role-based access and audit logging from the start.</dd>
+     <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Who it is for</dt>
+     <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule);border-bottom:0">Anyone, frankly, but it suits teams whose data cannot leave their own servers.</dd>
+    </dl>
+    <p style="margin:0"><a href="/work/#private-rag" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">First step, and what you get</a></p>
+   </article>
+  </div>
+  <div style="margin-top:2rem;max-width:36rem">
+   <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">Not sure which of the two fits? Write and describe it in a paragraph.</p>
+   <p style="margin:0"><a href="mailto:hello@eeshangupta.com?subject=Enquiry%20from%20eeshangupta.com" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Write to hello@eeshangupta.com</a></p>
+  </div>
+ </div>
+</section>
+
+<section id="results" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Results from past projects</h2>
+  <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--mute);margin:0 0 0.85rem 0;max-width:40rem">Four projects, clients not named. Each figure is marked reported, which means it comes from a client project. The card says how it was measured; the data is the client’s and is not public.</p>
+  <p class="c-stories-btn" style="margin:1.25rem 0 0 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)"><button type="button" data-stories-toggle aria-expanded="false" aria-controls="stories" style="width:100%;min-height:44px;display:flex;align-items:center;gap:0.5rem;font:500 1rem/1.3 'IBM Plex Sans',system-ui,sans-serif;color:var(--link);background:transparent;border:0;padding:0.35rem 0;cursor:pointer;text-align:left"><svg class="c-ico-plus" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg><svg class="c-ico-minus" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"></path></svg><span>The story behind each result</span></button></p>
+  <div id="stories" class="c-stories" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,24rem),1fr));gap:1.5rem;margin-top:2rem">
+   <article style="border:1px solid var(--rule);background:var(--panel);padding:clamp(1.25rem,3vw,2rem);box-sizing:border-box;min-width:0">
+    <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.75rem">Customer support, travel technology</p>
+    <p style="font:500 2.5rem/1 'Newsreader',Georgia,serif;color:var(--ink);margin:0;margin-bottom:0.9rem"><span style="font:400 1rem/1 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute)">up to </span>50%</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;max-width:36rem">Support ticket volume cut by a RAG-based customer support system for a leading global travel technology provider. A standard RAG setup didn’t give good answers, so we did a root cause analysis and found that the search step was returning passages that were only partly correct. Once we changed how the documents were split into passages (hierarchical chunking), the answers became more accurate.</p>
+    <p style="margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:0.3rem 0.5rem"><span style="display:inline-block;font:400 0.875rem/1 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);border:1px solid var(--rule);padding:0.35rem 0.5rem">reported</span><span style="font:400 0.875rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute)">I led the root-cause analysis and retrieval fixes in a small team · 2025 · Method: ticket volume before and after launch, from the client’s support data</span></p>
+   </article>
+   <article style="border:1px solid var(--rule);background:var(--panel);padding:clamp(1.25rem,3vw,2rem);box-sizing:border-box;min-width:0">
+    <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.75rem">Document drafting, pharma</p>
+    <p style="font:500 2.5rem/1 'Newsreader',Georgia,serif;color:var(--ink);margin:0;margin-bottom:0.9rem">5x</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;max-width:36rem">Faster authoring on a GenAI document-drafting platform for a top pharmaceutical client. A first draft took six months by hand. Generation worked on the parts of one section at a time, so its parts could be generated in parallel. No technical skills were needed to operate it.</p>
+    <p style="margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:0.3rem 0.5rem"><span style="display:inline-block;font:400 0.875rem/1 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);border:1px solid var(--rule);padding:0.35rem 0.5rem">reported</span><span style="font:400 0.875rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute)">Lead engineer on the generation pipeline · 2024 · Method: time to a first draft, before and after, as measured by the client</span></p>
+   </article>
+   <article style="border:1px solid var(--rule);background:var(--panel);padding:clamp(1.25rem,3vw,2rem);box-sizing:border-box;min-width:0">
+    <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.75rem">Consent forms, pharma</p>
+    <p style="font:500 2.5rem/1 'Newsreader',Georgia,serif;color:var(--ink);margin:0;margin-bottom:0.9rem">90%</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;max-width:36rem">Manual codification effort cut on informed consent forms (ICFs) for a top pharmaceutical client. Each study had its own run, which extracted every site’s items in parallel. A person always approves the codification. The client’s use of outside experts fell to a quarter.</p>
+    <p style="margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:0.3rem 0.5rem"><span style="display:inline-block;font:400 0.875rem/1 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);border:1px solid var(--rule);padding:0.35rem 0.5rem">reported</span><span style="font:400 0.875rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute)">Lead engineer on the project · 2024 · Method: manual codification hours, before and after, as tracked by the client</span></p>
+   </article>
+   <article style="border:1px solid var(--rule);background:var(--panel);padding:clamp(1.25rem,3vw,2rem);box-sizing:border-box;min-width:0">
+    <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.75rem">Document review, legal</p>
+    <p style="font:500 2.5rem/1 'Newsreader',Georgia,serif;color:var(--ink);margin:0;margin-bottom:0.9rem">10x</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;max-width:36rem">Faster document processing from an NLP relevance and classification pipeline for legal e-discovery, meaning software that reads documents and sorts the relevant ones from the rest.</p>
+    <p style="margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:0.3rem 0.5rem"><span style="display:inline-block;font:400 0.875rem/1 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);border:1px solid var(--rule);padding:0.35rem 0.5rem">reported</span><span style="font:400 0.875rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute)">Built the pipeline · 2019 to 2020 · Method: documents processed per reviewer-hour, before and after, in internal benchmarks</span></p>
+   </article>
+  </div>
+  <div style="margin-top:2rem;max-width:36rem">
+   <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">Working on something similar? One paragraph about it is enough.</p>
+   <p style="margin:0"><a href="mailto:hello@eeshangupta.com?subject=Enquiry%20from%20eeshangupta.com" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Write to hello@eeshangupta.com</a></p>
+  </div>
+ </div>
+</section>
+
+<section id="proof" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">How I check my own claims</h2>
+  <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0;max-width:36rem">For project figures I can say only so much here. For my own claims I can show all the working, so I test them in public. Three claims tested so far: one was dropped and two need more work. Nothing has met the bar I set for scaling it up yet.</p>
+  <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;max-width:36rem">For the finished ones, what counts as a pass or a fail was written down before the results existed, and each write-up says where its findings stop holding. The numbers are on the linked pages.</p>
+
+  <ol style="list-style:none;margin:1.5rem 0 0 0;padding:0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,24rem),1fr));gap:0 3.5rem">
+    <li style="padding:1.4rem 0 0.9rem 0;border-top:1px solid var(--rule);min-width:0">
+     <p style="margin:0 0 0.6rem 0;display:flex;flex-wrap:wrap;align-items:center;gap:0.4rem 0.75rem"><span style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute)">24 Oct 2026</span><span style="display:inline-block;font:400 0.875rem/1 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);border:1px solid var(--rule);padding:0.35rem 0.5rem">more work needed</span></p>
+     <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Does a graph-based RAG system beat a well-tuned standard one?</h3>
+     <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0.25rem;max-width:36rem">Given the same amount of text to work from, the graph-based system won clearly on one set of questions. On the other, the gap was too thin for my own test to call.</p>
+     <p style="margin:0"><a href="/case-studies/graphrag/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Read the case study</a></p>
+    </li>
+    <li style="padding:1.4rem 0 0.9rem 0;border-top:1px solid var(--rule);min-width:0">
+     <p style="margin:0 0 0.6rem 0;display:flex;flex-wrap:wrap;align-items:center;gap:0.4rem 0.75rem"><span style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute)">10 Nov 2026</span><span style="display:inline-block;font:400 0.875rem/1 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);border:1px solid var(--rule);padding:0.35rem 0.5rem">dropped</span></p>
+     <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Can a small model on my own hardware check answers the way people do?</h3>
+     <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0.25rem;max-width:36rem">In the first test it ranked language models much as human reviewers did. On fresh data that agreement did not hold.</p>
+     <p style="margin:0"><a href="/writing/small-judge-fresh-data/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Read the write-up on the small model</a></p>
+    </li>
+    <li style="padding:1.4rem 0 0.9rem 0;border-top:1px solid var(--rule);min-width:0">
+     <p style="margin:0 0 0.6rem 0;display:flex;flex-wrap:wrap;align-items:center;gap:0.4rem 0.75rem"><span style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute)">10 Nov 2026</span><span style="display:inline-block;font:400 0.875rem/1 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);border:1px solid var(--rule);padding:0.35rem 0.5rem">more work needed</span></p>
+     <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Can a fast small model take the easy cases and pass on the hard ones?</h3>
+     <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0.25rem;max-width:36rem">On one dataset it cut checking time per item with no measurable difference in errors, and it still missed its agreement target on both datasets.</p>
+     <p style="margin:0"><a href="/writing/small-judge-fresh-data/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Same write-up, second half</a></p>
+    </li>
+    <li style="padding:1.4rem 0 0.9rem 0;border-top:1px solid var(--rule);min-width:0">
+     <p style="margin:0 0 0.6rem 0;display:flex;flex-wrap:wrap;align-items:center;gap:0.4rem 0.75rem"><span style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute)">no result yet</span><span style="display:inline-block;font:400 0.875rem/1 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);border:1px solid var(--rule);padding:0.35rem 0.5rem">in progress</span></p>
+     <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Is your RAG eval testing memory?</h3>
+     <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0.25rem;max-width:36rem">In the pilot, one line in the instructions, ‘give your best guess’, let the model score points on questions where the text it was given held no answer. It was answering from memory. With stricter instructions that score stayed close to zero.</p>
+     <p style="margin:0"><a href="/case-studies/graphrag/#detail" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Where this came from</a></p>
+    </li>
+  </ol>
+
+  <details style="margin-top:1rem">
+   <summary style="min-height:44px;display:flex;align-items:center;gap:0.5rem;font:500 1rem/1.3 'IBM Plex Sans',system-ui,sans-serif;color:var(--link);padding:0.35rem 0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"></path><path class="c-v" d="M12 5v14"></path></svg>Why these can be checked, and how to read a figure on this site</summary>
+   <div style="padding:1rem 0 0.5rem 0">
+    <div style="display:flex;flex-wrap:wrap;gap:2.5rem 4.5rem">
+   <div style="flex:1 1 18rem;min-width:0;max-width:36rem">
+    <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0">Why these can be checked</p>
+    <h3 style="font:600 0.9375rem/1.35 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.4rem 0;margin-top:1.25rem">The rule comes first</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">What counts as a pass or a fail was committed to git before the results existed. Researchers call this pre-registration.</p>
+    <h3 style="font:600 0.9375rem/1.35 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.4rem 0;margin-top:1.25rem">Each finding says where it stops holding</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">The two write-ups list 8 and 9 limits, including the holes in my own plan.</p>
+    <h3 style="font:600 0.9375rem/1.35 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.4rem 0;margin-top:1.25rem">The working is public</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">Code and the history of each plan are on GitHub: <a href="https://github.com/eeshangpt/graphrag-vs-tuned-hybrid">graphrag-vs-tuned-hybrid</a> and <a href="https://github.com/eeshangpt/judge-bench">judge-bench</a>.</p>
+    <h3 style="font:600 0.9375rem/1.35 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.4rem 0;margin-top:1.25rem">A second model reviews it</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">A model from a different family audited the GraphRAG analysis. It returned two corrections, both valid and fixed.</p>
+   </div>
+   <div style="flex:1 1 18rem;min-width:0;max-width:36rem">
+    <h3 style="font:600 0.9375rem/1.35 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.4rem 0">How to read a figure on this site</h3>
+    <dl style="margin:0">
+     <dt style="padding:0.9rem 0 0.3rem 0"><span style="display:inline-block;font:400 0.875rem/1 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);border:1px solid var(--rule);padding:0.35rem 0.5rem">pre-registered</span></dt>
+     <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule);padding-top:0.2rem">Rules committed to git before the results existed. Code and history are public, and the limits list any hole in the plan. The experiments above sit here.</dd>
+     <dt style="padding:0.9rem 0 0.3rem 0"><span style="display:inline-block;font:400 0.875rem/1 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);border:1px solid var(--rule);padding:0.35rem 0.5rem">measured</span></dt>
+     <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule);padding-top:0.2rem">Numbers from my own study, with no plan or code published on this site. The MSc thesis sits here.</dd>
+     <dt style="padding:0.9rem 0 0.3rem 0"><span style="display:inline-block;font:400 0.875rem/1 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);border:1px solid var(--rule);padding:0.35rem 0.5rem">reported</span></dt>
+     <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule);padding-top:0.2rem">A figure from a client project. The card says how it was measured; the data is the client’s and is not public.</dd>
+    </dl>
+   </div>
+   <div style="flex:1 1 18rem;min-width:0;max-width:36rem">
+    <h3 style="font:600 0.9375rem/1.35 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.4rem 0">What this site commits to</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">From here on, a claim goes on this site only with its rule and its limits.</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">When an entry changes after publication, the change is dated and listed here, and the old number stays visible on the entry.</p>
+   </div>
     </div>
-  </section>
+   </div>
+  </details>
+ </div>
+</section>
+
+<section id="about" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">About</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:2.5rem 3.5rem;margin-top:1.75rem;align-items:flex-start">
+   <div style="flex:1 1 22rem;min-width:0;max-width:36rem">
+    <p style="font:400 italic 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1.25rem 0">Building an AI product and shipping it is easy. Knowing how and why it works is the real challenge. If you don’t know how or why you did something, you end up facing problems you never knew could exist.</p>
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0">Eeshan Gupta. AI/ML engineer building intelligent systems since 2019: new agents, workflows and pipelines, and making existing ones more capable and efficient. The work has run from legal e-discovery search to pharma document generation to real-time speech pipelines.</p>
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1.75rem 0">I have been interested in machine learning since my undergraduate years, genuinely inspired by Person of Interest and the idea of artificial superintelligence. I like hard problems, mostly in AI and ML, and solutions that hold up at scale. Outside work: food, both cooking and eating, and music.</p>
+
+    <h3 style="font:600 0.9375rem/1.35 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.4rem 0">What makes an evaluation trustworthy</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">Trust in an evaluation starts with the choice of metrics and how they are calculated. Then comes the comparison: setting a model with no retrieval against a RAG-enabled chatbot is skewed, and unfair to both systems. Human labels on each step of answer generation would be best, but they take domain experts’ time on boring work.</p>
+
+    <span id="questions" class="anchor-alias"></span><h3 style="font:600 0.9375rem/1.35 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.4rem 0;margin-top:1.75rem">Two questions I keep open</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">What does RAG look like beyond a chatbot? And how do you make subjective LLM evals quantitative and understandable? If you are working on either, I would like to hear how.</p>
+
+    <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem;margin-top:0.75rem">
+     <a href="mailto:hello@eeshangupta.com" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">hello@eeshangupta.com</a>
+     <a href="https://github.com/eeshangpt" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">GitHub</a>
+     <a href="https://www.linkedin.com/in/eeshangpt/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">LinkedIn</a>
+    </p>
+    <p style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);margin:0.75rem 0 0 0">AI and ML evaluation, limits stated</p>
+  <div id="background" style="margin-top:3rem">
+   <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Background, 2019 to now</h3>
+   <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;max-width:36rem">The experiments are recent. The work underneath them goes back to 2019: search and NLP for legal review, then document generation and RAG for pharma and support teams, now speech and LLM systems.</p>
+  <div style="border-bottom:1px solid var(--rule);margin-top:1.25rem">
+  <details style="border-top:1px solid var(--rule)">
+   <summary style="min-height:44px;display:flex;align-items:center;gap:0.5rem;font:500 1rem/1.3 'IBM Plex Sans',system-ui,sans-serif;color:var(--link);padding:0.35rem 0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"></path><path class="c-v" d="M12 5v14"></path></svg>Role by role, with dates</summary>
+  <ol style="list-style:none;margin:0.5rem 0 1rem 0;padding:0">
+   <li style="display:flex;flex-wrap:wrap;gap:0.5rem 2.5rem;padding:1.6rem 0;border-top:1px solid var(--rule)">
+    <div style="flex:1 1 10rem;min-width:0"><p style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);color:var(--ink);margin:0">Feb 2026 to present</p></div>
+    <div style="flex:4 1 24rem;min-width:0;max-width:36rem">
+     <h4 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">AI Engineer, CitNOW Group</h4>
+     <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">Speech and LLM systems. Shipped a call-summarization plugin and a production speech-to-text plugin for real-time call transcription. Benchmarked speech-to-text providers on accuracy, latency, and cost to guide production vendor decisions.</p>
+    </div>
+   </li>
+   <li style="display:flex;flex-wrap:wrap;gap:0.5rem 2.5rem;padding:1.6rem 0;border-top:1px solid var(--rule)">
+    <div style="flex:1 1 10rem;min-width:0"><p style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);color:var(--ink);margin:0">Feb 2025 to Jan 2026</p></div>
+    <div style="flex:4 1 24rem;min-width:0;max-width:36rem">
+     <h4 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Analytics Consultant, GenAI, Infogain</h4>
+     <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">Designed an LLM-driven packaging recommendation system for a logistics client. The customer-support result above comes from this period.</p>
+    </div>
+   </li>
+   <li style="display:flex;flex-wrap:wrap;gap:0.5rem 2.5rem;padding:1.6rem 0;border-top:1px solid var(--rule)">
+    <div style="flex:1 1 10rem;min-width:0"><p style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);color:var(--ink);margin:0">2025</p></div>
+    <div style="flex:4 1 24rem;min-width:0;max-width:36rem">
+     <h4 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">MSc thesis, LJMU: Adaptive Personalized Reflective RAG</h4>
+     <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">A RAG system that picks its search strategy by how complex the question is, then reviews its own answer. The routing step classified question complexity with 88.6% accuracy, and the self-review step gave an 8–15% accuracy gain over standard RAG.</p>
+     <p style="margin:0.6rem 0 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:0.3rem 0.5rem"><span style="display:inline-block;font:400 0.875rem/1 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);border:1px solid var(--rule);padding:0.35rem 0.5rem">measured</span></p>
+    </div>
+   </li>
+   <li style="display:flex;flex-wrap:wrap;gap:0.5rem 2.5rem;padding:1.6rem 0;border-top:1px solid var(--rule)">
+    <div style="flex:1 1 10rem;min-width:0"><p style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);color:var(--ink);margin:0">Apr 2022 to Feb 2025</p></div>
+    <div style="flex:4 1 24rem;min-width:0;max-width:36rem">
+     <h4 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Decision Analytics Associate Consultant, ZS Associates</h4>
+     <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">Pharma and legal NLP and RAG. Both pharma results above come from this period, along with an AI-assisted patent drafting tool that cut authoring time 3x, and semantic search and RAG across legal, sales, and marketing repositories.</p>
+    </div>
+   </li>
+   <li style="display:flex;flex-wrap:wrap;gap:0.5rem 2.5rem;padding:1.6rem 0;border-top:1px solid var(--rule)">
+    <div style="flex:1 1 10rem;min-width:0"><p style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);color:var(--ink);margin:0">Mar 2019 to Apr 2022</p></div>
+    <div style="flex:4 1 24rem;min-width:0;max-width:36rem">
+     <h4 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Data Scientist, Casepoint LLC</h4>
+     <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">Legal e-discovery. Engineered the document review pipeline in the results above. Built search plugins that cut the time to fetch documents by 90% for teams reviewing millions of documents, and a reusable plugin framework that halved future build time for the engineering team.</p>
+    </div>
+   </li>
+  </ol>
+  </details>
+  <details style="border-top:1px solid var(--rule)">
+   <summary style="min-height:44px;display:flex;align-items:center;gap:0.5rem;font:500 1rem/1.3 'IBM Plex Sans',system-ui,sans-serif;color:var(--link);padding:0.35rem 0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"></path><path class="c-v" d="M12 5v14"></path></svg>The same background with systems and tools named</summary>
+   <div style="max-width:36rem;padding:0.5rem 0 0.5rem 0">
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">CitNOW Group: a trigger-based call-summarization plugin on GPT models, and a production speech-to-text plugin for real-time call transcription using Whisper and ElevenLabs ASR. Benchmarked STT/ASR providers on accuracy, latency, and cost.</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">MSc thesis: a LangGraph-orchestrated multi-agent system combining Adaptive-RAG, SELF-RAG, and PersonaRAG. The query-routing engine picked a retrieval strategy by question complexity with 88.6% classification accuracy. SELF-RAG reflection gave an 8–15% accuracy gain over standard RAG. PersonaRAG cut latency 33% and reasoning steps 19%.</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">Infogain: evaluated agent frameworks (Crew.ai, Agno) to orchestrate autonomous data-analysis pipelines. On the support system, retrieval was returning chunks that were only partly correct, and hierarchical chunking made the answers more accurate.</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">ZS Associates: for the consent forms, we ran an orchestrator for every study, which in turn runs multiple workers that extract each site’s items in parallel.</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">Casepoint: engineered CAAL, an NLP relevance and classification pipeline. Built custom ElasticSearch plugins that cut retrieval latency 90%.</p>
+    <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-top:1.25rem">Used in a published experiment</p>
+    <p style="font:400 0.875rem/1.9 'IBM Plex Mono',ui-monospace,monospace;color:var(--ink);margin:0.4rem 0 0 0">BM25 + dense via RRF · bge-reranker-base · HippoRAG 2-lite · MuSiQue · 2WikiMultiHopQA<br>MiniCheck-Flan-T5-Large · Qwen3-4B (4-bit) · RAGTruth QA · FaithBench · WiCE</p>
+   </div>
+  </details>
+  </div>
+  </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<span id="contact" class="anchor-alias"></span><section id="start" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">How to start</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:2rem 4.5rem;margin-top:1.5rem;align-items:flex-start">
+   <div style="flex:2 1 24rem;min-width:0;max-width:38rem">
+    <h3 style="font:600 0.9375rem/1.35 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.4rem 0">A good first message</h3>
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0">One paragraph is enough. Say what the system does and how you check its answers today. If a decision hangs on the result, name it, because that tells me which number matters.</p>
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0">I reply within 2 working days. Usually able to start within 2-3 weeks. Calls in US working hours.</p>
+   </div>
+   <div style="flex:1 1 16rem;min-width:0">
+    <a data-btn="dark" class="c-btn-full" href="mailto:hello@eeshangupta.com?subject=Enquiry%20from%20eeshangupta.com" style="display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 1.5rem;background:var(--ink);color:var(--inv);font:500 1rem/1.2 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none;box-sizing:border-box">Write to hello@eeshangupta.com</a>
+    <p style="font:400 0.875rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0.6rem 0 0 0">Email only. There is no form and no booking page.</p>
+    <p style="margin:0.25rem 0 0 0"><a href="/work/#how" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">How an engagement runs</a></p>
+   </div>
+  </div>
+  <div style="margin-top:2.5rem;max-width:38rem">
+   <h3 style="font:600 0.9375rem/1.35 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.4rem 0">Follow without an account</h3>
+   <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0.25rem">New entries go to the RSS feed.</p>
+   <p style="margin:0"><a href="/feed.xml" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="margin-right:0.4rem"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1.4"></circle></svg>Subscribe by RSS</a></p>
+  </div>
+ </div>
+</section>
 
 </main>
 
-<footer>
-  <div class="foot-bottom">
-    <span>Eeshan Gupta</span>
-  </div>
+<footer style="border-top:1px solid var(--rule)">
+ <div style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box;display:flex;flex-wrap:wrap;gap:0.25rem 2rem;align-items:center;justify-content:space-between;padding-top:1rem;padding-bottom:1.5rem">
+  <p style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);margin:0">Eeshan Gupta · AI and ML evaluation, limits stated</p>
+  <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem">
+   <a href="/feed.xml" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">RSS</a>
+   <a href="mailto:hello@eeshangupta.com" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Email</a>
+   <a href="https://github.com/eeshangpt" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">GitHub</a>
+   <a href="https://www.linkedin.com/in/eeshangpt/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">LinkedIn</a>
+  </p>
+ </div>
 </footer>
 
-<script src="script.js" defer></script>
+</div>
+</div>
+
 <script data-goatcounter="https://eeshangpt.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 
 </body>

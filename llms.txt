@@ -1,6 +1,6 @@
 # Eeshan Gupta
 
-> Personal site of Eeshan Gupta, an AI Engineer working on production GenAI, RAG and voice AI systems. Writes about RAG evaluation and retrieval experiments.
+> Personal site of Eeshan Gupta, an AI/ML engineer who checks whether AI and ML systems can be trusted: LLM and RAG apps, voice AI and classic ML models. Writes about RAG evaluation and retrieval experiments.
 
 ## Writing
 
@@ -16,5 +16,7 @@
 ## Optional
 
 - [Home](https://eeshangupta.com/): introduction, project stories and open questions.
-- [About](https://eeshangupta.com/about/): experience, selected projects and toolkit.
+- [About](https://eeshangupta.com/#about): background, the MSc thesis and how to get in touch.
+- [Work with me](https://eeshangupta.com/work/): the two offers and how a project starts.
+- [Case study](https://eeshangupta.com/case-studies/graphrag/): the GraphRAG experiment told for a team choosing a system.
 - [RSS feed](https://eeshangupta.com/feed.xml)

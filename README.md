@@ -4,22 +4,26 @@ Personal site of Eeshan Gupta, an AI Engineer. It is a static site in plain HTML
 
 ## Pages
 
-- `/` is an introduction: a hero with a point-of-view line, the latest writing, project stories, open questions, how to get in touch, and an "Outside the day job" section.
-- `/about/` holds the resume content: an impact strip, the experience timeline, selected projects and the toolkit.
-- `/writing/` lists the articles. `/writing/graphrag-vs-tuned-hybrid/` is the first one, with a Markdown copy next to it.
+- `/` is the landing page for people who might hire me: who it is for, the questions I help answer, the two offers, results from past projects, how I check my own claims, about, and how to start.
+- `/work/` is "Work with me": both offers in full and how an engagement runs.
+- `/case-studies/graphrag/` tells the GraphRAG experiment as a case study, with the method and limits lower down.
+- `/writing/` lists the articles. `/writing/graphrag-vs-tuned-hybrid/` and `/writing/small-judge-fresh-data/` are the articles, each with a Markdown copy next to it.
+- `/about/` is a 301 redirect (in `_redirects`) to the home page, which scrolls to About (`/#about`); old links to `/about/#experience`, `#projects` and `#skills` land on `/#background`.
 
-The header links to About, Collaborate (the "Outside the day job" section on the home page) and Writing. Below 720px the links move into a native `<details>` menu. A theme toggle switches between light and dark and remembers the choice.
+The header links to the home page, Work with me, What I do, Results, Case study and About, and wraps to two rows on phones. Colours follow the system light or dark setting.
 
 ## Project structure
 
 ```text
 .
 ├── index.html            # Home
-├── about/index.html      # About
+├── work/index.html       # Work with me
+├── case-studies/graphrag/index.html  # Case study
+├── _headers, _redirects # Cloudflare Pages response headers (CSP) and the /about/ redirect
 ├── writing/              # Writing index and articles
-├── styles.css            # Theme tokens, layout and components
-├── script.js             # Scroll reveals and closing the phone menu after a jump
-├── fonts/                # Local web fonts (Inter, Space Grotesk, JetBrains Mono)
+├── styles.css            # Theme tokens, shared rules and article styles (page markup carries inline styles)
+├── script.js             # Stories button, case-study set toggle, opening the stories on #stories/#results
+├── fonts/                # Self-hosted Newsreader and IBM Plex (latin woff2, SIL OFL licences beside them); the earlier Inter, Space Grotesk and JetBrains Mono files are no longer linked
 ├── scripts/
 │   ├── check-slots.sh    # Fails while unfilled slots remain
 │   └── make-md.py        # Regenerates the article's Markdown copy
@@ -30,7 +34,7 @@ The header links to About, Collaborate (the "Outside the day job" section on the
 └── CNAME                 # Custom domain for GitHub Pages
 ```
 
-The theme choice is saved by a small inline script in the head of each page, which also sets the theme before the page paints.
+`script.js` loads in the head of each page and adds a `js` class before the page paints, so the phone stories collapse and the case-study toggle only apply when JavaScript runs. Without JavaScript every card and both question sets are shown. There are no inline scripts, so the Content-Security-Policy in `_headers` needs no script hashes.
 
 ## Run it locally
 

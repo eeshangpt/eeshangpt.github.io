@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<script src="/script.js"></script>
+<title>Is a graph-based RAG system worth the extra work? — Eeshan Gupta</title>
+<meta name="description" content="I had said in public that graph-based RAG beats the plain kind. Then I measured it. This page is the short version, for a team choosing a system.">
+<link rel="canonical" href="https://eeshangupta.com/case-studies/graphrag/">
+<link rel="alternate" type="application/rss+xml" title="Eeshan Gupta — Writing" href="https://eeshangupta.com/feed.xml">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Eeshan Gupta">
+<meta property="og:title" content="Is a graph-based RAG system worth the extra work? — Eeshan Gupta">
+<meta property="og:description" content="I had said in public that graph-based RAG beats the plain kind. Then I measured it. This page is the short version, for a team choosing a system.">
+<meta property="og:url" content="https://eeshangupta.com/case-studies/graphrag/">
+<meta property="og:image" content="https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/og-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Paired F1 difference, graph minus tuned hybrid, on two datasets">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Is a graph-based RAG system worth the extra work? — Eeshan Gupta">
+<meta name="twitter:description" content="I had said in public that graph-based RAG beats the plain kind. Then I measured it. This page is the short version, for a team choosing a system.">
+<meta name="twitter:image" content="https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/og-v2.png">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/newsreader-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-sans-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="o1" style="width:100%;margin:0">
+<div class="o1-root" style="background:var(--bg);color:var(--ink);font-family:'Newsreader',Georgia,serif;min-height:100%;overflow-wrap:break-word">
+<header style="border-bottom:1px solid var(--rule)">
+ <nav aria-label="Main" style="max-width:68rem;margin:0 auto;padding:0.5rem clamp(1rem,4vw,3rem);box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;gap:0.25rem 0.5rem">
+  <a href="/" style="display:inline-flex;align-items:center;min-height:44px;margin-right:auto;font:600 1.125rem/1 'Newsreader',Georgia,serif;color:var(--ink);text-decoration:none">Eeshan Gupta</a>
+  <a class="c-navlink" href="/work/" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none;border:1px solid var(--mute);margin-left:0.5rem">Work with me</a>
+  <div class="c-navgroup" style="display:flex;flex-wrap:wrap;align-items:center">
+   <a class="c-navlink" href="/#help" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">What I do</a>
+   <a class="c-navlink" href="/#results" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">Results</a>
+   <a class="c-navlink" href="/case-studies/graphrag/" aria-current="page" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">Case study</a>
+   <a class="c-navlink" href="/#about" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">About</a>
+   <a class="c-navlink" href="/writing/" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">Writing</a>
+  </div>
+ </nav>
+</header>
+
+<main>
+
+<article>
+<section class="c-hero" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box;padding-top:clamp(2rem,5vw,4rem);padding-bottom:clamp(2.5rem,6vw,4.5rem)">
+ <p style="margin:0 0 0.75rem 0;display:flex;flex-wrap:wrap;align-items:center;gap:0 1.25rem;font:400 0.875rem/1.4 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute)">
+  <a href="/#proof" style="display:inline-flex;align-items:center;min-height:44px;font:400 0.875rem/1.3 'IBM Plex Mono',ui-monospace,monospace">How I check my own claims</a>
+  <span>Case study, 24 October 2026 · Eeshan Gupta</span>
+ </p>
+ <div style="display:flex;flex-wrap:wrap;gap:2.5rem 4.5rem;align-items:flex-start">
+  <div style="flex:3 1 28rem;min-width:0">
+   <h1 style="font:500 clamp(2.1rem,4.6vw,3.5rem)/1.1 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1.5rem 0;letter-spacing:-0.015em;max-width:18ch">Is a graph-based RAG system worth the extra work?</h1>
+   <p style="font:400 1.25rem/1.55 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0;max-width:36rem">I had said in public that graph-based RAG beats the plain kind. Then I measured it. This page is the short version, for a team choosing a system.</p>
+   <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem">
+    <a href="mailto:hello@eeshangupta.com?subject=Choosing%20a%20RAG%20system" style="display:inline-flex;align-items:center;min-height:44px;font:600 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Facing the same choice? Write to me</a>
+    <a href="/writing/graphrag-vs-tuned-hybrid/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The full article, with every number</a>
+    <a href="#detail" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Method and limits</a>
+   </p>
+  </div>
+  <aside aria-label="In short" style="flex:2 1 19rem;min-width:0">
+   <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0">In short</p>
+   <dl style="margin:0.25rem 0 0 0;border-top:1px solid var(--ink)">
+    <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">I asked</dt>
+    <dd style="font:400 1.1875rem/1.45 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Does a graph-based system beat the well-tuned standard one a careful team would ship?</dd>
+    <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">I found</dt>
+    <dd style="font:400 1.1875rem/1.45 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Clearly, on one set of questions. On the other, the gap was too thin to call.</dd>
+    <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">For your team</dt>
+    <dd style="font:400 1.1875rem/1.45 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0">The answer depended on the questions, so test on your own before you pay for the graph.</dd>
+   </dl>
+  </aside>
+ </div>
+</section>
+
+<section id="question" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">The question</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:36rem">
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0">GraphRAG is a way of building a RAG system that first maps how the people, places and things in your documents relate to each other. That map costs something: an LLM pass over every document, a graph to maintain, more to debug.</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">Most published comparisons set it against a plain baseline that a careful team would not ship. So I compared it with the system I would actually deploy: keyword search and meaning-based search combined, then re-sorted by a second model. I call that the well-tuned standard system below.</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">Both systems got the same model to write the answers and the same small amount of text to work from. With that held equal, how much of the graph’s advantage is left?</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="found" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">What I found</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:36rem">
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0">I expected the graph to be a clear winner. On one set of test questions it was: it won by 19.0 points out of 100. That is not close. On the other set the gap was 3.5 points, too thin for my own test to call either way.</p>
+
+    <div style="border:1px solid var(--rule);background:var(--panel);padding:clamp(1.25rem,3vw,2rem);box-sizing:border-box;min-width:0;margin:1.75rem 0">
+     <p id="ds-l" class="c-ds-controls" style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.5rem">See it for each question set</p>
+     <div role="group" aria-labelledby="ds-l" class="c-ds-controls" data-set-toggle style="display:flex;flex-wrap:wrap;gap:0.4rem;margin:0 0 1.25rem 0">
+      <button type="button" data-set="wiki" aria-pressed="true" style="min-height:44px;padding:0.5rem 0.9rem;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif;background:transparent;color:var(--ink);border:1px solid var(--mute);cursor:pointer;text-align:left"><span style="display:block">Set one: a clear win</span><span style="display:block;font:400 0.875rem/1.4 'IBM Plex Mono',ui-monospace,monospace">2WikiMultiHopQA</span></button>
+      <button type="button" data-set="mus" aria-pressed="false" style="min-height:44px;padding:0.5rem 0.9rem;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif;background:transparent;color:var(--ink);border:1px solid var(--mute);cursor:pointer;text-align:left"><span style="display:block">Set two: too close to call</span><span style="display:block;font:400 0.875rem/1.4 'IBM Plex Mono',ui-monospace,monospace">MuSiQue</span></button>
+     </div>
+     <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0">Two sets of test questions, both built from Wikipedia. Answer score out of 100. Higher is better.</p>
+     <div aria-live="polite"><div class="c-set" data-set="wiki"><p class="c-nojs-label" style="font:600 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:1rem 0 0 0">Set one: a clear win 2WikiMultiHopQA</p>
+      <div style="padding:0.5rem 0">
+       <p style="display:flex;justify-content:space-between;gap:1rem;font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.35rem 0"><span>Well-tuned standard system</span><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400">37.2</span></p>
+       <div aria-hidden="true" style="position:relative;height:1.5rem;background:var(--bg);border:1px solid var(--mid);border-left:1px solid var(--ink);box-sizing:border-box"><span style="position:absolute;left:0;top:0;bottom:0;width:37.2%;background:transparent;border:2px solid var(--ink);box-sizing:border-box"></span></div>
+      </div>
+      <div style="padding:0.5rem 0">
+       <p style="display:flex;justify-content:space-between;gap:1rem;font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.35rem 0"><span>Graph-based system</span><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400">56.2</span></p>
+       <div aria-hidden="true" style="position:relative;height:1.5rem;background:var(--bg);border:1px solid var(--mid);border-left:1px solid var(--ink);box-sizing:border-box"><span style="position:absolute;left:0;top:0;bottom:0;width:56.2%;background:var(--ink);border:2px solid var(--ink);box-sizing:border-box"></span></div>
+      </div>
+      <p style="font:500 1.5rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:1rem 0 0.25rem 0">Graph ahead by 19.0 points</p>
+      <div class="c-verdict" style="min-height:7rem">
+      
+       <div>
+        <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin:0">A clear win for the graph on this set.</p>
+        <p style="font:400 0.9375rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0.75rem 0 0 0">The gap is worked out question by question. On this set it matches the bars: 56.2 minus 37.2 is 19.0.</p>
+       </div>
+      
+      
+      </div>
+     </div><div class="c-set" data-set="mus"><p class="c-nojs-label" style="font:600 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:1rem 0 0 0">Set two: too close to call MuSiQue</p>
+      <div style="padding:0.5rem 0">
+       <p style="display:flex;justify-content:space-between;gap:1rem;font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.35rem 0"><span>Well-tuned standard system</span><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400">34.8</span></p>
+       <div aria-hidden="true" style="position:relative;height:1.5rem;background:var(--bg);border:1px solid var(--mid);border-left:1px solid var(--ink);box-sizing:border-box"><span style="position:absolute;left:0;top:0;bottom:0;width:34.8%;background:transparent;border:2px solid var(--ink);box-sizing:border-box"></span></div>
+      </div>
+      <div style="padding:0.5rem 0">
+       <p style="display:flex;justify-content:space-between;gap:1rem;font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.35rem 0"><span>Graph-based system</span><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400">38.2</span></p>
+       <div aria-hidden="true" style="position:relative;height:1.5rem;background:var(--bg);border:1px solid var(--mid);border-left:1px solid var(--ink);box-sizing:border-box"><span style="position:absolute;left:0;top:0;bottom:0;width:38.2%;background:var(--ink);border:2px solid var(--ink);box-sizing:border-box"></span></div>
+      </div>
+      <p style="font:500 1.5rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:1rem 0 0.25rem 0">Graph ahead by 3.5 points</p>
+      <div class="c-verdict" style="min-height:7rem">
+      
+      
+       <div>
+        <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin:0">Too close to call. My test could not show the two systems are level, and it could not show the graph is clearly better.</p>
+        <p style="font:400 0.9375rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0.75rem 0 0 0">The gap is worked out question by question, so on this set it reads 3.5 where the rounded bars differ by 3.4.</p>
+       </div>
+      
+      </div>
+     </div></div>
+     <p style="font:400 0.875rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0.6rem 0 0 0">Each bar is the average over the test questions. The score is how closely the words of an answer match the reference answer.</p>
+    </div>
+
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">The win also depended on the kind of question. On set one the graph was far ahead on three of the four question types, and the standard system did better on plain comparison questions. My reading is that the graph helps when questions chain facts. I did not test that, and the split was a side look, so it is a lead and nothing firmer.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="means" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">What it means if you are choosing a system</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:44rem">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:2rem 2.5rem">
+     <div style="min-width:0;border-top:1px solid var(--ink);padding-top:1rem">
+      <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Test on your own questions</h3>
+      <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">The same two systems gave two different answers on two sets of questions. Both sets come from Wikipedia, and I would not extend these results to other kinds of documents.</p>
+     </div>
+     <div style="min-width:0;border-top:1px solid var(--ink);padding-top:1rem">
+      <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Compare against what you would really ship</h3>
+      <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">Against a plain baseline the graph scores higher on both sets. Against the well-tuned standard system, one of those wins shrinks to a gap my test could not call.</p>
+     </div>
+     <div style="min-width:0;border-top:1px solid var(--ink);padding-top:1rem">
+      <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Look at how your data is shaped</h3>
+      <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">GraphRAG is a good method when your data has clearly defined entity relationships, or at least supports them. That won’t hold for every kind of data.</p>
+     </div>
+     <div style="min-width:0;border-top:1px solid var(--ink);padding-top:1rem">
+      <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Study the cost before you commit</h3>
+      <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">The cost of deploying it needs a thorough study of its own. Building the graph for these two test sets cost about $3.18 and $4.47 at a cheap reference API rate, and my figure for running cost is an estimate.</p>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="stops" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Where this stops holding</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:36rem">
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0">One model wrote every answer. Both question sets come from Wikipedia. The amount of text each system could pass on was small and fixed, and every conclusion holds at that budget only.</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">My own rule, written before the run, returned “iterate”: more work needed. Neither side of my original question is settled. The write-up lists 8 limits, and it says which two commitments I missed.</p>
+    <p style="margin:0"><a href="#detail" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Method, numbers and all 8 limits</a></p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="talk" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:2rem 4.5rem;align-items:flex-start">
+   <div style="flex:2 1 24rem;min-width:0;max-width:38rem">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Facing the same choice?</h2>
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0">Tell me which systems you are comparing and what kind of documents you have. A few lines is enough.</p>
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0">I reply within 2 working days.</p>
+   </div>
+   <div style="flex:1 1 16rem;min-width:0">
+    <a data-btn="dark" class="c-btn-full" href="mailto:hello@eeshangupta.com?subject=Choosing%20a%20RAG%20system" style="display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 1.5rem;background:var(--ink);color:var(--inv);font:500 1rem/1.2 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none;box-sizing:border-box">Write to hello@eeshangupta.com</a>
+    <p style="font:400 0.875rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0.6rem 0 0 0">Email only. There is no form and no booking page.</p>
+    <p style="margin:0.25rem 0 0 0"><a href="/work/#evaluation" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The evaluation offer</a></p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="detail" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Method, numbers and limits</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:36rem">
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--mute);margin:0 0 0.85rem 0">For the engineers on your team. Everything here is from the full write-up, where the technical terms are used as they stand.</p>
+    <div style="border-bottom:1px solid var(--rule);margin-top:1.25rem">
+    <details style="border-top:1px solid var(--rule)">
+     <summary style="min-height:44px;display:flex;align-items:center;gap:0.5rem;font:500 1rem/1.3 'IBM Plex Sans',system-ui,sans-serif;color:var(--link);padding:0.35rem 0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"></path><path class="c-v" d="M12 5v14"></path></svg>How it was run</summary>
+     <div style="padding:0.5rem 0 1.5rem 0">
+      <dl style="margin:0">
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">What I had said</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">GraphRAG beats plain vector RAG on questions that involve several entities. I <a href="https://www.linkedin.com/feed/update/urn:li:activity:7468409125790711808/">posted that on LinkedIn</a> four months before this write-up. I never measured it.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Question</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">If a graph method and a properly tuned hybrid retriever hand the generator the same amount of context, how much of the graph's advantage is left? A retriever is the search step that picks which passages the model gets to read. The generator is the model that writes the answer.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Rules frozen (pre-registration)</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Pre-registration means the plan and the decision rule are published before the results exist. The main-run plan was on GitHub 13.5 hours before the first confirmatory answer. The pilot plan was written first but pushed about 20 minutes after the pilot ran; <a href="https://github.com/eeshangpt/graphrag-vs-tuned-hybrid">HISTORY.md in the repo</a> has every timestamp.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Data</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">MuSiQue and 2WikiMultiHopQA, 1,000-question samples with pooled passage corpora of 11,656 and 6,119 passages. The confirmatory sample is 950 questions per dataset; the first 50 were the pilot.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Held equal</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Every arm used the same generator, Claude Sonnet 5.5, and at most 1,000 tokens of context, filled with whole passages in rank order. Tokens are the word pieces a model reads.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">The two systems</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">The tuned hybrid fuses BM25 keyword search and dense search with reciprocal rank fusion, then reranks with a cross-encoder (bge-reranker-base). Its settings were fixed in advance and never tuned on the evaluation questions. I call the graph arm HippoRAG 2-lite because it skips the query-time LLM step that filters triples.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Metric</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Token F1, the standard SQuAD word-overlap score between the answer and the gold answer (Rajpurkar et al. 2016). 1.0 is a perfect match and 0 is no overlap. Differences are in points, so 0.19 is 19 points.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Uncertainty</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Paired percentile bootstrap over questions, 10,000 resamples, middle 95% (Efron 1979). That gives the 95% interval (CI), which shows how much the number would move on a different set of questions. Equivalence by TOST, two one-sided tests, which checks whether the difference sits inside a margin chosen in advance; the margin was ±4 points (Schuirmann 1987).</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Decision rule, written first</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Drop the “graph is overrated” angle only if the graph wins by more than 5 points, with the 95% interval's lower bound above zero, on both datasets.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Verdict</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Iterate. MuSiQue failed the rule. My hypotheses that the tuned hybrid is enough were not supported either. Neither side of my original question is settled.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Second-model review</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">A model from a different family, Gemini instead of Claude, reviewed the protocol amendments and the results analysis. The results audit returned two corrections, both valid and fixed, and approved on the second round.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Reproduced</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">F1 was recomputed from the saved answers with 0 mismatches. Re-run retrieval matched 9,987 of 10,000 arm-rows.</dd>
+      </dl>
+     </div>
+    </details>
+    <details style="border-top:1px solid var(--rule)">
+     <summary style="min-height:44px;display:flex;align-items:center;gap:0.5rem;font:500 1rem/1.3 'IBM Plex Sans',system-ui,sans-serif;color:var(--link);padding:0.35rem 0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"></path><path class="c-v" d="M12 5v14"></path></svg>All the numbers</summary>
+     <div style="padding:0.5rem 0 1.5rem 0">
+      <div style="overflow-x:auto">
+       <table style="width:100%;border-collapse:collapse;font:400 0.875rem/1.4 'IBM Plex Mono',ui-monospace,monospace;color:var(--ink)">
+        <caption style="font:400 0.875rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0.6rem 0 0 0;text-align:left;margin:0 0 0.6rem 0;caption-side:top">Token F1 at a 1,000-token budget</caption>
+        <thead><tr><th scope="col" style="text-align:left;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--ink);font-weight:500">Retriever</th><th scope="col" style="text-align:left;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--ink);font-weight:500;text-align:right">2Wiki</th><th scope="col" style="text-align:left;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--ink);font-weight:500;text-align:right">MuSiQue</th></tr></thead>
+        <tbody>
+        <tr><th scope="row" style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule)">No context</th><td style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule);text-align:right">0.000</td><td style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule);text-align:right">0.005</td></tr>
+        <tr><th scope="row" style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule)">Dense only</th><td style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule);text-align:right">0.363</td><td style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule);text-align:right">0.294</td></tr>
+        <tr><th scope="row" style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule)">BM25 only</th><td style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule);text-align:right">0.341</td><td style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule);text-align:right">0.218</td></tr>
+        <tr><th scope="row" style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule)">Hybrid (fusion only)</th><td style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule);text-align:right">0.379</td><td style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule);text-align:right">0.296</td></tr>
+        <tr><th scope="row" style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule);font-weight:500">Tuned hybrid (fusion + rerank)</th><td style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule);text-align:right;font-weight:500">0.372</td><td style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule);text-align:right;font-weight:500">0.348</td></tr>
+        <tr><th scope="row" style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule);font-weight:500">Graph (HippoRAG 2-lite)</th><td style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule);text-align:right;font-weight:500">0.562</td><td style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule);text-align:right;font-weight:500">0.382</td></tr>
+        </tbody>
+       </table>
+      </div>
+      <div style="overflow-x:auto;margin-top:1.5rem">
+       <table style="width:100%;border-collapse:collapse;font:400 0.875rem/1.4 'IBM Plex Mono',ui-monospace,monospace;color:var(--ink)">
+        <caption style="font:400 0.875rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);text-align:left;margin:0 0 0.6rem 0;caption-side:top">Graph minus tuned hybrid, paired, in token F1 points</caption>
+        <thead><tr><th scope="col" style="text-align:left;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--ink);font-weight:500">Measure</th><th scope="col" style="text-align:left;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--ink);font-weight:500;text-align:right;padding-right:0;padding-left:0.75rem">2Wiki</th><th scope="col" style="text-align:left;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--ink);font-weight:500;text-align:right;padding-right:0;padding-left:0.75rem">MuSiQue</th></tr></thead>
+        <tbody>
+        <tr><th scope="row" style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule)">Gap</th><td style="text-align:right;font-weight:400;padding:0.5rem 0 0.5rem 0.75rem;border-bottom:1px solid var(--rule)">+19.0</td><td style="text-align:right;font-weight:400;padding:0.5rem 0 0.5rem 0.75rem;border-bottom:1px solid var(--rule)">+3.5</td></tr>
+        <tr><th scope="row" style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule)">95% CI</th><td style="text-align:right;font-weight:400;padding:0.5rem 0 0.5rem 0.75rem;border-bottom:1px solid var(--rule)">[+16.1, +22.0]</td><td style="text-align:right;font-weight:400;padding:0.5rem 0 0.5rem 0.75rem;border-bottom:1px solid var(--rule)">[+0.4, +6.5]</td></tr>
+        <tr><th scope="row" style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule)">More than 5 points</th><td style="text-align:right;font-weight:400;padding:0.5rem 0 0.5rem 0.75rem;border-bottom:1px solid var(--rule)">yes</td><td style="text-align:right;font-weight:400;padding:0.5rem 0 0.5rem 0.75rem;border-bottom:1px solid var(--rule)">no</td></tr>
+        <tr><th scope="row" style="text-align:left;font-weight:400;padding:0.5rem 0.75rem 0.5rem 0;border-bottom:1px solid var(--rule)">Lower bound above zero</th><td style="text-align:right;font-weight:400;padding:0.5rem 0 0.5rem 0.75rem;border-bottom:1px solid var(--rule)">yes</td><td style="text-align:right;font-weight:400;padding:0.5rem 0 0.5rem 0.75rem;border-bottom:1px solid var(--rule)">yes</td></tr>
+        </tbody>
+       </table>
+      </div>
+      <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-top:1.25rem">On MuSiQue the equivalence test at ±4 points was inconclusive: the data could not show that the two methods are within 4 points of each other, and it could not show that the graph is more than 4 points better. That margin is wide. I widened it from 2 to 4 after the pilot because 2 was untestable at this sample size.</p>
+      <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">On MuSiQue the full tuned hybrid added 5.4 points over dense (CI +2.9 to +7.9), almost all of it from the reranker. On 2Wiki it added 0.9 points (CI -0.7 to +2.5), which is indistinguishable from zero.</p>
+      <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">By 2Wiki question type, exploratory only: the graph was ahead by 25 to 28 points on compositional, bridge-comparison and inference questions. On plain comparison questions (n=232) the hybrid was better by 6.5 points.</p>
+     </div>
+    </details>
+    <details style="border-top:1px solid var(--rule)">
+     <summary style="min-height:44px;display:flex;align-items:center;gap:0.5rem;font:500 1rem/1.3 'IBM Plex Sans',system-ui,sans-serif;color:var(--link);padding:0.35rem 0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"></path><path class="c-v" d="M12 5v14"></path></svg>Findings, each beside the limit that applies to it</summary>
+     <div style="padding:0.5rem 0 1.5rem 0">
+      <div style="padding:1.25rem 0;border-bottom:1px solid var(--rule)">
+       <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">On 2Wiki the graph won by 19.0 points</h3>
+       <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">On 2Wiki the graph won by 19.0 F1 points (95% CI [+16.1, +22.0]). That is not close. In this setup a tuned hybrid was no free substitute for the graph. The share of supporting passages that made it into the context was 0.87 for the graph and 0.71 for the tuned hybrid. That gap looks like a retrieval effect, though I did not isolate it.</p>
+       <div style="border:1px dashed var(--mute);padding:0.9rem 1.1rem;box-sizing:border-box">
+        <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.35rem">Limit</p>
+        <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin:0">I built the 2Wiki graph with Claude Sonnet, the same family as the generator. That could favour the graph on 2Wiki, and it means the two datasets are not cleanly comparable.</p>
+       </div>
+      </div>
+      <div style="padding:1.25rem 0;border-bottom:1px solid var(--rule)">
+       <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">On MuSiQue the edge was too thin to call</h3>
+       <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">On MuSiQue the gap was +3.5 points (95% CI [+0.4, +6.5]). That looks like a small graph edge, but the equivalence test was inconclusive.</p>
+       <div style="border:1px dashed var(--mute);padding:0.9rem 1.1rem;box-sizing:border-box">
+        <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.35rem">Limit</p>
+        <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin:0">The MuSiQue result is underpowered. The equivalence test could not give an answer, and at the observed variation its power was roughly two thirds. A larger sample might resolve it.</p>
+       </div>
+      </div>
+      <div style="padding:1.25rem 0;border-bottom:1px solid var(--rule)">
+       <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">The tuned hybrid helped on one dataset and did nothing on the other</h3>
+       <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">For 2Wiki I had registered that a tuned hybrid would close at least half the gap between dense retrieval and the graph. It closed about 5% of it. On MuSiQue the same share was 61%, but there I had registered a different hypothesis, so read that as descriptive.</p>
+       <div style="border:1px dashed var(--mute);padding:0.9rem 1.1rem;box-sizing:border-box">
+        <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.35rem">Limit</p>
+        <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin:0">The embedder is a small one, smaller than the paper's large one, which weakens the dense and hybrid arms. My graph arm also has no query-time triple filter.</p>
+       </div>
+      </div>
+      <div style="padding:1.25rem 0;border-bottom:1px solid var(--rule)">
+       <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">The graph's win varies by question type</h3>
+       <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">I split 2Wiki by question type. My reading is that the graph helps when questions chain facts. I did not test that.</p>
+       <div style="border:1px dashed var(--mute);padding:0.9rem 1.1rem;box-sizing:border-box">
+        <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.35rem">Limit</p>
+        <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin:0">The split was registered as exploratory only, so it is a lead and nothing firmer.</p>
+       </div>
+      </div>
+      <div style="padding:1.25rem 0;border-bottom:1px solid var(--rule)">
+       <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">A prompt nearly fooled my evaluation</h3>
+       <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">In the pilot, many questions were answered from memory, because both datasets are built from Wikipedia. The prompt's 'give your best guess' line was letting the model answer from memory. The real run used a refusal prompt. Under it, F1 on questions whose context did not contain the gold answer stayed between 0.000 and 0.033 for every arm, well under my threshold of 0.10. In the pilot, the same statistic under the guess prompt was 0.35 to 0.53, which would have failed. If you evaluate RAG on Wikipedia questions, measure this.</p>
+       <div style="border:1px dashed var(--mute);padding:0.9rem 1.1rem;box-sizing:border-box">
+        <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.35rem">Limit</p>
+        <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin:0">I had registered a measurement of how often the generator fills gaps from memory under the guess prompt, and did not run it. Between 33% and 65% of answers were refusals, so F1 partly measures whether retrieval supplied enough to answer.</p>
+       </div>
+      </div>
+      <div style="padding:1.25rem 0;border-bottom:1px solid var(--rule)">
+       <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">The cost depends on a step I did not run</h3>
+       <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">Graph indexing cost about $3.18 for MuSiQue (from the paper's published token counts) and $4.47 for 2Wiki (measured), at a cheap reference API rate. As run, per-query cost is about the same for both arms.</p>
+       <div style="border:1px dashed var(--mute);padding:0.9rem 1.1rem;box-sizing:border-box">
+        <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.35rem">Limit</p>
+        <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin:0">The real HippoRAG 2 filters triples with an LLM call at query time. I estimated that cost from the paper's prompt without running it. Treat the cost story as an estimate.</p>
+       </div>
+      </div>
+     </div>
+    </details>
+    <details style="border-top:1px solid var(--rule)">
+     <summary style="min-height:44px;display:flex;align-items:center;gap:0.5rem;font:500 1rem/1.3 'IBM Plex Sans',system-ui,sans-serif;color:var(--link);padding:0.35rem 0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"></path><path class="c-v" d="M12 5v14"></path></svg>All 8 limits</summary>
+     <div style="padding:0.5rem 0 1.5rem 0">
+      <ol style="margin:0.5rem 0 0 0;padding:0 0 0 1.5rem">
+       <li style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;padding-left:0.25rem">Context sizes were not identical. Mean context was within 15% across arms except on 2Wiki, where the graph averaged 755 tokens against 900 for BM25, a 16% gap.</li>
+       <li style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;padding-left:0.25rem">I used one generator, Claude Sonnet 5.5, with one generation per question and no temperature control. A different generator may change the gaps.</li>
+       <li style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;padding-left:0.25rem">Both datasets come from Wikipedia and the budget was small, with no repeated runs. I would not extend these results to other kinds of documents.</li>
+       <li style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;padding-left:0.25rem">The two graphs were built differently. The MuSiQue graph uses the HippoRAG authors' precomputed extraction (gpt-4o-mini). I built the 2Wiki graph with Claude Sonnet, the same family as the generator.</li>
+       <li style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;padding-left:0.25rem">The embedder is a small one, smaller than the paper's large one, which weakens the dense and hybrid arms.</li>
+       <li style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;padding-left:0.25rem">The MuSiQue result is underpowered.</li>
+       <li style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;padding-left:0.25rem">I missed two commitments. I had registered a second look at a 2,000-token budget, and a measurement of how often the generator fills gaps from memory under the guess prompt. I ran neither. My original protocol said an “iterate” verdict means adding the 2,000-token budget. After seeing a preview of the headline numbers, I wrote down that it would run only on “scale”. That was a post-hoc call. At 1,000 tokens the gold answer was in context for only 37 to 56% of MuSiQue questions (59 to 86% on 2Wiki), so every conclusion here holds at that budget only.</li>
+       <li style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;padding-left:0.25rem">One protocol file was frozen late. An amendment (dropping the 50 design questions, adding cost reporting) was drafted before any results but frozen after the runs finished. Nothing in it changed after the data existed except the header. It is still a hole in the pre-registration.</li>
+      </ol>
+     </div>
+    </details>
+    </div>
+    <h3 style="font:600 0.9375rem/1.35 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.4rem 0;margin-top:2rem">What’s next</h3>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">Next I'd like to test on documentation-style text instead of Wikipedia, and maybe run the check I skipped, with twice as much text for each system to work from. What I still don't know is whether the thin edge on set two survives a bigger sample.</p>
+    <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem">
+     <a href="/writing/graphrag-vs-tuned-hybrid/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The full article</a>
+     <a href="https://github.com/eeshangpt/graphrag-vs-tuned-hybrid" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Code and pre-registration history</a>
+     <a href="/writing/graphrag-vs-tuned-hybrid/index.md" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Markdown copy</a>
+    </p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:2rem 4.5rem;align-items:flex-start">
+   <div style="flex:3 1 24rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Found a hole in this?</h2>
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0;max-width:36rem">Reply by email. If you spot a flaw in the setup or have run the same comparison on your own data, I would like to read it.</p>
+    <a data-btn="dark" class="c-btn-full" href="mailto:hello@eeshangupta.com?subject=Re%3A%20I%20said%20GraphRAG%20beats%20vector%20RAG" style="display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 1.5rem;background:var(--ink);color:var(--inv);font:500 1rem/1.2 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none;box-sizing:border-box">Reply to this by email</a>
+    <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem;margin-top:0.5rem">
+     <a href="/feed.xml" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="margin-right:0.4rem"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1.4"></circle></svg>Get the next entry by RSS</a>
+     <a href="/work/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Work with me</a>
+    </p>
+   </div>
+   <nav aria-label="Other entries" style="flex:2 1 18rem;min-width:0">
+    <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.5rem">Another experiment, 10 Nov 2026</p>
+    <a href="/writing/small-judge-fresh-data/" style="display:inline-flex;align-items:center;min-height:44px;font:500 1.25rem/1.3 'Newsreader',Georgia,serif">A small local judge passed its pilot. Fresh data killed it.</a>
+    <p style="font:400 0.875rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0.6rem 0 0 0">A judge here is a model that checks another model’s answers.</p>
+    <p style="margin:0.25rem 0 0 0"><a href="/#proof" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">All entries: How I check my own claims</a></p>
+   </nav>
+  </div>
+ </div>
+</section>
+</article>
+
+</main>
+
+<footer style="border-top:1px solid var(--rule)">
+ <div style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box;display:flex;flex-wrap:wrap;gap:0.25rem 2rem;align-items:center;justify-content:space-between;padding-top:1rem;padding-bottom:1.5rem">
+  <p style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);margin:0">Eeshan Gupta · AI and ML evaluation, limits stated</p>
+  <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem">
+   <a href="/feed.xml" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">RSS</a>
+   <a href="mailto:hello@eeshangupta.com" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Email</a>
+   <a href="https://github.com/eeshangpt" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">GitHub</a>
+   <a href="https://www.linkedin.com/in/eeshangpt/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">LinkedIn</a>
+  </p>
+ </div>
+</footer>
+
+</div>
+</div>
+
+<script data-goatcounter="https://eeshangpt.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+
+</body>
+</html>
