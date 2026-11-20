@@ -87,3 +87,20 @@ html:not(.js) .c-ds-controls{display:none !important}
 .btn-primary{background:var(--ink);color:var(--inv)}
 .btn-primary:hover{background:var(--link);border-color:var(--link);color:var(--inv)}
 .btn-ghost{background:transparent;color:var(--ink)}
+
+/* Sticky top bar (first page header only, not the article header). On phones with JS the five section links
+   fold into a Menu panel under the bar; without JS they stay visible and wrap as before. */
+html{scroll-padding-top:4.5rem}
+.o1-root>header{position:sticky;top:0;z-index:50;background:var(--bg)}
+.c-menubtn{display:none}
+.c-menubtn:focus-visible{outline:2px solid var(--link);outline-offset:3px}
+@media (max-width:46rem){
+html:not(.js) .o1-root>header{position:static}
+.js .c-menubtn{display:inline-flex}
+.js .o1-root>header .c-navgroup{display:none !important;position:absolute;top:100%;left:0;right:0;margin:0;padding:0.25rem clamp(1rem,4vw,3rem) 0.5rem;box-sizing:border-box;flex-direction:column;align-items:stretch;background:var(--bg);border-bottom:1px solid var(--rule)}
+.js .o1-root>header .c-navgroup.is-open{display:flex !important}
+.js .o1-root>header .c-navgroup .c-navlink{font-size:1rem !important;padding-left:0 !important;justify-content:flex-start}
+.js .o1-root>header nav{flex-wrap:nowrap !important;gap:0 0.25rem !important}
+.js .o1-root>header .c-navlink[href="/work/"]{margin-left:0 !important;padding:0 0.5rem !important}
+.js .c-menubtn{padding:0 0.5rem !important;margin-left:0.25rem}
+}
