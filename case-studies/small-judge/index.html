@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="only light">
+<script src="/script.js"></script>
+<title>Can a small local model judge RAG answers? — Eeshan Gupta</title>
+<meta name="description" content="A small model on a 6 GB graphics card ranked six generators like human annotators did, then failed on fresh data. A short case study.">
+<link rel="canonical" href="https://eeshangupta.com/case-studies/small-judge/">
+<link rel="alternate" type="application/rss+xml" title="Eeshan Gupta — Writing" href="https://eeshangupta.com/feed.xml">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Eeshan Gupta">
+<meta property="og:title" content="Can a small local model judge RAG answers? — Eeshan Gupta">
+<meta property="og:description" content="A small model on a 6 GB graphics card ranked six generators like human annotators did, then failed on fresh data. A short case study.">
+<meta property="og:url" content="https://eeshangupta.com/case-studies/small-judge/">
+<meta property="og:image" content="https://eeshangupta.com/writing/small-judge-fresh-data/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Two scatter plots of judged against human unfaithful rate. For 10 FaithBench generators the judge sits far below the line; for 6 RAGTruth generators it sits close to it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Can a small local model judge RAG answers? — Eeshan Gupta">
+<meta name="twitter:description" content="A small model on a 6 GB graphics card ranked six generators like human annotators did, then failed on fresh data. A short case study.">
+<meta name="twitter:image" content="https://eeshangupta.com/writing/small-judge-fresh-data/og.png">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/newsreader-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-sans-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="o1" style="width:100%;margin:0">
+<div class="o1-root" style="background:var(--bg);color:var(--ink);font-family:'Newsreader',Georgia,serif;min-height:100%;overflow-wrap:break-word">
+<header style="border-bottom:1px solid var(--rule)">
+ <nav aria-label="Main" style="max-width:68rem;margin:0 auto;padding:0.5rem clamp(1rem,4vw,3rem);box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;gap:0.25rem 0.5rem">
+  <a class="c-navlink" href="/" style="display:inline-flex;align-items:center;min-height:44px;margin-right:auto;font:600 1.125rem/1 'Newsreader',Georgia,serif;color:var(--ink);text-decoration:none">Eeshan Gupta</a>
+  <a class="c-navlink" href="/work/" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none;border:1px solid var(--mute);margin-left:0.5rem">Work with me</a>
+  <button type="button" class="c-menubtn" aria-expanded="false" aria-controls="site-menu" style="align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;background:transparent;color:var(--ink);border:1px solid var(--mute);cursor:pointer"><span aria-hidden="true">☰</span>&nbsp;Menu</button>
+  <div class="c-navgroup" id="site-menu" style="display:flex;flex-wrap:wrap;align-items:center">
+   <a class="c-navlink" href="/#help" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">What I do</a>
+   <a class="c-navlink" href="/#results" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">Results</a>
+   <a class="c-navlink" href="/#about" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">About</a>
+   <a class="c-navlink" href="/case-studies/" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">Case studies</a>
+  </div>
+ </nav>
+</header>
+<main class="article">
+  <article class="article-inner">
+    <header class="article-head">
+      <p class="eyebrow">Case study · RAG evaluation</p>
+      <h1>Can a small local model judge RAG answers?</h1>
+      <p class="article-meta"><time datetime="2026-11-10">10 November 2026</time> · Eeshan Gupta</p>
+    </header>
+
+    <div class="article-body">
+<h2>The question</h2>
+<p>Can a small model on my own PC check whether a RAG answer sticks to its source (faithfulness), the job a large paid model usually does? My machine has a 6 GB graphics card. Judging is costly, so offloading it to a free GPU might bring the cost down.</p>
+
+<h2>What I tested</h2>
+<p>I tried two small-model ideas on public data. I committed the rules in git, with tagged freezes, before computing any result. Everything ran locally.</p>
+<p>The first idea was ranking: a judge that only has to say which generators hallucinate more. The judge was Qwen3-4B-Instruct-2507 in 4-bit, answering yes or no. The pilot used the six generators in the RAGTruth QA test split, 150 items each. Then I froze a second plan before any judge saw the new data, FaithBench, 800 summaries from 10 LLMs over the same 80 documents. Scale needed Kendall tau-b (rank agreement, -1 to 1) of at least 0.5 and the right order between a high and a low tier of generators. Kill meant a wrong tier order or tau-b below 0.3.</p>
+<p>The second idea was a cascade. MiniCheck, a small fact-checking model, answers first, and only the items it is unsure about go to Qwen3-4B. I scored it on WiCE (172 items) and on a separate 300-item RAGTruth sample. The target was Cohen's kappa of 0.9 times the Claude Sonnet kappa that the RAIM preprint reports for each dataset.</p>
+
+<h2>The answer</h2>
+<p>The ranking idea passed the pilot and failed on fresh data.</p>
+<table>
+<thead><tr><th scope="col">Measure</th><th scope="col">RAGTruth pilot</th><th scope="col">FaithBench confirmation</th></tr></thead>
+<tbody>
+<tr><th scope="row">Generators</th><td>6</td><td>10</td></tr>
+<tr><th scope="row">Kendall tau-b</th><td>0.733</td><td>0.048</td></tr>
+<tr><th scope="row">95% bootstrap interval</th><td>[0.414, 1.000]</td><td>[-0.167, 0.523]</td></tr>
+<tr><th scope="row">Tier order correct</th><td>yes</td><td>no</td></tr>
+<tr><th scope="row">Pre-registered verdict</th><td>scale</td><td>kill</td></tr>
+</tbody>
+</table>
+<p>On FaithBench the judge flagged 9% to 20% of summaries per generator, against 46% to 73% from the human annotators.</p>
+<p>The cascade came closer. On WiCE MiniCheck decided 81% of items on its own, and the cascade's kappa was 0.488 against the 0.493 target. Expected time per item fell from 18.79 s to 3.50 s, with no measurable difference in errors. On the RAGTruth sample kappa was 0.313 against 0.541. The rule needed both datasets to reach their target, so the verdict was iterate.</p>
+
+<h2>What it means for your team</h2>
+<p>A judge that passes a pilot can still fail on fresh data, so confirm on a second dataset before you rely on one. A cascade, or a small model tuned for the task, can act as a gate in front of a larger judge, so the larger model only sees the difficult cases. I still have to measure what that costs at scale. Until then I would use a small model only where it rarely passes an unfaithful answer as faithful, and where wrongly flagging a good answer costs little.</p>
+
+<h2>Limits</h2>
+<p>FaithBench items were chosen where five existing detectors disagreed most, so the data is hard by construction, and about 60% of summaries are labelled "Unwanted". With 80 summaries per generator, each rate carries an interval of about plus or minus 11 points. The test could resolve the coarse split and not the order inside a tier. I used one prompt and one uncalibrated 0.5 cut.</p>
+<p>The cascade target comes from the RAIM preprint's samples, which differ from mine, and the preprint has not been peer reviewed. The cascade analysis re-used data and models I had already seen, and I picked the primary model after seeing those results. Treat the cascade result as a lead worth confirming.</p>
+      <p class="case-link"><a href="/writing/small-judge-fresh-data/">Read the full article, with every number and all the limits</a></p>
+    </div>
+    <a href="/case-studies/" class="article-back">&larr; All case studies</a>
+  </article>
+</main>
+<footer style="border-top:1px solid var(--rule)">
+ <div style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box;display:flex;flex-wrap:wrap;gap:0.25rem 2rem;align-items:center;justify-content:space-between;padding-top:1rem;padding-bottom:1.5rem">
+  <p style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);margin:0">Eeshan Gupta · AI and ML evaluation, limits stated</p>
+  <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem">
+   <a href="/feed.xml" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">RSS</a>
+   <a href="mailto:hello@eeshangupta.com" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Email</a>
+   <a href="https://github.com/eeshangpt" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">GitHub</a>
+   <a href="https://www.linkedin.com/in/eeshangpt/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">LinkedIn</a>
+  </p>
+ </div>
+</footer>
+</div>
+</div>
+
+<script data-goatcounter="https://eeshangpt.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+
+</body>
+</html>
