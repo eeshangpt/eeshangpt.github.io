@@ -18,5 +18,7 @@
 - [Home](https://eeshangupta.com/): introduction, project stories and open questions.
 - [About](https://eeshangupta.com/#about): background, the MSc thesis and how to get in touch.
 - [Work with me](https://eeshangupta.com/work/): the two offers and how a project starts.
-- [Case study](https://eeshangupta.com/case-studies/graphrag/): the GraphRAG experiment told for a team choosing a system.
+- [Case studies](https://eeshangupta.com/case-studies/): short case studies of experiments I ran myself, not client work.
+- [Case study: GraphRAG](https://eeshangupta.com/case-studies/graphrag/): the GraphRAG experiment told for a team choosing a system.
+- [Case study: small local judge](https://eeshangupta.com/case-studies/small-judge/): a small local model as a RAG answer judge, passed a pilot and failed on fresh data.
 - [RSS feed](https://eeshangupta.com/feed.xml)

@@ -60,7 +60,8 @@ html:not(.js) .c-ds-controls{display:none !important}
 .article{padding-top:clamp(2.5rem,7vw,4.5rem);padding-bottom:clamp(3rem,8vw,5rem)}
 .article-inner{max-width:46rem}
 .article-body > p,.article-body li,.article-inner > p,.article-meta{max-width:34rem}
-.article-meta{font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);margin:0 0 2.5rem 0}
+.article-meta{font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);margin:0 0 0.75rem 0}
+.article-case{font:400 1.0625rem/1.5 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 2.5rem 0;max-width:34rem}
 .article-body p,.article-body li{font:400 1.125rem/1.65 'Newsreader',Georgia,serif;color:var(--ink)}
 .article-body p{margin:0 0 1.1rem 0}
 .article-body h2{font:500 1.625rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:2.75rem 0 0.85rem 0}

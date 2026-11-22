@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="only light">
+<script src="/script.js"></script>
+<title>Case studies — Eeshan Gupta</title>
+<meta name="description" content="Short case studies of RAG evaluation experiments that Eeshan Gupta designed and ran himself, with the limits stated.">
+<link rel="canonical" href="https://eeshangupta.com/case-studies/">
+<link rel="alternate" type="application/rss+xml" title="Eeshan Gupta — Writing" href="https://eeshangupta.com/feed.xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eeshan Gupta">
+<meta property="og:title" content="Case studies — Eeshan Gupta">
+<meta property="og:description" content="Short case studies of RAG evaluation experiments that Eeshan Gupta designed and ran himself, with the limits stated.">
+<meta property="og:url" content="https://eeshangupta.com/case-studies/">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/newsreader-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-sans-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="o1" style="width:100%;margin:0">
+<div class="o1-root" style="background:var(--bg);color:var(--ink);font-family:'Newsreader',Georgia,serif;min-height:100%;overflow-wrap:break-word">
+<header style="border-bottom:1px solid var(--rule)">
+ <nav aria-label="Main" style="max-width:68rem;margin:0 auto;padding:0.5rem clamp(1rem,4vw,3rem);box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;gap:0.25rem 0.5rem">
+  <a class="c-navlink" href="/" style="display:inline-flex;align-items:center;min-height:44px;margin-right:auto;font:600 1.125rem/1 'Newsreader',Georgia,serif;color:var(--ink);text-decoration:none">Eeshan Gupta</a>
+  <a class="c-navlink" href="/work/" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none;border:1px solid var(--mute);margin-left:0.5rem">Work with me</a>
+  <button type="button" class="c-menubtn" aria-expanded="false" aria-controls="site-menu" style="align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;background:transparent;color:var(--ink);border:1px solid var(--mute);cursor:pointer"><span aria-hidden="true">☰</span>&nbsp;Menu</button>
+  <div class="c-navgroup" id="site-menu" style="display:flex;flex-wrap:wrap;align-items:center">
+   <a class="c-navlink" href="/#help" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">What I do</a>
+   <a class="c-navlink" href="/#results" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">Results</a>
+   <a class="c-navlink" href="/#about" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">About</a>
+   <a class="c-navlink" href="/case-studies/" aria-current="page" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">Case studies</a>
+  </div>
+ </nav>
+</header>
+<main>
+  <div class="page-head">
+    <p class="eyebrow">Case studies</p>
+    <h1>Experiments I ran myself</h1>
+    <p>These are experiments I designed and ran myself, not client work. Client results are on the <a href="/#results" style="color:var(--accent-text);text-decoration:underline">home page</a>.</p>
+  </div>
+  <ul class="post-list">
+    <li>
+      <a class="post-card" href="/case-studies/small-judge/">
+        <p class="eyebrow">10 Nov 2026 · RAG evaluation</p>
+        <h2>Can a small local model judge RAG answers?</h2>
+        <p>A small model on a 6 GB graphics card ranked six generators mostly in line with human annotators (Kendall tau-b 0.733). On fresh data it failed (0.048). A layered judge came closer to its target.</p>
+        <span class="more">Read the case study &rarr;</span>
+      </a>
+    </li>
+    <li>
+      <a class="post-card" href="/case-studies/graphrag/">
+        <p class="eyebrow">24 Oct 2026 · RAG evaluation</p>
+        <h2>Is a graph-based RAG system worth the extra work?</h2>
+        <p>Against a well-tuned standard system, the graph won by 19.0 points on one question set and by 3.5 on the other, too thin for my test to call.</p>
+        <span class="more">Read the case study &rarr;</span>
+      </a>
+    </li>
+  </ul>
+</main>
+<footer style="border-top:1px solid var(--rule)">
+ <div style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box;display:flex;flex-wrap:wrap;gap:0.25rem 2rem;align-items:center;justify-content:space-between;padding-top:1rem;padding-bottom:1.5rem">
+  <p style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);margin:0">Eeshan Gupta · AI and ML evaluation, limits stated</p>
+  <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem">
+   <a href="/feed.xml" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">RSS</a>
+   <a href="mailto:hello@eeshangupta.com" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Email</a>
+   <a href="https://github.com/eeshangpt" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">GitHub</a>
+   <a href="https://www.linkedin.com/in/eeshangpt/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">LinkedIn</a>
+  </p>
+ </div>
+</footer>
+</div>
+</div>
+
+<script data-goatcounter="https://eeshangpt.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+
+</body>
+</html>

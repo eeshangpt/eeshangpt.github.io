@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="only light">
+<script src="/script.js"></script>
+<title>Can a small local model judge RAG answers? — Eeshan Gupta</title>
+<meta name="description" content="I tested whether a small model on my own PC could judge RAG answers. It passed its pilot and failed on fresh data. This page is the short version.">
+<link rel="canonical" href="https://eeshangupta.com/case-studies/small-judge/">
+<link rel="alternate" type="application/rss+xml" title="Eeshan Gupta — Writing" href="https://eeshangupta.com/feed.xml">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Eeshan Gupta">
+<meta property="og:title" content="Can a small local model judge RAG answers? — Eeshan Gupta">
+<meta property="og:description" content="I tested whether a small model on my own PC could judge RAG answers. It passed its pilot and failed on fresh data. This page is the short version.">
+<meta property="og:url" content="https://eeshangupta.com/case-studies/small-judge/">
+<meta property="og:image" content="https://eeshangupta.com/writing/small-judge-fresh-data/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Two scatter plots of judged against human unfaithful rate. For 10 FaithBench generators the judge sits far below the line; for 6 RAGTruth generators it sits close to it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Can a small local model judge RAG answers? — Eeshan Gupta">
+<meta name="twitter:description" content="I tested whether a small model on my own PC could judge RAG answers. It passed its pilot and failed on fresh data. This page is the short version.">
+<meta name="twitter:image" content="https://eeshangupta.com/writing/small-judge-fresh-data/og.png">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/newsreader-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-sans-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="o1" style="width:100%;margin:0">
+<div class="o1-root" style="background:var(--bg);color:var(--ink);font-family:'Newsreader',Georgia,serif;min-height:100%;overflow-wrap:break-word">
+<header style="border-bottom:1px solid var(--rule)">
+ <nav aria-label="Main" style="max-width:68rem;margin:0 auto;padding:0.5rem clamp(1rem,4vw,3rem);box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;gap:0.25rem 0.5rem">
+  <a class="c-navlink" href="/" style="display:inline-flex;align-items:center;min-height:44px;margin-right:auto;font:600 1.125rem/1 'Newsreader',Georgia,serif;color:var(--ink);text-decoration:none">Eeshan Gupta</a>
+  <a class="c-navlink" href="/work/" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none;border:1px solid var(--mute);margin-left:0.5rem">Work with me</a>
+  <button type="button" class="c-menubtn" aria-expanded="false" aria-controls="site-menu" style="align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;background:transparent;color:var(--ink);border:1px solid var(--mute);cursor:pointer"><span aria-hidden="true">☰</span>&nbsp;Menu</button>
+  <div class="c-navgroup" id="site-menu" style="display:flex;flex-wrap:wrap;align-items:center">
+   <a class="c-navlink" href="/#help" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">What I do</a>
+   <a class="c-navlink" href="/#results" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">Results</a>
+   <a class="c-navlink" href="/#about" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">About</a>
+   <a class="c-navlink" href="/case-studies/" style="display:inline-flex;align-items:center;min-height:44px;padding:0 0.75rem;font:500 0.9375rem/1 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none">Case studies</a>
+  </div>
+ </nav>
+</header>
+
+<main>
+
+<article>
+<section class="c-hero" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box;padding-top:clamp(2rem,5vw,4rem);padding-bottom:clamp(2.5rem,6vw,4.5rem)">
+ <p style="margin:0 0 0.75rem 0;display:flex;flex-wrap:wrap;align-items:center;gap:0 1.25rem;font:400 0.875rem/1.4 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute)">
+  <a href="/#proof" style="display:inline-flex;align-items:center;min-height:44px;font:400 0.875rem/1.3 'IBM Plex Mono',ui-monospace,monospace">How I check my own claims</a>
+  <span>Case study, 10 November 2026 · Eeshan Gupta</span>
+ </p>
+ <div style="display:flex;flex-wrap:wrap;gap:2.5rem 4.5rem;align-items:flex-start">
+  <div style="flex:3 1 28rem;min-width:0">
+   <h1 style="font:500 clamp(2.1rem,4.6vw,3.5rem)/1.1 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1.5rem 0;letter-spacing:-0.015em;max-width:18ch">Can a small local model judge RAG answers?</h1>
+   <p style="font:400 1.25rem/1.55 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0;max-width:36rem">I tested whether a small model on my own PC could judge RAG answers. This page is the short version.</p>
+   <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem">
+    <a href="mailto:hello@eeshangupta.com?subject=Choosing%20a%20RAG%20judge" style="display:inline-flex;align-items:center;min-height:44px;font:600 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Facing the same choice? Write to me</a>
+    <a href="/writing/small-judge-fresh-data/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The full article, with every number</a>
+    <a href="#detail" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Method and limits</a>
+   </p>
+  </div>
+  <aside aria-label="In short" style="flex:2 1 19rem;min-width:0">
+   <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0">In short</p>
+   <dl style="margin:0.25rem 0 0 0;border-top:1px solid var(--ink)">
+    <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">I asked</dt>
+    <dd style="font:400 1.1875rem/1.45 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Can a small model on my own PC judge whether an answer sticks to its source?</dd>
+    <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">I found</dt>
+    <dd style="font:400 1.1875rem/1.45 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">It ranked generators mostly in line with human annotators, then failed on fresh data.</dd>
+    <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">For your team</dt>
+    <dd style="font:400 1.1875rem/1.45 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0">Confirm a judge on a second dataset before you rely on it.</dd>
+   </dl>
+  </aside>
+ </div>
+</section>
+
+<section id="question" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">The question</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:36rem">
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0">A judge here is a model that checks another model’s answers. Mine checks whether a RAG answer sticks to its source (faithfulness), the job a large paid model usually does. My machine has a 6 GB graphics card, and judging is costly, so I tried a small local model.</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">I tried two ideas on public data, with the rules committed in git before I computed any result. Everything ran locally.</p>
+    
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="found" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">What I found</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:36rem">
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0">The first idea, ranking generators by how often each hallucinates, passed its pilot and failed on fresh data. The second, a layered judge, came closer and still missed its target on both datasets.</p>
+
+    <div style="border:1px solid var(--rule);background:var(--panel);padding:clamp(1.25rem,3vw,2rem);box-sizing:border-box;min-width:0;margin:1.75rem 0">
+     <p id="ds-l" class="c-ds-controls" style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.5rem">See it for each idea</p>
+     <div role="group" aria-labelledby="ds-l" class="c-ds-controls" data-set-toggle style="display:flex;flex-wrap:wrap;gap:0.4rem;margin:0 0 1.25rem 0">
+      <button type="button" data-set="rank" aria-pressed="true" style="min-height:44px;padding:0.5rem 0.9rem;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif;background:transparent;color:var(--ink);border:1px solid var(--mute);cursor:pointer;text-align:left"><span style="display:block">Idea one: ranking, killed</span><span style="display:block;font:400 0.875rem/1.4 'IBM Plex Mono',ui-monospace,monospace">Rank agreement, Kendall tau-b</span></button>
+      <button type="button" data-set="cascade" aria-pressed="false" style="min-height:44px;padding:0.5rem 0.9rem;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif;background:transparent;color:var(--ink);border:1px solid var(--mute);cursor:pointer;text-align:left"><span style="display:block">Idea two: layered judge, iterate</span><span style="display:block;font:400 0.875rem/1.4 'IBM Plex Mono',ui-monospace,monospace">Agreement with humans, Cohen’s kappa</span></button>
+     </div>
+     <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0">Higher is better. 1 is perfect agreement.</p>
+     <div aria-live="polite"><div class="c-set" data-set="rank"><p class="c-nojs-label" style="font:600 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:1rem 0 0 0">Idea one: ranking, killed Kendall tau-b</p>
+      <div style="padding:0.5rem 0">
+       <p style="display:flex;justify-content:space-between;gap:1rem;font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.35rem 0"><span>Pilot, 6 generators (RAGTruth)</span><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400">0.733</span></p>
+       <div aria-hidden="true" style="position:relative;height:1.5rem;background:var(--bg);border:1px solid var(--mid);border-left:1px solid var(--ink);box-sizing:border-box"><span style="position:absolute;left:0;top:0;bottom:0;width:73.3%;background:var(--ink);border:2px solid var(--ink);box-sizing:border-box"></span></div>
+      </div>
+      <div style="padding:0.5rem 0">
+       <p style="display:flex;justify-content:space-between;gap:1rem;font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.35rem 0"><span>Fresh data, 10 generators (FaithBench)</span><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400">0.048</span></p>
+       <div aria-hidden="true" style="position:relative;height:1.5rem;background:var(--bg);border:1px solid var(--mid);border-left:1px solid var(--ink);box-sizing:border-box"><span style="position:absolute;left:0;top:0;bottom:0;width:4.8%;background:transparent;border:2px solid var(--ink);box-sizing:border-box"></span></div>
+      </div>
+      <p style="font:500 1.5rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:1rem 0 0.25rem 0">Rank agreement fell from 0.733 to 0.048</p>
+      <div class="c-verdict" style="min-height:7rem">
+       <div>
+        <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin:0">Killed by my own rule: on fresh data the tier order was wrong.</p>
+       </div>
+      </div>
+     </div><div class="c-set" data-set="cascade"><p class="c-nojs-label" style="font:600 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:1rem 0 0 0">Idea two: layered judge, iterate Cohen’s kappa</p>
+      <div style="padding:0.5rem 0">
+       <p style="display:flex;justify-content:space-between;gap:1rem;font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.35rem 0"><span>WiCE, layered judge</span><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400">0.488</span></p>
+       <div aria-hidden="true" style="position:relative;height:1.5rem;background:var(--bg);border:1px solid var(--mid);border-left:1px solid var(--ink);box-sizing:border-box"><span style="position:absolute;left:0;top:0;bottom:0;width:48.8%;background:var(--ink);border:2px solid var(--ink);box-sizing:border-box"></span></div>
+      </div>
+      <div style="padding:0.5rem 0">
+       <p style="display:flex;justify-content:space-between;gap:1rem;font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.35rem 0"><span>WiCE, target</span><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400">0.493</span></p>
+       <div aria-hidden="true" style="position:relative;height:1.5rem;background:var(--bg);border:1px solid var(--mid);border-left:1px solid var(--ink);box-sizing:border-box"><span style="position:absolute;left:0;top:0;bottom:0;width:49.3%;background:transparent;border:2px solid var(--ink);box-sizing:border-box"></span></div>
+      </div>
+      <div style="padding:0.5rem 0">
+       <p style="display:flex;justify-content:space-between;gap:1rem;font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.35rem 0"><span>RAGTruth, layered judge</span><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400">0.313</span></p>
+       <div aria-hidden="true" style="position:relative;height:1.5rem;background:var(--bg);border:1px solid var(--mid);border-left:1px solid var(--ink);box-sizing:border-box"><span style="position:absolute;left:0;top:0;bottom:0;width:31.3%;background:var(--ink);border:2px solid var(--ink);box-sizing:border-box"></span></div>
+      </div>
+      <div style="padding:0.5rem 0">
+       <p style="display:flex;justify-content:space-between;gap:1rem;font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.35rem 0"><span>RAGTruth, target</span><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400">0.541</span></p>
+       <div aria-hidden="true" style="position:relative;height:1.5rem;background:var(--bg);border:1px solid var(--mid);border-left:1px solid var(--ink);box-sizing:border-box"><span style="position:absolute;left:0;top:0;bottom:0;width:54.1%;background:transparent;border:2px solid var(--ink);box-sizing:border-box"></span></div>
+      </div>
+      <p style="font:500 1.5rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:1rem 0 0.25rem 0">Short of the target on both</p>
+      <div class="c-verdict" style="min-height:7rem">
+       <div>
+        <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin:0">Iterate. The target was 0.9 times a preprint’s Claude Sonnet kappa, and both datasets had to reach it.</p>
+       </div>
+      </div>
+     </div></div>
+    </div>
+
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="means" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">What it means if you are choosing a system</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:44rem">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:2rem 2.5rem">
+     <div style="min-width:0;border-top:1px solid var(--ink);padding-top:1rem">
+      <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Confirm on fresh data</h3>
+      <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">The pilot ranked generators mostly in line with human annotators. On a second dataset, with the setup unchanged, agreement fell to 0.048.</p>
+     </div>
+     <div style="min-width:0;border-top:1px solid var(--ink);padding-top:1rem">
+      <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">A small model can be a gate</h3>
+      <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">A cascade, or a small model tuned for the task, can gate a larger judge, so the larger model only sees the difficult cases.</p>
+     </div>
+     <div style="min-width:0;border-top:1px solid var(--ink);padding-top:1rem">
+      <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Know what a miss costs you</h3>
+      <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">Until I retest, I would use a small model only where it rarely passes an unfaithful answer as faithful, and where wrongly flagging a good answer costs little.</p>
+     </div>
+     
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="stops" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Where this stops holding</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:36rem">
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0">FaithBench items were chosen where five existing detectors disagreed most, so the data is hard by construction. With 80 summaries per generator, the test could resolve the coarse split and not the order inside a tier.</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">The layered judge’s target comes from a preprint’s samples, which differ from mine, and I picked the primary model after seeing earlier results. Treat it as a lead worth confirming.</p>
+    
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="talk" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:2rem 4.5rem;align-items:flex-start">
+   <div style="flex:2 1 24rem;min-width:0;max-width:38rem">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Facing the same choice?</h2>
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0">Tell me what you want a judge to check and what your answers and sources look like. A few lines is enough.</p>
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0">I reply within 2 working days.</p>
+   </div>
+   <div style="flex:1 1 16rem;min-width:0">
+    <a data-btn="dark" class="c-btn-full" href="mailto:hello@eeshangupta.com?subject=Choosing%20a%20RAG%20judge" style="display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 1.5rem;background:var(--ink);color:var(--inv);font:500 1rem/1.2 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none;box-sizing:border-box">Write to hello@eeshangupta.com</a>
+    <p style="font:400 0.875rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0.6rem 0 0 0">Email only. There is no form and no booking page.</p>
+    <p style="margin:0.25rem 0 0 0"><a href="/work/#evaluation" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The evaluation offer</a></p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="detail" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Method, numbers and limits</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:36rem">
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--mute);margin:0 0 0.85rem 0">For the engineers on your team. The full write-up has every number and every limit.</p>
+    <div style="border-bottom:1px solid var(--rule);margin-top:1.25rem">
+    <details style="border-top:1px solid var(--rule)">
+     <summary style="min-height:44px;display:flex;align-items:center;gap:0.5rem;font:500 1rem/1.3 'IBM Plex Sans',system-ui,sans-serif;color:var(--link);padding:0.35rem 0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"></path><path class="c-v" d="M12 5v14"></path></svg>Method and key numbers</summary>
+     <div style="padding:0.5rem 0 1.5rem 0">
+      <dl style="margin:0">
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Judges</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">I used Qwen3-4B-Instruct-2507 in 4-bit as a yes/no judge, and MiniCheck-Flan-T5-Large, a small fact-checking model. The rules were committed and tagged before any result.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Ranking idea, data and rule</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">The pilot used the six generators in the RAGTruth QA test split, 150 items each. The confirmation used FaithBench: 800 summaries from 10 LLMs over the same 80 documents. Scale needed Kendall tau-b of at least 0.5 and the right tier order, and kill meant a wrong tier order or tau-b below 0.3.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Ranking idea, numbers</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">In the pilot, tau-b was 0.733 (95% bootstrap interval [0.414, 1.000]) with the tier order correct, so the verdict was scale. On FaithBench it was 0.048 ([-0.167, 0.523]) with the tier order wrong, so the verdict was kill. The judge flagged 9% to 20% of summaries per generator against 46% to 73% from annotators.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Layered judge</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">MiniCheck answers first and unsure items go to Qwen3-4B. The target was Cohen’s kappa of 0.9 times the Claude Sonnet kappa reported in the RAIM preprint: 0.493 on WiCE (172 items) and 0.541 on RAGTruth (300 items). The results were 0.488 and 0.313, and the verdict was iterate.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Limits</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0">The full write-up lists every limit, including that the 80 source documents are shared by all 10 generators and that the 0.5 cut was not calibrated.</dd>
+      </dl>
+     </div>
+    </details>
+    </div>
+    <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem">
+     <a href="/writing/small-judge-fresh-data/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The full article, with every number and every limit</a>
+     <a href="https://github.com/eeshangpt/judge-bench" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Code, plans and predictions</a>
+    </p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:2rem 4.5rem;align-items:flex-start">
+   <div style="flex:3 1 24rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Found a hole in this?</h2>
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0;max-width:36rem">Reply by email. If you spot a flaw in the setup or have run a small judge on your own data, I would like to read it.</p>
+    <a data-btn="dark" class="c-btn-full" href="mailto:hello@eeshangupta.com?subject=Re%3A%20A%20small%20local%20judge" style="display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 1.5rem;background:var(--ink);color:var(--inv);font:500 1rem/1.2 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none;box-sizing:border-box">Reply to this by email</a>
+    <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem;margin-top:0.5rem">
+     <a href="/feed.xml" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="margin-right:0.4rem"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1.4"></circle></svg>Get the next entry by RSS</a>
+     <a href="/work/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Work with me</a>
+    </p>
+   </div>
+   <nav aria-label="Other entries" style="flex:2 1 18rem;min-width:0">
+    <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.5rem">Another experiment, 24 Oct 2026</p>
+    <a href="/case-studies/graphrag/" style="display:inline-flex;align-items:center;min-height:44px;font:500 1.25rem/1.3 'Newsreader',Georgia,serif">Is a graph-based RAG system worth the extra work?</a>
+    <p style="margin:0.25rem 0 0 0"><a href="/case-studies/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">All case studies</a></p>
+   </nav>
+  </div>
+ </div>
+</section>
+</article>
+
+</main>
+
+<footer style="border-top:1px solid var(--rule)">
+ <div style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box;display:flex;flex-wrap:wrap;gap:0.25rem 2rem;align-items:center;justify-content:space-between;padding-top:1rem;padding-bottom:1.5rem">
+  <p style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);margin:0">Eeshan Gupta · AI and ML evaluation, limits stated</p>
+  <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem">
+   <a href="/feed.xml" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">RSS</a>
+   <a href="mailto:hello@eeshangupta.com" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Email</a>
+   <a href="https://github.com/eeshangpt" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">GitHub</a>
+   <a href="https://www.linkedin.com/in/eeshangpt/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">LinkedIn</a>
+  </p>
+ </div>
+</footer>
+
+</div>
+</div>
+
+<script data-goatcounter="https://eeshangpt.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+
+</body>
+</html>

@@ -76,7 +76,7 @@
         for (var k = 0; k < sets.length; k++) sets[k].hidden = sets[k].getAttribute('data-set') !== name;
       };
       for (var b = 0; b < buttons.length; b++) buttons[b].addEventListener('click', function () { show(this.getAttribute('data-set')); });
-      show('wiki');
+      show(buttons[0].getAttribute('data-set'));
     }
   }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', init); else init();

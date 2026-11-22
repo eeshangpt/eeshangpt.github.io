@@ -6,11 +6,11 @@ Personal site of Eeshan Gupta, an AI Engineer. It is a static site in plain HTML
 
 - `/` is the landing page for people who might hire me: who it is for, the questions I help answer, the two offers, results from past projects, how I check my own claims, about, and how to start.
 - `/work/` is "Work with me": both offers in full and how an engagement runs.
-- `/case-studies/graphrag/` tells the GraphRAG experiment as a case study, with the method and limits lower down.
-- `/writing/` lists the articles. `/writing/graphrag-vs-tuned-hybrid/` and `/writing/small-judge-fresh-data/` are the articles, each with a Markdown copy next to it.
+- `/case-studies/` lists the case studies. `/case-studies/graphrag/` and `/case-studies/small-judge/` are short case studies (at most 600 words, fixed format), each linking to its full article.
+- `/writing/` lists the articles (it is not in the header; the case studies link to the articles). `/writing/graphrag-vs-tuned-hybrid/` and `/writing/small-judge-fresh-data/` are the articles, each with a Markdown copy next to it.
 - `/about/` is a 301 redirect (in `_redirects`) to the home page, which scrolls to About (`/#about`); old links to `/about/#experience`, `#projects` and `#skills` land on `/#background`.
 
-The header links to the home page, Work with me, What I do, Results, Case study and About, and wraps to two rows on phones. Colours follow the system light or dark setting.
+The header links to the home page, Work with me, What I do, Results, About and Case studies, and wraps to two rows on phones. Colours follow the system light or dark setting.
 
 ## Project structure
 
@@ -18,7 +18,7 @@ The header links to the home page, Work with me, What I do, Results, Case study 
 .
 ├── index.html            # Home
 ├── work/index.html       # Work with me
-├── case-studies/graphrag/index.html  # Case study
+├── case-studies/         # Case study index and the two case studies
 ├── _headers, _redirects # Cloudflare Pages response headers (CSP) and the /about/ redirect
 ├── writing/              # Writing index and articles
 ├── styles.css            # Theme tokens, shared rules and article styles (page markup carries inline styles)
