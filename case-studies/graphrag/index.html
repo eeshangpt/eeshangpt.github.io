@@ -6,13 +6,13 @@
 <meta name="color-scheme" content="only light">
 <script src="/script.js"></script>
 <title>Is a graph-based RAG system worth the extra work? — Eeshan Gupta</title>
-<meta name="description" content="I had said in public that graph-based RAG beats the plain kind. Then I measured it. A short case study for a team choosing a system.">
+<meta name="description" content="I had said in public that graph-based RAG beats the plain kind. Then I measured it. This page is the short version, for a team choosing a system.">
 <link rel="canonical" href="https://eeshangupta.com/case-studies/graphrag/">
 <link rel="alternate" type="application/rss+xml" title="Eeshan Gupta — Writing" href="https://eeshangupta.com/feed.xml">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Eeshan Gupta">
 <meta property="og:title" content="Is a graph-based RAG system worth the extra work? — Eeshan Gupta">
-<meta property="og:description" content="I had said in public that graph-based RAG beats the plain kind. Then I measured it. A short case study for a team choosing a system.">
+<meta property="og:description" content="I had said in public that graph-based RAG beats the plain kind. Then I measured it. This page is the short version, for a team choosing a system.">
 <meta property="og:url" content="https://eeshangupta.com/case-studies/graphrag/">
 <meta property="og:image" content="https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/og-v2.png">
 <meta property="og:image:width" content="1200">
@@ -20,7 +20,7 @@
 <meta property="og:image:alt" content="Paired F1 difference, graph minus tuned hybrid, on two datasets">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Is a graph-based RAG system worth the extra work? — Eeshan Gupta">
-<meta name="twitter:description" content="I had said in public that graph-based RAG beats the plain kind. Then I measured it. A short case study for a team choosing a system.">
+<meta name="twitter:description" content="I had said in public that graph-based RAG beats the plain kind. Then I measured it. This page is the short version, for a team choosing a system.">
 <meta name="twitter:image" content="https://eeshangupta.com/writing/graphrag-vs-tuned-hybrid/og-v2.png">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -45,51 +45,234 @@
   </div>
  </nav>
 </header>
-<main class="article">
-  <article class="article-inner">
-    <header class="article-head">
-      <p class="eyebrow">Case study · RAG evaluation</p>
-      <h1>Is a graph-based RAG system worth the extra work?</h1>
-      <p class="article-meta"><time datetime="2026-10-24">24 October 2026</time> · Eeshan Gupta</p>
-    </header>
 
-    <div class="article-body">
-<h2>The question</h2>
-<p>I had said in public that graph-based RAG beats the plain vector kind, and I had never measured it. A graph system maps how the people, places and things in your documents relate to each other, at the cost of an LLM pass over every document and a graph to maintain.</p>
-<p>Most comparisons use a plain baseline that a careful team would not ship, so I asked: if a graph system and a well-tuned standard one (keyword and meaning-based search combined, then reranked) hand the generator the same amount of text, how much of the graph's advantage is left?</p>
+<main>
 
-<section id="detail">
-<h2>What I tested</h2>
-<p>I wrote the decision rule down before the results existed: drop the "graph is overrated" angle only if the graph wins by more than 5 points on both datasets, with the lower end of its 95% interval above zero.</p>
-<p>I used two public multi-hop question sets, MuSiQue and 2WikiMultiHopQA, with 950 questions each. Every system used the same generator, Claude Sonnet 5.5, and at most 1,000 tokens of context. Scores are token F1, a standard word-overlap score against the reference answer, out of 100.</p>
-<p>In the pilot, a "give your best guess" line let the model answer many questions from memory, so the real run used a refusal prompt.</p>
+<article>
+<section class="c-hero" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box;padding-top:clamp(2rem,5vw,4rem);padding-bottom:clamp(2.5rem,6vw,4.5rem)">
+ <p style="margin:0 0 0.75rem 0;display:flex;flex-wrap:wrap;align-items:center;gap:0 1.25rem;font:400 0.875rem/1.4 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute)">
+  <a href="/#proof" style="display:inline-flex;align-items:center;min-height:44px;font:400 0.875rem/1.3 'IBM Plex Mono',ui-monospace,monospace">How I check my own claims</a>
+  <span>Case study, 24 October 2026 · Eeshan Gupta</span>
+ </p>
+ <div style="display:flex;flex-wrap:wrap;gap:2.5rem 4.5rem;align-items:flex-start">
+  <div style="flex:3 1 28rem;min-width:0">
+   <h1 style="font:500 clamp(2.1rem,4.6vw,3.5rem)/1.1 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1.5rem 0;letter-spacing:-0.015em;max-width:18ch">Is a graph-based RAG system worth the extra work?</h1>
+   <p style="font:400 1.25rem/1.55 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0;max-width:36rem">I had said in public that graph-based RAG beats the plain kind. Then I measured it. This page is the short version.</p>
+   <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem">
+    <a href="mailto:hello@eeshangupta.com?subject=Choosing%20a%20RAG%20system" style="display:inline-flex;align-items:center;min-height:44px;font:600 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Facing the same choice? Write to me</a>
+    <a href="/writing/graphrag-vs-tuned-hybrid/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The full article, with every number</a>
+    <a href="#detail" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Method and limits</a>
+   </p>
+  </div>
+  <aside aria-label="In short" style="flex:2 1 19rem;min-width:0">
+   <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0">In short</p>
+   <dl style="margin:0.25rem 0 0 0;border-top:1px solid var(--ink)">
+    <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">I asked</dt>
+    <dd style="font:400 1.1875rem/1.45 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Does a graph-based system beat the well-tuned standard one?</dd>
+    <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">I found</dt>
+    <dd style="font:400 1.1875rem/1.45 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Clearly on one set of questions. On the other, too thin to call.</dd>
+    <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">For your team</dt>
+    <dd style="font:400 1.1875rem/1.45 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0">Test on your own questions before you pay for the graph.</dd>
+   </dl>
+  </aside>
+ </div>
 </section>
 
-<h2>The answer</h2>
-<p>Here are the scores at a 1,000-token budget. The gap is worked out question by question.</p>
-<table>
-<thead><tr><th scope="col">Question set</th><th scope="col">Well-tuned standard</th><th scope="col">Graph</th><th scope="col">Gap, 95% interval</th></tr></thead>
-<tbody>
-<tr><th scope="row">2WikiMultiHopQA</th><td>37.2</td><td>56.2</td><td>+19.0 [+16.1, +22.0]</td></tr>
-<tr><th scope="row">MuSiQue</th><td>34.8</td><td>38.2</td><td>+3.5 [+0.4, +6.5]</td></tr>
-</tbody>
-</table>
-<p>On 2WikiMultiHopQA the graph won by 19.0 points. That is not close. On MuSiQue the gap was 3.5 points, and my equivalence test at plus or minus 4 points was inconclusive: it could not show the two systems are level, and it could not show the graph is clearly better.</p>
-<p>MuSiQue failed my rule, so the verdict was iterate. Neither side of my original question is settled.</p>
-<p>An exploratory split of 2WikiMultiHopQA by question type showed the graph ahead by 25 to 28 points on three of the four types, while the tuned hybrid was ahead by 6.5 points on plain comparison questions.</p>
+<section id="question" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">The question</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:36rem">
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0">GraphRAG first maps how the entities in your documents relate to each other. That costs an LLM pass over every document and a graph to maintain.</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">Most comparisons set it against a plain baseline that a careful team would not ship. So I compared it with the system I would deploy: keyword and meaning-based search combined, then re-sorted by a second model. I call that the well-tuned standard system. How much of the graph’s advantage is left when both get the same text?</p>
+    
+   </div>
+  </div>
+ </div>
+</section>
 
-<h2>What it means for your team</h2>
-<p>The same two systems gave two different answers on two question sets, so test on your own questions before you pay for the graph. Compare against what you would really ship: against a plain dense baseline the graph scored higher on both sets, but against the tuned hybrid one of those wins shrank to a gap my test could not call.</p>
-<p>GraphRAG is a good method when your data has clearly defined entity relationships, or at least supports them. That won't hold for every kind of data. Building the graph cost about $3.18 for MuSiQue and $4.47 for 2WikiMultiHopQA at a cheap reference API rate, and the cost of deploying it needs a thorough study of its own.</p>
+<section id="found" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">What I found</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:36rem">
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0">I expected the graph to be a clear winner. On one set of test questions it won by 19.0 points. On the other the gap was 3.5, too thin for my own test to call either way.</p>
 
-<h2>Limits</h2>
-<p>One model wrote every answer. Both question sets come from Wikipedia, and I would not extend these results to other documents. At 1,000 tokens the gold answer was in context for only 37 to 56% of MuSiQue questions (59 to 86% on 2WikiMultiHopQA), so every conclusion holds at that budget only.</p>
-<p>I built the 2WikiMultiHopQA graph with Claude Sonnet, the same family as the generator, which could favour the graph there. The MuSiQue result is underpowered, at roughly two thirds power. I also missed two commitments: a second look at a 2,000-token budget, and a measurement of how often the generator fills gaps from memory. The article lists 8 limits in all.</p>
-      <p class="case-link"><a href="/writing/graphrag-vs-tuned-hybrid/">Read the full article, with every number and all 8 limits</a></p>
+    <div style="border:1px solid var(--rule);background:var(--panel);padding:clamp(1.25rem,3vw,2rem);box-sizing:border-box;min-width:0;margin:1.75rem 0">
+     <p id="ds-l" class="c-ds-controls" style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.5rem">See it for each question set</p>
+     <div role="group" aria-labelledby="ds-l" class="c-ds-controls" data-set-toggle style="display:flex;flex-wrap:wrap;gap:0.4rem;margin:0 0 1.25rem 0">
+      <button type="button" data-set="wiki" aria-pressed="true" style="min-height:44px;padding:0.5rem 0.9rem;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif;background:transparent;color:var(--ink);border:1px solid var(--mute);cursor:pointer;text-align:left"><span style="display:block">Set one: a clear win</span><span style="display:block;font:400 0.875rem/1.4 'IBM Plex Mono',ui-monospace,monospace">2WikiMultiHopQA</span></button>
+      <button type="button" data-set="mus" aria-pressed="false" style="min-height:44px;padding:0.5rem 0.9rem;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif;background:transparent;color:var(--ink);border:1px solid var(--mute);cursor:pointer;text-align:left"><span style="display:block">Set two: too close to call</span><span style="display:block;font:400 0.875rem/1.4 'IBM Plex Mono',ui-monospace,monospace">MuSiQue</span></button>
+     </div>
+     <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0">Answer score out of 100. Higher is better.</p>
+     <div aria-live="polite"><div class="c-set" data-set="wiki"><p class="c-nojs-label" style="font:600 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:1rem 0 0 0">Set one: a clear win 2WikiMultiHopQA</p>
+      <div style="padding:0.5rem 0">
+       <p style="display:flex;justify-content:space-between;gap:1rem;font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.35rem 0"><span>Well-tuned standard system</span><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400">37.2</span></p>
+       <div aria-hidden="true" style="position:relative;height:1.5rem;background:var(--bg);border:1px solid var(--mid);border-left:1px solid var(--ink);box-sizing:border-box"><span style="position:absolute;left:0;top:0;bottom:0;width:37.2%;background:transparent;border:2px solid var(--ink);box-sizing:border-box"></span></div>
+      </div>
+      <div style="padding:0.5rem 0">
+       <p style="display:flex;justify-content:space-between;gap:1rem;font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.35rem 0"><span>Graph-based system</span><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400">56.2</span></p>
+       <div aria-hidden="true" style="position:relative;height:1.5rem;background:var(--bg);border:1px solid var(--mid);border-left:1px solid var(--ink);box-sizing:border-box"><span style="position:absolute;left:0;top:0;bottom:0;width:56.2%;background:var(--ink);border:2px solid var(--ink);box-sizing:border-box"></span></div>
+      </div>
+      <p style="font:500 1.5rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:1rem 0 0.25rem 0">Graph ahead by 19.0 points</p>
+      <div class="c-verdict" style="min-height:7rem">
+       <div>
+        <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin:0">A clear win for the graph on this set.</p>
+       </div>
+      </div>
+     </div><div class="c-set" data-set="mus"><p class="c-nojs-label" style="font:600 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:1rem 0 0 0">Set two: too close to call MuSiQue</p>
+      <div style="padding:0.5rem 0">
+       <p style="display:flex;justify-content:space-between;gap:1rem;font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.35rem 0"><span>Well-tuned standard system</span><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400">34.8</span></p>
+       <div aria-hidden="true" style="position:relative;height:1.5rem;background:var(--bg);border:1px solid var(--mid);border-left:1px solid var(--ink);box-sizing:border-box"><span style="position:absolute;left:0;top:0;bottom:0;width:34.8%;background:transparent;border:2px solid var(--ink);box-sizing:border-box"></span></div>
+      </div>
+      <div style="padding:0.5rem 0">
+       <p style="display:flex;justify-content:space-between;gap:1rem;font:500 0.9375rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);margin:0 0 0.35rem 0"><span>Graph-based system</span><span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400">38.2</span></p>
+       <div aria-hidden="true" style="position:relative;height:1.5rem;background:var(--bg);border:1px solid var(--mid);border-left:1px solid var(--ink);box-sizing:border-box"><span style="position:absolute;left:0;top:0;bottom:0;width:38.2%;background:var(--ink);border:2px solid var(--ink);box-sizing:border-box"></span></div>
+      </div>
+      <p style="font:500 1.5rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:1rem 0 0.25rem 0">Graph ahead by 3.5 points</p>
+      <div class="c-verdict" style="min-height:7rem">
+       <div>
+        <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin:0">Too close to call. The gap is worked out question by question, so it reads 3.5 where the rounded bars differ by 3.4.</p>
+       </div>
+      </div>
+     </div></div>
     </div>
-    <a href="/case-studies/" class="article-back">&larr; All case studies</a>
-  </article>
+
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="means" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">What it means if you are choosing a system</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:44rem">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:2rem 2.5rem">
+     <div style="min-width:0;border-top:1px solid var(--ink);padding-top:1rem">
+      <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Test on your own questions</h3>
+      <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">Two sets of questions gave two different answers. Both are from Wikipedia, so I would not extend this to other kinds of documents.</p>
+     </div>
+     <div style="min-width:0;border-top:1px solid var(--ink);padding-top:1rem">
+      <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Compare against what you would really ship</h3>
+      <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">The graph beats a plain baseline on both sets. Against the well-tuned standard system, one win shrinks to a gap my test could not call.</p>
+     </div>
+     <div style="min-width:0;border-top:1px solid var(--ink);padding-top:1rem">
+      <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Look at how your data is shaped</h3>
+      <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">GraphRAG is a good method when your data has clearly defined entity relationships, or at least supports them. That won’t hold for every kind of data.</p>
+     </div>
+     <div style="min-width:0;border-top:1px solid var(--ink);padding-top:1rem">
+      <h3 style="font:500 1.375rem/1.25 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.6rem 0">Study the cost before you commit</h3>
+      <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0;margin-bottom:0">Building the graph cost about $3.18 and $4.47 at a cheap reference API rate. Deploying it needs a cost study of its own.</p>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="stops" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Where this stops holding</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:36rem">
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0">One model wrote every answer, and each system could pass on only a small, fixed amount of text, so every conclusion holds at that budget.</p>
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.85rem 0">My rule, written before the run, returned “iterate”: neither side of my original question is settled.</p>
+    
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="talk" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:2rem 4.5rem;align-items:flex-start">
+   <div style="flex:2 1 24rem;min-width:0;max-width:38rem">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Facing the same choice?</h2>
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0">Tell me which systems you are comparing and what kind of documents you have. A few lines is enough.</p>
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0">I reply within 2 working days.</p>
+   </div>
+   <div style="flex:1 1 16rem;min-width:0">
+    <a data-btn="dark" class="c-btn-full" href="mailto:hello@eeshangupta.com?subject=Choosing%20a%20RAG%20system" style="display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 1.5rem;background:var(--ink);color:var(--inv);font:500 1rem/1.2 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none;box-sizing:border-box">Write to hello@eeshangupta.com</a>
+    <p style="font:400 0.875rem/1.5 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0.6rem 0 0 0">Email only. There is no form and no booking page.</p>
+    <p style="margin:0.25rem 0 0 0"><a href="/work/#evaluation" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The evaluation offer</a></p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="detail" style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:1rem 4rem;align-items:flex-start">
+   <div style="flex:1 1 13rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Method, numbers and limits</h2>
+   </div>
+   <div style="flex:3 1 26rem;min-width:0;max-width:36rem">
+    <p style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--mute);margin:0 0 0.85rem 0">For the engineers on your team. The full write-up has every number and all 8 limits.</p>
+    <div style="border-bottom:1px solid var(--rule);margin-top:1.25rem">
+    <details style="border-top:1px solid var(--rule)">
+     <summary style="min-height:44px;display:flex;align-items:center;gap:0.5rem;font:500 1rem/1.3 'IBM Plex Sans',system-ui,sans-serif;color:var(--link);padding:0.35rem 0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"></path><path class="c-v" d="M12 5v14"></path></svg>Method and key numbers</summary>
+     <div style="padding:0.5rem 0 1.5rem 0">
+      <dl style="margin:0">
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Data</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">The questions come from MuSiQue and 2WikiMultiHopQA, in 1,000-question samples. The confirmatory run uses 950 questions per dataset, because the first 50 were the pilot.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Held equal</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Every system used the same generator, Claude Sonnet 5.5, and at most 1,000 tokens of context, filled with whole passages in rank order.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">The two systems</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">The tuned hybrid fuses BM25 keyword search and dense search with reciprocal rank fusion, then reranks with a cross-encoder (bge-reranker-base); its settings were fixed in advance. The graph system is HippoRAG 2-lite, which skips the query-time LLM step that filters triples.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Metric and uncertainty</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">I scored answers with token F1, the SQuAD word-overlap score. Uncertainty comes from a paired percentile bootstrap with 10,000 resamples and a 95% interval, and equivalence from TOST with a margin of ±4 points.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Rule written first</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">Drop the “graph is overrated” angle only if the graph wins by more than 5 points, with the 95% interval’s lower bound above zero, on both datasets.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Numbers</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0;border-bottom:1px solid var(--rule)">On 2Wiki the tuned hybrid scored 0.372 and the graph 0.562, a gap of +19.0 with a 95% CI of [+16.1, +22.0]. On MuSiQue they scored 0.348 and 0.382, a gap of +3.5 with a CI of [+0.4, +6.5]. The verdict was iterate.</dd>
+       <dt style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;padding:1rem 0 0 0">Limits</dt>
+       <dd style="font:400 1.0625rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0;padding:0.25rem 0 1rem 0">The full write-up lists 8, including that I built the 2Wiki graph with Claude Sonnet, the same family as the generator, and that I missed two registered commitments.</dd>
+      </dl>
+     </div>
+    </details>
+    </div>
+    <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem">
+     <a href="/writing/graphrag-vs-tuned-hybrid/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">The full article, with every number and all 8 limits</a>
+     <a href="https://github.com/eeshangpt/graphrag-vs-tuned-hybrid" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Code and pre-registration history</a>
+    </p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box">
+ <div style="border-top:1px solid var(--rule);padding:clamp(3rem,6vw,5rem) 0">
+  <div style="display:flex;flex-wrap:wrap;gap:2rem 4.5rem;align-items:flex-start">
+   <div style="flex:3 1 24rem;min-width:0">
+    <h2 style="font:500 clamp(1.6rem,3vw,2.125rem)/1.2 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 0.75rem 0;letter-spacing:-0.01em">Found a hole in this?</h2>
+    <p style="font:400 1.1875rem/1.6 'Newsreader',Georgia,serif;color:var(--ink);margin:0 0 1rem 0;max-width:36rem">If you spot a flaw in the setup or have run the same comparison on your own data, I would like to read it.</p>
+    <a data-btn="dark" class="c-btn-full" href="mailto:hello@eeshangupta.com?subject=Re%3A%20I%20said%20GraphRAG%20beats%20vector%20RAG" style="display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 1.5rem;background:var(--ink);color:var(--inv);font:500 1rem/1.2 'IBM Plex Sans',system-ui,sans-serif;text-decoration:none;box-sizing:border-box">Reply to this by email</a>
+    <p style="margin:0;display:flex;flex-wrap:wrap;gap:0 1.75rem;margin-top:0.5rem">
+     <a href="/feed.xml" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="margin-right:0.4rem"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1.4"></circle></svg>Get the next entry by RSS</a>
+     <a href="/work/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">Work with me</a>
+    </p>
+   </div>
+   <nav aria-label="Other entries" style="flex:2 1 18rem;min-width:0">
+    <p style="font:500 0.875rem/1.4 'IBM Plex Sans',system-ui,sans-serif;color:var(--mute);margin:0;margin-bottom:0.5rem">Another experiment, 10 Nov 2026</p>
+    <a href="/case-studies/small-judge/" style="display:inline-flex;align-items:center;min-height:44px;font:500 1.25rem/1.3 'Newsreader',Georgia,serif">Can a small local model judge RAG answers?</a>
+    <p style="margin:0.25rem 0 0 0"><a href="/case-studies/" style="display:inline-flex;align-items:center;min-height:44px;font:500 0.9375rem/1.3 'IBM Plex Sans',system-ui,sans-serif">All case studies</a></p>
+   </nav>
+  </div>
+ </div>
+</section>
+</article>
+
 </main>
+
 <footer style="border-top:1px solid var(--rule)">
  <div style="max-width:68rem;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);box-sizing:border-box;display:flex;flex-wrap:wrap;gap:0.25rem 2rem;align-items:center;justify-content:space-between;padding-top:1rem;padding-bottom:1.5rem">
   <p style="font:400 0.875rem/1.5 'IBM Plex Mono',ui-monospace,monospace;color:var(--mute);margin:0">Eeshan Gupta · AI and ML evaluation, limits stated</p>
@@ -101,6 +284,7 @@
   </p>
  </div>
 </footer>
+
 </div>
 </div>
 
